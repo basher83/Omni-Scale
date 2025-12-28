@@ -92,6 +92,7 @@ services:
       - --config-file=/config.yaml
       - --omni-api-endpoint=https://${OMNI_DOMAIN}/
       - --omni-service-account-key=${OMNI_INFRA_PROVIDER_KEY}
+      - --id=Proxmox
     restart: unless-stopped
 
 volumes:

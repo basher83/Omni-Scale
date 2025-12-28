@@ -339,6 +339,12 @@ Docker volumes created as root, but containers run as non-root users.
 - **Fix**: `sudo chown -R <uid>:<gid> /var/lib/docker/volumes/<volume>/_data`
 - tsidp uses UID 1001, check others with `docker run --rm <image> id`
 
+### 🟡 Proxmox Provider: Resource ID Mismatch
+
+Provider crashes with `resource ID must match the infra provider ID "Proxmox"`.
+
+- **Fix**: Add `--id=Proxmox` to provider command in compose.yaml (capital P required)
+
 ### 🟡 Proxmox Provider: Storage Selector Required
 
 During VM provisioning, you may see errors about missing storage selector.

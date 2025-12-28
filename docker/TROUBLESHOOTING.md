@@ -250,31 +250,6 @@ Note: This will delete all cluster configurations. Only use during initial setup
 
 ---
 
-## Healthcheck and Startup Race Conditions
-
-### Omni Fails with DNS/TLS Errors Despite Healthcheck Passing
-
-**Symptom:** Omni logs show `dial tcp: lookup tsidp.xxx.ts.net: no such host` or TLS timeout errors, even though the tailscale container healthcheck passed.
-
-**Cause:** The default `/healthz` endpoint only verifies Tailscale has an IP address, not that MagicDNS is configured and working. There's a brief window where Tailscale is connected but `/etc/resolv.conf` hasn't been updated yet.
-
-**Solution:** Use a two-part healthcheck that verifies both connectivity and DNS:
-
-```yaml
-healthcheck:
-  test: ["CMD-SHELL", "wget -q --spider http://localhost:9002/healthz && getent hosts controlplane.tailscale.com"]
-  interval: 5s
-  timeout: 3s
-  retries: 10
-  start_period: 10s
-```
-
-- `wget ... /healthz` confirms Tailscale has an IP
-- `getent hosts controlplane.tailscale.com` confirms MagicDNS resolution works
-- `controlplane.tailscale.com` is always resolvable via MagicDNS and doesn't depend on your specific services
-
----
-
 ## Docker Volume Management
 
 ### Tailscale Hostname Collision After Volume Deletion
@@ -291,4 +266,193 @@ docker compose down
 docker volume rm omni_ts-state
 # Remove old device from admin console
 docker compose up -d
+```
+
+---
+
+## Tailscale DNS Race Condition
+
+### Healthcheck Passes But DNS Not Ready
+
+**Symptom:**
+```
+Error: failed to run server: Get "https://tsidp.tailfb3ea.ts.net/.well-known/openid-configuration": dial tcp: lookup tsidp.tailfb3ea.ts.net on 100.100.100.100:53: no such host
+```
+
+Omni container starts before Tailscale MagicDNS is fully configured, despite healthcheck passing.
+
+**Cause:**
+The `/healthz` endpoint returns 200 when Tailscale has an IP address, but DNS resolution isn't configured until slightly after.
+
+**Solution:**
+Updated healthcheck to verify both daemon health AND DNS resolution:
+
+```yaml
+healthcheck:
+  test:
+    - CMD-SHELL
+    - "wget -q --spider http://localhost:9002/healthz && getent hosts controlplane.tailscale.com"
+  interval: 5s
+  timeout: 5s
+  retries: 20
+  start_period: 15s
+```
+
+**Rationale:**
+- `getent hosts` uses system resolver (respects `/etc/resolv.conf`)
+- `controlplane.tailscale.com` is always resolvable via MagicDNS
+- No hardcoded tailnet names
+- Proves DNS actually works, not just configured
+
+---
+
+## Tailscale Hostname Resolution
+
+### OIDC Provider Not Resolvable on Tailnet
+
+**Symptom:**
+```
+lookup tsidp.tailfb3ea.ts.net on 100.100.100.100:53: no such host
+```
+
+**Cause:**
+tsidp container was configured with incorrect Tailscale hostname (`idp` instead of `tsidp`).
+
+**Solution:**
+Corrected `TS_HOSTNAME` environment variable in tsidp container to match expected DNS name. Verified resolution:
+```bash
+docker exec omni-omni-tailscale-1 getent hosts tsidp.tailfb3ea.ts.net
+# 100.72.112.31     tsidp.tailfb3ea.ts.net
+```
+
+---
+
+## TLS Handshake Issues
+
+### TLS Handshake Timeout on Cold Start
+
+**Symptom:**
+```
+Error: failed to run server: Get "https://tsidp.tailfb3ea.ts.net/.well-known/openid-configuration": net/http: TLS handshake timeout
+```
+
+**Cause:**
+Timing issue during initial startup - Omni attempts to connect to OIDC provider before Tailscale certificates are fully ready.
+
+**Solution:**
+Restart omni container after tailscale is warm:
+```bash
+docker compose restart omni
+```
+
+**Note:** This is typically only an issue on first startup. Subsequent restarts work cleanly.
+
+---
+
+## Proxmox Infrastructure Provider
+
+### Missing Service Account Key
+
+**Symptom:**
+```
+WARN[0000] The "OMNI_INFRA_PROVIDER_KEY" variable is not set. Defaulting to a blank string.
+Error: rpc error: code = Unauthenticated desc = invalid signature
+```
+
+Provider container crash-loops with authentication failures.
+
+**Cause:**
+`OMNI_INFRA_PROVIDER_KEY` environment variable not set in `.env` file.
+
+**Solution:**
+1. Create service account in Omni UI: Settings → Service Accounts
+2. Assign infrastructure provider permissions
+3. Generate and copy service account key
+4. Add to `.env`:
+   ```bash
+   OMNI_INFRA_PROVIDER_KEY=<your-service-account-key>
+   ```
+5. Restart: `docker compose up -d proxmox-provider`
+
+---
+
+### Resource ID Mismatch
+
+**Symptom:**
+```
+Error: rpc error: code = InvalidArgument desc = resource ID must match the infra provider ID "Proxmox"
+```
+
+Provider starts but immediately crashes with InvalidArgument error.
+
+**Cause:**
+Provider defaults to lowercase `id="proxmox"`, but Omni expects `id="Proxmox"` (capital P).
+
+**Solution:**
+Add explicit `--id` flag to provider command in `compose.yaml`:
+
+```yaml
+proxmox-provider:
+  command:
+    - --config-file=/config.yaml
+    - --omni-api-endpoint=https://${OMNI_DOMAIN}/
+    - --omni-service-account-key=${OMNI_INFRA_PROVIDER_KEY}
+    - --id=Proxmox  # ← Add this
+```
+
+**Discovery:**
+```bash
+docker run --rm ghcr.io/siderolabs/omni-infra-provider-proxmox:latest --help | grep -i id
+# --id string    the id of the infra provider (default "proxmox")
+```
+
+---
+
+## Container Network Namespace Issues
+
+### Cannot Restart Container - Network Namespace Missing
+
+**Symptom:**
+```
+Error response from daemon: Cannot restart container: joining network namespace of container: No such container: e84f07b603dd...
+```
+
+**Cause:**
+When using `network_mode: service:omni-tailscale`, restarting individual containers can break network namespace references.
+
+**Solution:**
+Full stack restart required:
+```bash
+docker compose down
+docker compose up -d
+```
+
+**Best Practice:**
+When containers share network namespaces, always restart the entire stack rather than individual containers.
+
+---
+
+## Omni Not Listening Despite "Up" Status
+
+### Container Running But Not Binding Ports
+
+**Symptom:**
+- `docker compose ps` shows omni as "Up"
+- Port 8080 not listening: `wget -qO- http://127.0.0.1:8080` → Connection refused
+- Provider gets 502 Bad Gateway
+
+**Cause:**
+Network namespace corruption after individual container restart attempts.
+
+**Solution:**
+Clean restart of entire stack:
+```bash
+docker compose down
+docker compose up -d
+```
+
+**Verification:**
+```bash
+docker exec omni-omni-tailscale-1 ss -tlnp | grep -E '8080|8090|8100'
+# Should show omni listening on all three ports
 ```
