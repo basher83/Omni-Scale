@@ -14,7 +14,7 @@ Create a Claude Code plugin for managing Sidero Omni + Proxmox infrastructure pr
 
 ## Plugin Structure
 
-```
+```text
 Omni-Scale/
 ├── .claude-plugin/
 │   └── plugin.json
@@ -56,6 +56,7 @@ Omni-Scale/
 **Allowed tools:** `Bash`, `Write`, `Read`
 
 **Workflow:**
+
 1. Check prerequisites (Omni running, Proxmox reachable)
 2. Create `docker/config.yaml` from example if not exists
 3. Prompt for `OMNI_INFRA_PROVIDER_KEY` if missing from `.env`
@@ -74,6 +75,7 @@ Omni-Scale/
 **Allowed tools:** `Bash`, `Read`
 
 **Workflow:**
+
 1. Check docker compose service health
 2. Test Proxmox API connectivity via curl
 3. Check provider logs for registration confirmation
@@ -86,6 +88,7 @@ Omni-Scale/
 **Allowed tools:** `Bash`
 
 **Workflow:**
+
 1. `docker compose ps` for service status
 2. `docker compose logs --tail=20 proxmox-provider` for recent logs
 
@@ -98,6 +101,7 @@ Omni-Scale/
 **Allowed tools:** `Write`, `Read`
 
 **Workflow:**
+
 1. Read state for storage selector
 2. Prompt for CPU, memory, disk size
 3. Generate MachineClass YAML
@@ -115,6 +119,7 @@ Omni-Scale/
 **Allowed tools:** `Bash`, `Read`
 
 **Workflow:**
+
 1. Verify file exists
 2. Run `omnictl apply -f machine-classes/[name].yaml`
 3. Verify creation
@@ -128,6 +133,7 @@ Omni-Scale/
 **Allowed tools:** `Bash`, `Write`, `Read`
 
 **Workflow:**
+
 1. List available machine classes
 2. Prompt for control plane count, worker count
 3. Generate cluster template
@@ -142,6 +148,7 @@ Omni-Scale/
 **Allowed tools:** `Bash`
 
 **Workflow:**
+
 1. `omnictl get clusters`
 2. `omnictl get machines --cluster [name]`
 
@@ -154,6 +161,7 @@ Omni-Scale/
 **Description:** Core knowledge for Omni + Proxmox infrastructure provider. Use when deploying Talos clusters via Omni on Proxmox, creating machine classes, troubleshooting provider issues, or working with CEL storage selectors.
 
 **Content outline:**
+
 - Architecture overview (Omni → Provider → Proxmox → Talos VMs)
 - Provider configuration basics
 - MachineClass structure and fields
@@ -165,6 +173,7 @@ Omni-Scale/
 **Content:** CEL expression reference for storage selection
 
 Include from existing `docker/config.yaml.example`:
+
 - `storage.filter(s, s.type == "rbd" ...)` for CEPH
 - `storage.filter(s, s.type == "lvmthin" ...)` for LVM
 - `storage.filter(s, s.type == "zfspool" ...)` for ZFS
@@ -175,6 +184,7 @@ Include from existing `docker/config.yaml.example`:
 **Content:** Proxmox user/token setup for production
 
 Include:
+
 - Creating dedicated user
 - Required permissions (VM.Allocate, VM.Config.*, Datastore.*)
 - API token creation
@@ -185,6 +195,7 @@ Include:
 **Content:** Common issues and solutions
 
 Include:
+
 - Provider can't reach Proxmox API
 - Storage selector returns empty
 - VM creation fails
@@ -290,6 +301,7 @@ default_disk: 40
 ### Existing Documentation
 
 Commands and skills should reference existing repo docs:
+
 - `docker/README.md` - Docker Compose setup
 - `docker/TROUBLESHOOTING.md` - Common issues
 - `docker/config.yaml.example` - Provider config reference
@@ -324,6 +336,7 @@ Commands and skills should reference existing repo docs:
 ### Error Handling
 
 Commands should:
+
 - Check prerequisites before proceeding
 - Provide clear error messages
 - Suggest next steps on failure
