@@ -21,9 +21,18 @@ If not found, suggest running `/machineclass-create` first (which installs omnic
 
 ## Get Omni Endpoint
 
-Read `.claude/omni-scale.local.md` for `omni_endpoint`.
+Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` for `omni_endpoint`.
 
 If not available, ask user for Omni URL.
+
+## Authentication
+
+Check for `OMNICTL_SERVICE_ACCOUNT_KEY` environment variable. If not set, suggest:
+
+1. Run `omnictl login` for interactive OIDC flow, or
+2. Set `OMNICTL_SERVICE_ACCOUNT_KEY` for automation
+
+See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/omnictl-auth.md` for setup.
 
 ## List Clusters
 
@@ -65,7 +74,7 @@ Check for common issues:
 
 ## Update State File
 
-Read `.claude/omni-scale.local.md` if it exists.
+Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` if it exists.
 
 Update frontmatter:
 
@@ -82,5 +91,5 @@ Report cluster overview:
 If issues found, suggest:
 
 - Check machine logs in Omni UI
-- Review `skills/omni-proxmox/references/troubleshooting.md`
+- Review `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/troubleshooting.md`
 - Run `/provider-status` to verify provider health

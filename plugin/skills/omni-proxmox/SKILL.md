@@ -86,66 +86,61 @@ See `references/proxmox-permissions.md` for required permissions and setup comma
 
 ## MachineClass Structure
 
-MachineClasses define VM specifications for auto-provisioning. Apply via Omni UI or omnictl.
+MachineClasses define VM specifications for auto-provisioning. Apply via omnictl using COSI format.
 
 ```yaml
-apiVersion: infrastructure.omni.siderolabs.io/v1alpha1
-kind: MachineClass
 metadata:
-  name: worker-standard
+  namespace: default
+  type: MachineClasses.omni.sidero.dev
+  id: worker-standard
 spec:
-  type: auto-provision
-  provider: proxmox
-  config:
-    cpu: 4
-    memory: 8192        # MB
-    diskSize: 40        # GB
-    storageSelector: 'storage.filter(s, s.type == "rbd" && s.storage == "vm_ssd")[0].storage'
+  autoprovision:
+    providerid: Proxmox
+    providerdata: |
+      cores: 4
+      sockets: 1
+      memory: 8192
+      disk_size: 40
+      network_bridge: vmbr0
+      storage_selector: type == "rbd" && name == "vm_ssd"
 ```
 
-**Required fields:**
+**Required providerdata fields:**
 
 | Field | Description |
 |-------|-------------|
-| `cpu` | Number of CPU cores |
+| `cores` | Number of CPU cores |
+| `sockets` | Number of CPU sockets |
 | `memory` | RAM in megabytes |
-| `diskSize` | Disk size in gigabytes |
-| `storageSelector` | CEL expression selecting Proxmox storage pool |
+| `disk_size` | Disk size in gigabytes |
+| `network_bridge` | Proxmox network bridge (e.g., vmbr0) |
+| `storage_selector` | CEL expression selecting Proxmox storage pool |
 
 ## CEL Storage Selectors
 
 The provider uses CEL (Common Expression Language) to dynamically select storage pools.
 
-**Basic syntax:**
-
-```text
-storage.filter(s, <condition>)[0].storage
-```
-
 **Available fields:**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `s.storage` | string | Storage pool name |
-| `s.type` | string | Storage type (lvmthin, zfspool, rbd, dir, nfs) |
-| `s.enabled` | bool | Storage is enabled |
-| `s.active` | bool | Storage is active |
-| `s.avail` | int | Available space in bytes |
+| `name` | string | Storage pool name |
+| `type` | string | Storage type (lvmthin, zfspool, rbd, dir, nfs) |
 
 **Common patterns:**
 
 ```text
 # LVM-Thin storage
-storage.filter(s, s.type == "lvmthin" && s.enabled && s.active)[0].storage
+type == "lvmthin"
 
 # CEPH/RBD storage by name
-storage.filter(s, s.type == "rbd" && s.storage == "vm_ssd")[0].storage
+type == "rbd" && name == "vm_ssd"
 
 # ZFS pool
-storage.filter(s, s.type == "zfspool" && s.enabled && s.active)[0].storage
+type == "zfspool"
 
-# Storage with most free space
-storage.filter(s, s.enabled && s.active).max(s, s.avail).storage
+# Specific storage by name
+name == "local-lvm"
 ```
 
 For complete CEL syntax and debugging tips, see `references/cel-storage-selectors.md`.

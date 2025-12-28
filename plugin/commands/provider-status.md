@@ -13,7 +13,7 @@ Check the health of the Proxmox infrastructure provider and verify connectivity.
 Check all services are running:
 
 ```bash
-docker compose -f docker/compose.yaml ps
+docker compose -f ${CLAUDE_PROJECT_DIR}/docker/compose.yaml ps
 ```
 
 Report the status of each service:
@@ -29,7 +29,7 @@ If any service is not running or unhealthy, report the issue.
 Check recent provider logs for errors:
 
 ```bash
-docker compose -f docker/compose.yaml logs --tail=30 proxmox-provider
+docker compose -f ${CLAUDE_PROJECT_DIR}/docker/compose.yaml logs --tail=30 proxmox-provider
 ```
 
 Look for:
@@ -40,7 +40,7 @@ Look for:
 
 ## Proxmox API Connectivity
 
-Read `docker/config.yaml` to get the Proxmox URL.
+Read `${CLAUDE_PROJECT_DIR}/docker/config.yaml` to get the Proxmox URL.
 
 Test API connectivity (if curl is available):
 
@@ -60,7 +60,7 @@ Check if provider is registered in Omni by looking for registration confirmation
 
 ## Update State File
 
-Read `.claude/omni-scale.local.md` if it exists.
+Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` if it exists.
 
 Update frontmatter:
 
@@ -80,5 +80,5 @@ Report to user:
 
 If unhealthy, suggest:
 
-- Check `docker/TROUBLESHOOTING.md` for deployment issues
-- Check `skills/omni-proxmox/references/troubleshooting.md` for operational issues
+- Check `${CLAUDE_PROJECT_DIR}/docker/TROUBLESHOOTING.md` for deployment issues
+- Check `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/troubleshooting.md` for operational issues

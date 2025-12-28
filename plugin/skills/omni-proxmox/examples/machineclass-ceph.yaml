@@ -1,0 +1,17 @@
+# MachineClass for CEPH/RBD storage
+# Suitable for production workloads requiring distributed storage
+
+metadata:
+  namespace: default
+  type: MachineClasses.omni.sidero.dev
+  id: worker-ceph
+spec:
+  autoprovision:
+    providerid: Proxmox
+    providerdata: |
+      cores: 4
+      sockets: 1
+      memory: 8192
+      disk_size: 40
+      network_bridge: vmbr0
+      storage_selector: type == "rbd" && name == "vm_ssd"

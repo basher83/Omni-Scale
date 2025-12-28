@@ -19,10 +19,10 @@ If either is missing, inform the user and stop.
 
 ## Configuration Files
 
-Check for required configuration files in the `docker/` directory:
+Check for required configuration files in the `${CLAUDE_PROJECT_DIR}/docker/` directory:
 
-1. Read `docker/.env` - if missing, copy from `docker/.env.example`
-2. Read `docker/config.yaml` - if missing, copy from `docker/config.yaml.example`
+1. Read `${CLAUDE_PROJECT_DIR}/docker/.env` - if missing, copy from `${CLAUDE_PROJECT_DIR}/docker/.env.example`
+2. Read `${CLAUDE_PROJECT_DIR}/docker/config.yaml` - if missing, copy from `${CLAUDE_PROJECT_DIR}/docker/config.yaml.example`
 
 ## Environment Variables
 
@@ -45,7 +45,7 @@ If `OMNI_INFRA_PROVIDER_KEY` is empty or placeholder:
 
 ## Proxmox Configuration
 
-Check `docker/config.yaml` for Proxmox credentials:
+Check `${CLAUDE_PROJECT_DIR}/docker/config.yaml` for Proxmox credentials:
 
 - `proxmox.url` - API endpoint
 - Authentication: either `tokenID`/`tokenSecret` OR `username`/`password`/`realm`
@@ -57,7 +57,7 @@ If values are placeholders, ask user for their Proxmox connection details.
 After configuration is complete:
 
 ```bash
-docker compose -f docker/compose.yaml up -d
+docker compose -f ${CLAUDE_PROJECT_DIR}/docker/compose.yaml up -d
 ```
 
 ## Verify Registration
@@ -65,14 +65,14 @@ docker compose -f docker/compose.yaml up -d
 Wait 10 seconds, then check provider logs:
 
 ```bash
-docker compose -f docker/compose.yaml logs --tail=20 proxmox-provider
+docker compose -f ${CLAUDE_PROJECT_DIR}/docker/compose.yaml logs --tail=20 proxmox-provider
 ```
 
 Look for "registered" or "connected" messages. Report success or any errors.
 
 ## Update State File
 
-Read `.claude/omni-scale.local.md` if it exists. If not, create it from `.claude/omni-scale.local.md.example`.
+Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` if it exists. If not, create it from `${CLAUDE_PLUGIN_ROOT}/.claude/omni-scale.local.md.example`.
 
 Update the state file frontmatter:
 
