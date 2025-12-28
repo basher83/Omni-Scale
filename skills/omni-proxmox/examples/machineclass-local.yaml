@@ -1,0 +1,15 @@
+# MachineClass for local LVM-Thin storage
+# Suitable for development or single-node workloads
+
+apiVersion: infrastructure.omni.siderolabs.io/v1alpha1
+kind: MachineClass
+metadata:
+  name: worker-local
+spec:
+  type: auto-provision
+  provider: proxmox
+  config:
+    cpu: 2
+    memory: 4096          # 4GB in MB
+    diskSize: 20          # 20GB
+    storageSelector: 'storage.filter(s, s.type == "lvmthin" && s.enabled && s.active)[0].storage'

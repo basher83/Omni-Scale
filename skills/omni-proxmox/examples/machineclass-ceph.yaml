@@ -1,0 +1,15 @@
+# MachineClass for CEPH/RBD storage
+# Suitable for production workloads requiring distributed storage
+
+apiVersion: infrastructure.omni.siderolabs.io/v1alpha1
+kind: MachineClass
+metadata:
+  name: worker-ceph
+spec:
+  type: auto-provision
+  provider: proxmox
+  config:
+    cpu: 4
+    memory: 8192          # 8GB in MB
+    diskSize: 40          # 40GB
+    storageSelector: 'storage.filter(s, s.type == "rbd" && s.storage == "vm_ssd")[0].storage'

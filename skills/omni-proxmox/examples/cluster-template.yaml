@@ -1,0 +1,22 @@
+# Cluster template for Talos Kubernetes cluster
+# Customize for your environment
+
+kind: Cluster
+name: my-cluster
+kubernetes:
+  version: v1.31.0
+talos:
+  version: v1.9.0
+patches:
+  - name: cluster-patches
+    inline:
+      cluster:
+        network:
+          cni:
+            name: none    # Set to 'none' when using Cilium
+controlPlane:
+  machineClass: control-plane
+  count: 3
+workers:
+  machineClass: worker-ceph
+  count: 3
