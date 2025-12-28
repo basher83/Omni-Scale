@@ -3,6 +3,9 @@
 *.gpg
 DEPLOYMENT.md
 docker/config.yaml
+
+# Plugin state files (user-specific)
+.claude/*.local.md
 # Local .terraform directories
 .terraform/
 
