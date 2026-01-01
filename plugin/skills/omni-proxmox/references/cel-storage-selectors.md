@@ -18,42 +18,11 @@ Use these fields in selector conditions:
 
 | Field | Type | Description | Example Values |
 |-------|------|-------------|----------------|
-| `name` | string | Storage pool name | `"local-lvm"`, `"vm_ssd"`, `"ceph-pool"` |
-| `type` | string | Storage backend type | `"lvmthin"`, `"zfspool"`, `"rbd"`, `"dir"`, `"nfs"` |
+| `name` | string | Storage pool name | `"local-lvm"`, `"vm_ssd"`, `"local"` |
+
+> **Warning:** The `type` field (for storage backend type like "rbd", "lvmthin") is **not currently usable** because `type` is a reserved keyword in CEL. Use `name` for storage selection until this is resolved. See [troubleshooting](troubleshooting.md#cel-type-keyword-error).
 
 ## Common Patterns
-
-### Select by Storage Type
-
-**LVM-Thin (local fast storage):**
-
-```text
-type == "lvmthin"
-```
-
-**ZFS Pool:**
-
-```text
-type == "zfspool"
-```
-
-**CEPH/RBD (distributed storage):**
-
-```text
-type == "rbd"
-```
-
-**Directory storage:**
-
-```text
-type == "dir"
-```
-
-**NFS storage:**
-
-```text
-type == "nfs"
-```
 
 ### Select by Name
 
@@ -63,34 +32,20 @@ Exact match on storage pool name:
 name == "vm_ssd"
 ```
 
-Combine with type for safety:
-
 ```text
-type == "rbd" && name == "vm_ssd"
+name == "local-lvm"
 ```
 
-### Multiple Conditions
-
-**LVM-Thin with specific name:**
-
 ```text
-type == "lvmthin" && name == "local-lvm"
-```
-
-**Either CEPH or ZFS:**
-
-```text
-type == "rbd" || type == "zfspool"
+name == "local"
 ```
 
 ## CEL Operators
 
 | Operator | Description | Example |
 |----------|-------------|---------|
-| `==` | Equals | `type == "rbd"` |
-| `!=` | Not equals | `type != "dir"` |
-| `&&` | Logical AND | `type == "rbd" && name == "vm_ssd"` |
-| `\|\|` | Logical OR | `type == "rbd" \|\| type == "zfspool"` |
+| `==` | Equals | `name == "local-lvm"` |
+| `!=` | Not equals | `name != "local"` |
 
 ## Debugging
 
@@ -99,12 +54,12 @@ type == "rbd" || type == "zfspool"
 Check what storage pools exist on Proxmox:
 
 ```bash
-# On Proxmox node
+# On Proxmox node (Foxtrot)
 pvesh get /storage
 
 # Or via API
-curl -k https://proxmox:8006/api2/json/storage \
-  -H "Authorization: PVEAPIToken=user@realm!tokenid=secret"
+curl -k https://192.168.3.5:8006/api2/json/storage \
+  -H "Authorization: PVEAPIToken=terraform@pam!automation=<secret>"
 ```
 
 ### Test Selector Logic
@@ -119,35 +74,35 @@ If a selector returns empty, verify:
 
 **Empty result:**
 
-The selector matched no storage pools. Check storage type spelling and pool name.
+The selector matched no storage pools. Check storage pool name spelling.
 
 **Wrong storage selected:**
 
-Multiple pools matched the filter. Add more specific conditions (e.g., by name).
+Multiple pools matched the filter. Use exact name match.
 
-**Type mismatch:**
+**CEL type keyword error:**
 
-Common confusion: `lvm` vs `lvmthin` vs `zfspool`. Check actual type via `pvesh get /storage`.
+If using `type == "..."`, you'll get a type mismatch. `type` is a reserved CEL keyword. Use `name` field only.
 
 ## Examples in MachineClass
 
-**CEPH storage for HA workloads:**
+**CEPH RBD storage (Matrix cluster):**
 
 ```yaml
 providerdata: |
-  storage_selector: type == "rbd" && name == "vm_ssd"
+  storage_selector: name == "vm_ssd"
 ```
 
-**Local LVM for development:**
+**Local LVM-thin storage:**
 
 ```yaml
 providerdata: |
-  storage_selector: type == "lvmthin"
+  storage_selector: name == "local-lvm"
 ```
 
 **ZFS pool by name:**
 
 ```yaml
 providerdata: |
-  storage_selector: type == "zfspool" && name == "tank"
+  storage_selector: name == "tank"
 ```

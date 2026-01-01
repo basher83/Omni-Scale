@@ -1,6 +1,14 @@
 # Operational Troubleshooting
 
-This document covers operational issues with the Omni + Proxmox provider. For deployment issues (container won't start, networking), see `docker/TROUBLESHOOTING.md`.
+This document covers operational issues with the Omni + Proxmox provider.
+
+## Current Architecture
+
+| Component | Location |
+|-----------|----------|
+| Omni | Holly (Docker) |
+| Proxmox Provider | Foxtrot LXC (VMID 200) |
+| Proxmox API | 192.168.3.5:8006 |
 
 ## Provider Registration Issues
 
@@ -11,26 +19,29 @@ This document covers operational issues with the Omni + Proxmox provider. For de
 **Checks:**
 
 ```bash
-# Verify provider is running
-docker compose -f docker/compose.yaml ps proxmox-provider
+# Verify provider is running (on Foxtrot LXC)
+ssh omni-provider docker ps
 
 # Check provider logs for registration attempts
-docker compose -f docker/compose.yaml logs proxmox-provider | grep -i register
+ssh omni-provider docker logs omni-provider-proxmox-provider-1 | grep -i register
+
+# Or from omnictl
+omnictl get infraproviders
 ```
 
 **Common causes:**
 
-1. **Invalid provider key:** Regenerate key in Omni UI and update `.env`
-2. **Network issue:** Provider can't reach Omni API (check MagicDNS resolution)
-3. **Wrong Omni URL:** Verify `--omni-api-endpoint` matches your Omni domain
+1. **Invalid provider key:** Regenerate key in Omni UI and update environment
+2. **Network issue:** Provider can't reach Omni API (check Tailscale connectivity)
+3. **Wrong Omni URL:** Verify `--omni-api-endpoint` is `https://omni.spaceships.work`
 
 ### Provider Shows "Unhealthy"
 
 **Checks:**
 
 ```bash
-# Check provider logs for errors
-docker compose -f docker/compose.yaml logs --tail=50 proxmox-provider
+# Check provider logs for errors (on Foxtrot LXC)
+ssh omni-provider docker logs --tail=50 omni-provider-proxmox-provider-1
 ```
 
 **Common causes:**
@@ -63,18 +74,30 @@ pvesh get /storage --output-format json | jq '.[] | {storage, type, enabled, act
 
 **Fix:** Update MachineClass storageSelector to match actual storage configuration.
 
+### CEL Type Keyword Error
+
+**Symptoms:** Storage selector using `type == "rbd"` fails with type mismatch error.
+
+**Cause:** `type` is a reserved keyword in CEL and cannot be used as a field name.
+
+**Fix:** Use `name` field only:
+
+```yaml
+# WRONG - type is reserved keyword
+storage_selector: type == "rbd"
+
+# CORRECT - use name field
+storage_selector: name == "vm_ssd"
+```
+
 ### Wrong Storage Selected
 
 **Cause:** Multiple storage pools match the filter.
 
-**Fix:** Add more specific conditions:
+**Fix:** Use exact name match:
 
 ```yaml
-# Instead of
-storageSelector: 'storage.filter(s, s.type == "rbd")[0].storage'
-
-# Use
-storageSelector: 'storage.filter(s, s.type == "rbd" && s.storage == "vm_ssd")[0].storage'
+storage_selector: name == "vm_ssd"
 ```
 
 ## Machine Provisioning Issues
@@ -86,8 +109,8 @@ storageSelector: 'storage.filter(s, s.type == "rbd" && s.storage == "vm_ssd")[0]
 **Checks:**
 
 ```bash
-# Check provider logs
-docker compose -f docker/compose.yaml logs proxmox-provider | grep -i error
+# Check provider logs (on Foxtrot LXC)
+ssh omni-provider docker logs omni-provider-proxmox-provider-1 | grep -i error
 
 # Verify MachineClass is recognized
 omnictl get machineclasses
@@ -106,12 +129,12 @@ omnictl get machineclasses
 **Checks:**
 
 1. VM is booting and running
-2. VM has network connectivity
+2. VM has network connectivity to provider
 3. Talos is installed correctly
 
 **Common causes:**
 
-1. **Network isolation:** Talos VMs can't reach Omni
+1. **L2 adjacency missing:** Provider must be on same network segment as Talos VMs (SideroLink requirement). Provider on Foxtrot LXC (192.168.3.x) can reach Matrix VMs.
 2. **Wrong Talos ISO:** Provider using incompatible Talos version
 3. **Firewall blocking:** Ports 50000-50001 (Siderolink)
 
@@ -195,26 +218,29 @@ omnictl get machineclass <class-name> -o yaml
 
 **Fixes:**
 
-1. Check Omni is running
+1. Check Omni is running on Holly
 2. Verify Tailscale connectivity
-3. Test URL directly: `curl https://omni.your-tailnet.ts.net/healthz`
+3. Test URL directly: `curl https://omni.spaceships.work/healthz`
 
 ## Log Locations
 
-| Component | Command |
-|-----------|---------|
-| Omni | `docker compose logs omni` |
-| Provider | `docker compose logs proxmox-provider` |
-| Tailscale sidecar | `docker compose logs omni-tailscale` |
-| Machine logs | Omni UI → Machines → [machine] → Logs |
+| Component | Location | Command |
+|-----------|----------|---------|
+| Omni | Holly | `ssh holly docker compose -f /path/to/compose.yaml logs omni` |
+| Tailscale sidecar | Holly | `ssh holly docker compose logs omni-tailscale` |
+| Provider | Foxtrot LXC | `ssh omni-provider docker logs omni-provider-proxmox-provider-1` |
+| Machine logs | Omni UI | Machines → [machine] → Logs |
 
 ## Health Checks
 
 Quick health verification:
 
 ```bash
-# All services running
-docker compose -f docker/compose.yaml ps
+# Omni services running (on Holly)
+ssh holly docker compose ps
+
+# Provider running (on Foxtrot LXC)
+ssh omni-provider docker ps
 
 # Provider registered
 omnictl get infraproviders

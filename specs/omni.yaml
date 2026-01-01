@@ -1,0 +1,274 @@
+# Omni Deployment Specification
+# Initiative: Sidero Omni on Quantum managing Talos clusters on Matrix
+# Status: Deployed (Omni + Provider operational)
+# Last Updated: 2026-01-01 (infrastructure team redeployment complete)
+
+---
+# INITIATIVE METADATA
+initiative:
+  name: "omni-deployment"
+  started: "2025-12"
+  status: "deployed"
+  repository: "Omni-Scale"
+
+---
+# DEFINITION OF DONE (Project-Specific)
+definition_of_done:
+  - "Omni console accessible via Tailscale with Auth0 OIDC"
+  - "Proxmox Provider can create/destroy VMs on Matrix cluster"
+  - "Talos VMs successfully register with Omni on boot"
+  - "At least one Talos cluster (3 CP + 2 worker) operational"
+  - "Cluster survives single node failure"
+  - "Tailscale Kubernetes Operator deployed for workload access"
+
+---
+# ARCHITECTURE DECISIONS (Locked)
+
+# These are deployed and operational - changes require teardown
+locked_decisions:
+  omni_location:
+    decision: "Omni control plane on Holly (Quantum cluster)"
+    rationale: "Separation of management plane from workload plane"
+    evidence: "docker/compose.yaml deployed and operational"
+    change_cost: "critical - full redeployment"
+    deployed:
+      cluster: "Doggos"
+      host: "Holly"
+      lan_ip: "192.168.10.20"
+      tailscale_ip: "100.125.253.75"
+      url: "https://omni.spaceships.work"
+
+  omni_access:
+    decision: "Tailscale-only access via Serve"
+    rationale: "Zero-trust posture, no public exposure"
+    ports: [443, 8090, 8100]
+    change_cost: "high - service config rewrites"
+
+  target_cluster:
+    decision: "Matrix cluster (Foxtrot, Golf, Hotel)"
+    rationale: "Production cluster with CEPH storage"
+    api_endpoint: "https://192.168.3.5:8006"
+    change_cost: "high - new credentials, storage validation"
+
+  storage:
+    decision: "CEPH RBD pool 'vm_ssd'"
+    rationale: "12TB usable, replication factor 3"
+    selector: "name == 'vm_ssd'" # CEL type filtering broken
+    change_cost: "medium - MachineClass rewrites"
+
+  network_mode:
+    decision: "Shared namespace via Tailscale sidecar (kernel mode)"
+    rationale: "Required for MagicDNS resolution in containers"
+    evidence: "compose.yaml network_mode: service:omni-tailscale"
+    change_cost: "high - compose restructure"
+
+  provider_host:
+    decision: "Foxtrot (192.168.3.5)"
+    rationale: "First node, already API endpoint, simplifies initial setup"
+    decided: "2025-12-29"
+    change_cost: "low - can redistribute later"
+
+  provider_deployment:
+    decision: "LXC on Proxmox"
+    rationale: "Native Proxmox citizen, cleaner networking, visible in UI"
+    decided: "2025-12-29"
+    change_cost: "medium - migration to different deployment pattern"
+
+  provider_lxc_spec:
+    decision: "LXC configuration for Proxmox Provider"
+    decided: "2025-12-29"
+    name: "omni-provider"
+    vmid: 200
+    node: "foxtrot"
+    ip: "192.168.3.10/24"
+    gateway: "192.168.3.1"
+    resources:
+      cores: 1
+      memory_mb: 1024
+      disk_gb: 4
+    networking:
+      nic0: "vmbr0" # LAN - same segment as Talos VMs
+      tailscale: true # Installed in LXC for Omni connectivity
+    change_cost: "low - can resize or recreate"
+    deployed:
+      tailscale_ip: "100.76.91.16"
+      tailscale_dns: "omni-provider.tailfb3ea.ts.net"
+      app_directory: "/opt/omni-provider"
+      image: "ghcr.io/siderolabs/omni-infra-provider-proxmox:latest"
+      provider_id: "Proxmox"
+      omni_endpoint: "https://omni.spaceships.work/"
+      proxmox_api: "https://192.168.3.5:8006"
+      proxmox_token: "terraform@pam!automation"
+      tls_verify: false
+      docker_version: "29.1.3"
+      container_name: "omni-provider-proxmox-provider-1"
+      status: "running"
+
+---
+# PIVOT DECISIONS (Changes from original plan)
+
+pivot_decisions:
+  auth_provider:
+    original: "TSIDP (Tailscale Identity Provider)"
+    new: "Auth0"
+    rationale:
+      - "Faster path to operational state"
+      - "Avoid tsnet complexity during initial deployment"
+      - "One less self-hosted component to maintain"
+      - "More reliable long-term (managed service)"
+    impact:
+      - "Omni OIDC config changes"
+      - "tsidp can be decommissioned after migration"
+      - "Tailscale ACL grants for tsidp can be removed"
+    status: "complete"
+    completed: "2026-01-01"
+
+  provider_location:
+    original: "Docker on Holly (Quantum)"
+    new: "LXC on Foxtrot (Matrix cluster)"
+    rationale: "Provider must be L2-adjacent to booting Talos VMs for SideroLink registration"
+    blocker_resolved: "Talos VMs on 192.168.3.x cannot reach Provider on 192.168.10.x"
+    impact:
+      - "New LXC/container on Matrix"
+      - "Dual-homed networking (Management VLAN + Tailscale)"
+      - "Provider config migration"
+    status: "complete"
+    completed: "2026-01-01"
+
+---
+# OPEN DECISIONS (To be resolved)
+
+open_decisions:
+  auth0_config:
+    question: "Auth0 application configuration"
+    needed:
+      - "Auth0 tenant/domain"
+      - "Application client ID"
+      - "Application client secret"
+      - "Callback URLs for Omni"
+    status: "complete"
+    note: "Deployed with Auth0 OIDC authentication"
+
+  talos_cluster_spec:
+    question: "Initial cluster specification"
+    preliminary:
+      name: "talos-prod-01"
+      control_plane:
+        count: 3
+        cpu: 4
+        memory_gb: 8
+        disk_gb: 40
+      workers:
+        count: 2
+        cpu: 8
+        memory_gb: 16
+        disk_gb: 100
+    status: "needs validation against Matrix capacity"
+
+  tailscale_operator:
+    question: "Post-cluster Tailscale integration"
+    plan: "Deploy Tailscale Kubernetes Operator for workload access"
+    timing: "After first cluster operational"
+    status: "deferred to post-cluster phase"
+
+---
+# CONSTRAINTS (Learned from implementation)
+
+constraints:
+  cel_type_filtering:
+    description: "Cannot filter storage by type in CEL selectors"
+    cause: "'type' is reserved CEL keyword"
+    workaround: "Filter by name only: name == 'vm_ssd'"
+
+  docker_compose_volumes:
+    description: "Never use 'docker compose down -v'"
+    cause: "Deletes Tailscale state, causes hostname collisions"
+
+  tailscale_kernel_mode:
+    description: "Sidecar must use kernel mode (TS_USERSPACE=false)"
+    cause: "Userspace breaks MagicDNS resolution"
+
+  gpg_passphrase:
+    description: "Omni GPG key must have NO passphrase"
+    cause: "Omni cannot unlock key at startup"
+
+  email_match:
+    description: "Initial user email must match OIDC exactly"
+    cause: "No normalization, case-sensitive"
+
+  provider_l2_adjacency:
+    description: "Provider must be L2-adjacent to booting Talos VMs"
+    cause: "SideroLink registration requires local network reachability"
+    resolution: "Move Provider to Matrix cluster"
+
+---
+# IMPLEMENTATION PHASES
+
+phases:
+  phase_1:
+    name: "Provider Relocation"
+    status: "complete"
+    completed: "2026-01-01"
+    tasks:
+      - "Create LXC on Foxtrot for Proxmox Provider"
+      - "Configure dual-homed networking (vmbr0 + Tailscale)"
+      - "Install Tailscale in LXC"
+      - "Deploy Provider container/binary"
+      - "Verify Provider connects to Omni"
+      - "Verify Provider can reach Proxmox API"
+    exit_criteria:
+      - "Provider shows connected in Omni UI"
+      - "Provider can list Matrix nodes and storage"
+
+  phase_2:
+    name: "Auth0 Migration"
+    status: "complete"
+    completed: "2026-01-01"
+    parallel_with: "phase_1"
+    tasks:
+      - "Create Auth0 application"
+      - "Configure Omni OIDC settings for Auth0"
+      - "Test login flow"
+      - "Decommission tsidp (optional, can keep as backup)"
+    exit_criteria:
+      - "Can login to Omni via Auth0"
+      - "User permissions work correctly"
+
+  phase_3:
+    name: "First Cluster"
+    status: "not started"
+    depends_on: ["phase_1"]
+    tasks:
+      - "Create MachineClass for control plane"
+      - "Create MachineClass for workers"
+      - "Create cluster template"
+      - "Apply cluster configuration"
+      - "Monitor VM provisioning"
+      - "Verify cluster health"
+    exit_criteria:
+      - "3 control plane nodes running"
+      - "2 worker nodes running"
+      - "kubectl access works"
+      - "Cluster passes: kubectl get nodes shows Ready"
+
+  phase_4:
+    name: "Tailscale Integration"
+    status: "not started"
+    depends_on: ["phase_3"]
+    tasks:
+      - "Deploy Tailscale Kubernetes Operator"
+      - "Configure operator auth"
+      - "Expose test workload via Tailscale"
+    exit_criteria:
+      - "Operator running"
+      - "Can access workload via Tailscale hostname"
+
+---
+# REFERENCES
+
+references:
+  state_doc: "Omni-Scale/docs/STATE.md"
+  troubleshooting: "Omni-Scale/TROUBLESHOOTING.md"
+  compose: "Omni-Scale/docker/compose.yaml"
+  sidero_docs: "https://omni.siderolabs.com/"
+  proxmox_provider: "https://github.com/siderolabs/omni-infra-provider-proxmox"

@@ -2,6 +2,14 @@
 
 For production deployments, create a dedicated Proxmox user with minimal permissions rather than using root.
 
+## Current Deployment
+
+| Setting | Value |
+|---------|-------|
+| Proxmox API | `https://192.168.3.5:8006` |
+| API Token | `terraform@pam!automation` |
+| Realm | `pam` (system user) |
+
 ## Required Permissions
 
 The infrastructure provider needs these Proxmox permissions:
@@ -60,22 +68,33 @@ Save the token value immediately. It cannot be retrieved again.
 
 ## Config.yaml Format
 
-### API Token Authentication
+### Current Deployment (Matrix cluster)
 
 ```yaml
 proxmox:
-  url: "https://proxmox-node.tailnet.ts.net:8006/api2/json"
+  url: "https://192.168.3.5:8006/api2/json"
+  insecureSkipVerify: true  # Self-signed Proxmox certs
+
+  tokenID: "terraform@pam!automation"
+  tokenSecret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+### Generic API Token Authentication
+
+```yaml
+proxmox:
+  url: "https://<proxmox-node>:8006/api2/json"
   insecureSkipVerify: true
 
   tokenID: "omni@pve!omni-provider"
   tokenSecret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 ```
 
-### Username/Password Authentication
+### Username/Password Authentication (testing only)
 
 ```yaml
 proxmox:
-  url: "https://proxmox-node.tailnet.ts.net:8006/api2/json"
+  url: "https://<proxmox-node>:8006/api2/json"
   insecureSkipVerify: true
 
   username: "omni"
@@ -114,13 +133,13 @@ pveum user token remove omni@pve omni-provider
 Test API connectivity:
 
 ```bash
-# With token
-curl -k https://proxmox:8006/api2/json/version \
-  -H "Authorization: PVEAPIToken=omni@pve!omni-provider=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# With token (Matrix cluster)
+curl -k https://192.168.3.5:8006/api2/json/version \
+  -H "Authorization: PVEAPIToken=terraform@pam!automation=<secret>"
 
-# With password (get ticket first)
-curl -k -d "username=omni@pve&password=yourpass" \
-  https://proxmox:8006/api2/json/access/ticket
+# List storage pools
+curl -k https://192.168.3.5:8006/api2/json/storage \
+  -H "Authorization: PVEAPIToken=terraform@pam!automation=<secret>"
 ```
 
-Successful response includes Proxmox version information.
+Successful response includes Proxmox version information or storage pool list.

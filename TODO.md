@@ -12,8 +12,8 @@ Future enhancements and ideas. Captured here to stay focused on current work.
 ### Tailscale Serve for Proxmox API
 - Install Tailscale on Matrix nodes (start with Foxtrot)
 - `tailscale serve 8006` to expose Proxmox API via Tailscale
-- Update proxmox-provider config to use `https://foxtrot.tailfb3ea.ts.net:8006`
-- Bonus: auto-renewed HTTPS certs for Proxmox UI
+- Note: Provider now uses LAN IP (192.168.3.5:8006) since it's L2-adjacent on Foxtrot LXC
+- Still useful for remote Proxmox UI access with auto-renewed HTTPS certs
 
 ### Tailscale HTTPS Certs for Proxmox UI
 - Use `tailscale cert` to get Let's Encrypt certs
@@ -22,10 +22,10 @@ Future enhancements and ideas. Captured here to stay focused on current work.
 
 ## Infrastructure Provider
 
-### Production Proxmox Auth
-- Create dedicated `omni@pam` user
-- Create API token with limited permissions (PVEVMAdmin role)
-- Update config.yaml to use token auth instead of root password
+### ~~Production Proxmox Auth~~ (Done)
+- ~~Create dedicated user~~ → Using `terraform@pam!automation`
+- ~~Create API token with limited permissions~~ → Token configured
+- ~~Update config.yaml to use token auth~~ → Provider deployed on Foxtrot LXC
 
 ## Documentation
 

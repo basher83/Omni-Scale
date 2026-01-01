@@ -11,4 +11,4 @@ spec:
       memory: 8192
       disk_size: 40
       network_bridge: vmbr0
-      storage_selector: type == "rbd" && name == "vm_ssd"
+      storage_selector: name == "local-lvm"

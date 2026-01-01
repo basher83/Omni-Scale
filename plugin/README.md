@@ -2,6 +2,15 @@
 
 Claude Code plugin for managing Sidero Omni + Proxmox infrastructure provider deployments.
 
+## Current Deployment
+
+| Component | Location | Endpoint |
+|-----------|----------|----------|
+| Omni | Holly (Quantum) | https://omni.spaceships.work |
+| Proxmox Provider | Foxtrot LXC (VMID 200) | omni-provider.tailfb3ea.ts.net |
+| Proxmox API | Matrix cluster | https://192.168.3.5:8006 |
+| Storage | CEPH RBD | `vm_ssd` pool |
+
 ## Commands
 
 | Command | Description |
@@ -23,6 +32,25 @@ Core knowledge for Omni + Proxmox infrastructure integration. Automatically acti
 - Cluster provisioning
 
 Includes reference files for CEL syntax, Proxmox permissions, omnictl authentication, and troubleshooting.
+
+## Quick Reference
+
+```bash
+# Check provider status
+omnictl get infraproviders
+
+# List machine classes
+omnictl get machineclasses
+
+# Apply a machine class
+omnictl apply -f machine-classes/matrix-worker.yaml
+
+# Sync cluster template
+omnictl cluster template sync -f clusters/talos-prod-01.yaml
+
+# Check cluster status
+omnictl cluster status talos-prod-01
+```
 
 ## Structure
 

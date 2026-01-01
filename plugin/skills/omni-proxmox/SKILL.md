@@ -11,56 +11,76 @@ description: This skill should be used when the user asks to "create a machine c
 
 This skill provides guidance for deploying and managing Talos Linux Kubernetes clusters via Sidero Omni with the Proxmox infrastructure provider.
 
+## Current Deployment
+
+| Component | Location | Endpoint |
+|-----------|----------|----------|
+| Omni | Holly (Quantum) | https://omni.spaceships.work |
+| Auth0 OIDC | Managed | Auth0 tenant |
+| Proxmox Provider | Foxtrot LXC (VMID 200) | omni-provider.tailfb3ea.ts.net |
+| Target Cluster | Matrix (Foxtrot/Golf/Hotel) | https://192.168.3.5:8006 |
+| Storage | CEPH RBD | `vm_ssd` pool |
+
 ## Architecture Overview
 
-The system consists of four components communicating over a Tailscale network:
-
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                        Your Tailnet                         │
-├─────────────────────────────────────────────────────────────┤
-│   ┌──────────────┐         ┌──────────────────────────┐    │
-│   │    tsidp     │         │     Docker Stack         │    │
-│   │  (OIDC)      │◄────────│  ┌──────────────────┐   │    │
-│   │  separate VM │         │  │  omni-tailscale  │   │    │
-│   └──────────────┘         │  │  (sidecar)       │   │    │
-│                            │  └────────┬─────────┘   │    │
-│   ┌──────────────┐         │  ┌────────▼─────────┐   │    │
-│   │  Browser     │◄────────│  │      omni        │   │    │
-│   └──────────────┘         │  └────────┬─────────┘   │    │
-│                            │  ┌────────▼─────────┐   │    │
-│                            │  │ proxmox-provider │   │    │
-│                            │  └────────┬─────────┘   │    │
-│                            └───────────│─────────────┘    │
-└────────────────────────────────────────│──────────────────┘
-                                         │ Proxmox API
-                              ┌──────────▼──────────┐
-                              │   Proxmox Cluster   │
-                              │  (Talos VMs)        │
-                              └─────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                          Tailnet                                 │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Quantum Cluster (Management)        Matrix Cluster (Workload) │
+│   ┌─────────────────────────┐        ┌────────────────────────┐ │
+│   │  Holly                  │        │  Foxtrot               │ │
+│   │  ┌───────────────────┐  │        │  ┌──────────────────┐  │ │
+│   │  │  Docker Stack     │  │        │  │  LXC: omni-prov  │  │ │
+│   │  │  ├─ tailscale     │  │◄──────►│  │  └─ provider     │  │ │
+│   │  │  └─ omni          │  │        │  └──────────────────┘  │ │
+│   │  └───────────────────┘  │        │           │            │ │
+│   └─────────────────────────┘        │           ▼            │ │
+│              │                       │  ┌──────────────────┐  │ │
+│              ▼                       │  │  Proxmox API     │  │ │
+│   ┌─────────────────────────┐        │  │  (Foxtrot node)  │  │ │
+│   │  Auth0 (External)       │        │  └──────────────────┘  │ │
+│   │  OIDC Provider          │        │           │            │ │
+│   └─────────────────────────┘        │           ▼            │ │
+│                                      │  ┌──────────────────┐  │ │
+│   ┌─────────────────────────┐        │  │  Talos VMs       │  │ │
+│   │  Browser                │───────►│  │  (CEPH storage)  │  │ │
+│   └─────────────────────────┘        │  └──────────────────┘  │ │
+│                                      └────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 **Component responsibilities:**
 
 | Component | Purpose |
 |-----------|---------|
-| tsidp | OIDC identity provider using Tailscale identities |
+| Auth0 | OIDC identity provider (managed service) |
 | omni-tailscale | Sidecar providing Tailscale connectivity and HTTPS termination |
 | omni | Kubernetes cluster lifecycle management |
 | proxmox-provider | Creates/destroys Talos VMs in Proxmox based on MachineClass definitions |
 
+**Key architectural decisions:**
+
+- Provider runs on Foxtrot (LXC) for L2 adjacency with Talos VMs
+- Auth0 replaced tsidp for simpler operations
+- Omni remains on Holly (Quantum) for management/workload separation
+
 ## Provider Configuration
 
-The Proxmox provider requires two configuration files in the `docker/` directory:
+The Proxmox provider runs as a Docker container inside the `omni-provider` LXC on Foxtrot.
 
-### Environment Variables (.env)
+**Deployed configuration:**
 
-Essential variables for the provider:
-
-| Variable | Purpose |
-|----------|---------|
-| `OMNI_INFRA_PROVIDER_KEY` | Authentication key from Omni UI (Settings → Infrastructure Providers) |
-| `OMNI_DOMAIN` | Omni hostname (e.g., `omni.your-tailnet.ts.net`) |
+| Setting | Value |
+|---------|-------|
+| LXC Location | Foxtrot (VMID 200) |
+| App Directory | `/opt/omni-provider` |
+| Container Image | `ghcr.io/siderolabs/omni-infra-provider-proxmox:latest` |
+| Provider ID | `Proxmox` |
+| Omni Endpoint | `https://omni.spaceships.work/` |
+| Proxmox API | `https://192.168.3.5:8006` |
+| API Token | `terraform@pam!automation` |
 
 ### Provider Config (config.yaml)
 
@@ -68,21 +88,17 @@ Proxmox API credentials and connection settings:
 
 ```yaml
 proxmox:
-  url: "https://<proxmox-node>:8006/api2/json"
-  insecureSkipVerify: true  # For self-signed certs
+  url: "https://192.168.3.5:8006/api2/json"
+  insecureSkipVerify: true  # Self-signed Proxmox certs
 
-  # Option 1: API Token (recommended)
-  tokenID: "omni@pve!omni-provider"
+  # API Token authentication
+  tokenID: "terraform@pam!automation"
   tokenSecret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-
-  # Option 2: Username/password (testing only)
-  # username: "root"
-  # password: "your-password"
-  # realm: "pam"
 ```
 
-For production deployments, create a dedicated Proxmox user with limited permissions.
-See `references/proxmox-permissions.md` for required permissions and setup commands.
+The provider authenticates to Omni using `OMNI_INFRA_PROVIDER_KEY` environment variable (generated in Omni UI under Settings → Infrastructure Providers).
+
+For Proxmox API token setup, see `references/proxmox-permissions.md`.
 
 ## MachineClass Structure
 
@@ -102,7 +118,7 @@ spec:
       memory: 8192
       disk_size: 40
       network_bridge: vmbr0
-      storage_selector: type == "rbd" && name == "vm_ssd"
+      storage_selector: name == "vm_ssd"
 ```
 
 **Required providerdata fields:**
@@ -125,22 +141,20 @@ The provider uses CEL (Common Expression Language) to dynamically select storage
 | Field | Type | Description |
 |-------|------|-------------|
 | `name` | string | Storage pool name |
-| `type` | string | Storage type (lvmthin, zfspool, rbd, dir, nfs) |
+
+> **Warning:** The `type` field (storage backend type like "rbd", "lvmthin") is NOT usable because `type` is a reserved CEL keyword. Use `name` for all storage selection.
 
 **Common patterns:**
 
 ```text
-# LVM-Thin storage
-type == "lvmthin"
+# CEPH/RBD storage (Matrix cluster)
+name == "vm_ssd"
 
-# CEPH/RBD storage by name
-type == "rbd" && name == "vm_ssd"
-
-# ZFS pool
-type == "zfspool"
-
-# Specific storage by name
+# Local LVM-thin storage
 name == "local-lvm"
+
+# ZFS pool by name
+name == "tank"
 ```
 
 For complete CEL syntax and debugging tips, see `references/cel-storage-selectors.md`.
@@ -152,7 +166,7 @@ The omnictl CLI manages Omni resources. Authentication options:
 **Service account key (automation):**
 
 ```bash
-omnictl --omni-url https://omni.example.ts.net \
+omnictl --omni-url https://omni.spaceships.work \
         --service-account-key $OMNICTL_SERVICE_ACCOUNT_KEY \
         get clusters
 ```
@@ -160,7 +174,7 @@ omnictl --omni-url https://omni.example.ts.net \
 **OIDC browser flow (interactive):**
 
 ```bash
-omnictl --omni-url https://omni.example.ts.net login
+omnictl --omni-url https://omni.spaceships.work login
 ```
 
 For detailed authentication setup, see `references/omnictl-auth.md`.
@@ -186,47 +200,43 @@ omnictl cluster template sync -f cluster.yaml
 
 ## Cluster Templates
 
-Cluster templates define the complete cluster configuration:
+Cluster templates use multi-document YAML with separate documents for cluster, control plane, and workers:
 
 ```yaml
 kind: Cluster
-name: my-cluster
+name: talos-prod-01
 kubernetes:
-  version: v1.31.0
+  version: v1.34.2
 talos:
-  version: v1.9.0
+  version: v1.12.0
 patches:
-  - name: cluster-patches
+  - name: disable-default-cni
     inline:
       cluster:
         network:
           cni:
-            name: none  # For Cilium
-controlPlane:
-  machineClass: control-plane
-  count: 3
-workers:
-  machineClass: worker-standard
-  count: 3
+            name: none    # Required for Cilium
+        proxy:
+          disabled: true  # Cilium replaces kube-proxy
+---
+kind: ControlPlane
+machineClass:
+  name: matrix-control-plane
+  size: 3
+---
+kind: Workers
+machineClass:
+  name: matrix-worker
+  size: 2
 ```
 
-See `examples/cluster-template.yaml` for a complete example.
+See `examples/cluster-template.yaml` for a complete example with system extensions.
 
 ## Common Operations Workflow
 
-### Initial Setup
-
-1. Deploy tsidp on separate VM (see tsidp/README.md)
-2. Configure Tailscale ACLs with `email_verified: true` claim
-3. Deploy Omni stack via Docker Compose
-4. Generate infrastructure provider key in Omni UI
-5. Add key to `.env` as `OMNI_INFRA_PROVIDER_KEY`
-6. Configure `config.yaml` with Proxmox credentials
-7. Restart stack: `docker compose up -d`
-
 ### Creating Clusters
 
-1. Create MachineClass YAML defining VM specs
+1. Create MachineClass YAML defining VM specs (use `vm_ssd` storage selector)
 2. Apply MachineClass: `omnictl apply -f machineclass.yaml`
 3. Create cluster template YAML
 4. Sync template: `omnictl cluster template sync -f cluster.yaml`
@@ -235,35 +245,37 @@ See `examples/cluster-template.yaml` for a complete example.
 ### Checking Status
 
 ```bash
-# Docker services
-docker compose -f docker/compose.yaml ps
+# Provider status (on Foxtrot LXC)
+ssh omni-provider docker ps
 
 # Provider logs
-docker compose -f docker/compose.yaml logs -f proxmox-provider
+ssh omni-provider docker logs -f omni-provider-proxmox-provider-1
 
 # Omni resources
 omnictl get clusters
 omnictl get machines
+omnictl get infraproviders
 ```
 
 ## Key Constraints
 
 **Networking:**
 
-- tsidp and Omni must run on separate hosts (tsnet conflicts)
+- Provider must be L2-adjacent to Talos VMs (SideroLink registration requirement)
 - All components communicate via Tailscale encrypted tunnels
-- Proxmox API must be reachable from the Omni host
+- Proxmox API must be reachable from the provider host
 
 **Provider limitations:**
 
 - Single disk per VM only
 - Uses default Proxmox bridge for networking
 - No automatic GPU passthrough
+- CEL `type` keyword reserved - use `name` for storage selection
 
 **State management:**
 
-- Never use `docker compose down -v` (deletes Tailscale state)
-- Provider key stored in `.env` (gitignored)
+- Never use `docker compose down -v` on Holly (deletes Tailscale state)
+- Provider key stored in environment (not version controlled)
 - MachineClasses can be version controlled
 
 ## Troubleshooting

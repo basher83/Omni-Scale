@@ -20,7 +20,7 @@ Service account keys provide non-interactive authentication for scripts and CI/C
 
 ```bash
 export OMNICTL_SERVICE_ACCOUNT_KEY="your-key-here"
-export OMNICTL_ENDPOINT="https://omni.your-tailnet.ts.net"
+export OMNICTL_ENDPOINT="https://omni.spaceships.work"
 
 omnictl get clusters
 ```
@@ -28,7 +28,7 @@ omnictl get clusters
 **Command line:**
 
 ```bash
-omnictl --omni-url https://omni.your-tailnet.ts.net \
+omnictl --omni-url https://omni.spaceships.work \
         --service-account-key "your-key-here" \
         get clusters
 ```
@@ -58,14 +58,14 @@ For interactive use, omnictl can authenticate via browser.
 ### Login
 
 ```bash
-omnictl --omni-url https://omni.your-tailnet.ts.net login
+omnictl --omni-url https://omni.spaceships.work login
 ```
 
-This opens a browser window for Tailscale OIDC authentication. After login, credentials are cached locally.
+This opens a browser window for Auth0 OIDC authentication. After login, credentials are cached locally.
 
 ### Cached Credentials
 
-Credentials are stored in `~/.config/omnictl/` and persist across sessions until they expire.
+Credentials are stored in `~/.talos/omni/` and persist across sessions until they expire.
 
 ### Logout
 
@@ -73,14 +73,19 @@ Credentials are stored in `~/.config/omnictl/` and persist across sessions until
 omnictl logout
 ```
 
-## Configuration File
+## Configuration Files
 
-Create `~/.config/omnictl/config.yaml` for persistent settings:
+| Tool | Config Location |
+|------|-----------------|
+| omnictl | `~/.talos/omni/config` |
+| talosctl | `~/.talos/config` |
+
+Create `~/.talos/omni/config` for persistent omnictl settings:
 
 ```yaml
 contexts:
   default:
-    url: https://omni.your-tailnet.ts.net
+    url: https://omni.spaceships.work
     # Optional: include service account key
     # serviceAccountKey: "your-key"
 

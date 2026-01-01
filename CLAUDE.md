@@ -10,70 +10,32 @@ Omni-Scale is a production-ready deployment kit for self-hosted Sidero Omni with
 - Omni (K8s lifecycle management) running as a Docker Compose stack
 - Proxmox infrastructure provider for automatic Talos VM provisioning
 
-All components communicate exclusively through Tailscale encrypted tunnels.
+## Specs
 
-## Development Commands
+Specs in `specs/*.yaml` define desired state. When working with specs:
 
-```bash
-# Tool management (mise auto-installs tools)
-mise install                          # Install all configured tools
+1. Parse spec to understand target architecture
+2. Compare against current repo state
+3. Identify gaps (what exists vs what's needed)
+4. Generate prioritized task list
 
-# Pre-commit hooks
-mise run hooks-install                # Install prek and infisical hooks
-mise run pre-commit-run               # Run all pre-commit hooks
+See @specs/README.md for schema documentation.
 
-# Changelog (conventional commits)
-mise run changelog                    # Update CHANGELOG.md with unreleased changes
-mise run changelog-bump 0.1.0         # Tag and update changelog for release
+## Templates
 
-# Markdown linting
-mise run markdown-lint                # Check markdown files
-mise run markdown-fix                 # Auto-fix markdown files
+Templates in `templates/` define output structures for consistent formatting:
 
-# Secret scanning
-mise run infisical-scan               # Scan for leaked secrets
+| Template | Purpose |
+|----------|---------|
+| `plan-template.md` | Deployment plan structure |
 
-# Docker operations (from docker/ directory)
-docker compose up -d                  # Start Omni stack
-docker compose logs -f omni           # Follow Omni logs
-docker compose logs -f proxmox-provider  # Follow provider logs
-docker compose ps                     # Service status
-```
+Commands reference templates via `@templates/template-name.md`
 
-## Architecture
+## State Tracking
 
-```text
-tsidp VM (Debian)           Omni VM (Ubuntu + Docker)
-┌─────────────────┐         ┌─────────────────────────────────┐
-│   tsidp binary  │◀────────│  omni-tailscale (sidecar)       │
-│   (systemd)     │  OIDC   │  omni (K8s management)          │
-└─────────────────┘         │  proxmox-provider               │
-                            └──────────────┬──────────────────┘
-                                           │ Proxmox API
-                                           ▼
-                            ┌─────────────────────────────────┐
-                            │     Proxmox Cluster             │
-                            │     (Talos VMs)                 │
-                            └─────────────────────────────────┘
-```
-
-Key design constraint: tsidp and Omni must run on separate hosts due to networking conflicts between tsnet and host Tailscale.
-
-## Repository Structure
-
-- `tsidp/` - Tailscale OIDC provider installation scripts (bash, systemd)
-- `docker/` - Omni + Proxmox provider Docker Compose stack
-- `docs/` - Supplemental guides (GPG key setup)
-- `PLAN.md` - Claude Code plugin architecture for future development
-
-## Conventions
-
-**Commits:** Conventional Commits format with optional scopes
-- `feat(docker):`, `fix(tsidp):`, `docs:`, `chore:`
-
-**Shell scripts:** Use `set -e` for error handling, include root checks and argument validation
-
-**YAML configs:** Comment "why" not "what", use environment variable interpolation
+- Deployment plans: `docs/plans/`
+- Task status tracked in plan files, not separate system
+- Specs may include `status` block for component-level tracking
 
 ## Critical Gotchas
 
@@ -84,10 +46,6 @@ Key design constraint: tsidp and Omni must run on separate hosts due to networki
 | `docker compose down -v` | Deletes Tailscale state, causes hostname collisions - never use `-v` |
 | GPG passphrase prompt | Omni GPG key must have NO passphrase |
 
-## Plugin Development
+## Code Exploration
 
-PLAN.md describes a planned `omni-scale` Claude Code plugin with commands for provider setup, machine class creation, and cluster management. When implementing:
-
-- Commands reference skills for deep knowledge
-- State tracked in `.claude/omni-scale.local.md`
-- Skills contain CEL storage selector references and troubleshooting
+ALWAYS read and understand relevant files before proposing code edits. Do not speculate about code you have not inspected. Be rigorous and persistent in searching code for key facts.

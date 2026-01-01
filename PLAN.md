@@ -270,8 +270,8 @@ workers:
 ---
 # Deployment state - copy to .claude/omni-scale.local.md
 provider_configured: false
-proxmox_endpoint: "https://foxtrot.tailfb3ea.ts.net:8006/api2/json"
-omni_endpoint: "https://omni.tailfb3ea.ts.net"
+proxmox_endpoint: "https://192.168.3.5:8006/api2/json"
+omni_endpoint: "https://omni.spaceships.work"
 storage_selector: 'storage.filter(s, s.type == "rbd" && s.storage == "vm_ssd")[0].storage'
 default_cpu: 4
 default_memory: 8192
