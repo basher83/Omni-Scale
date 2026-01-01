@@ -1,7 +1,7 @@
 ---
 name: machineclass-create
 description: Create and apply a MachineClass for Proxmox VM provisioning
-allowed-tools: Bash, Write, Read, Edit, AskUserQuestion
+allowed-tools: Bash, Write, Read, AskUserQuestion
 argument-hint: [name]
 ---
 
@@ -9,36 +9,25 @@ argument-hint: [name]
 
 Create a MachineClass YAML and apply it to Omni.
 
-## Read Defaults
+## Omni Endpoint
 
-Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` if it exists to get defaults:
-
-- `storage_selector` - Default CEL storage selector
-- `default_cores` - Default CPU cores
-- `default_memory` - Default memory in MB
-- `default_disk` - Default disk size in GB
-- `network_bridge` - Default network bridge
-
-If state file doesn't exist, use these defaults:
-
-- Cores: 4
-- Sockets: 1
-- Memory: 8192 (8GB)
-- Disk: 40GB
-- Network bridge: vmbr0
-- Storage selector: `type == "lvmthin"`
-
-## Get Provider ID
-
-Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` for `provider_id`.
-
-If not set, check available providers:
-
-```bash
-omnictl get infraproviders
+```
+https://omni.spaceships.work
 ```
 
-Use the provider ID from the output (e.g., "Proxmox").
+## Defaults
+
+Use these defaults for Matrix cluster (CEPH storage):
+
+| Setting | Default | Notes |
+|---------|---------|-------|
+| Cores | 4 | Control plane; 8 for workers |
+| Sockets | 1 | |
+| Memory | 8192 | MB (8GB); 16384 for workers |
+| Disk | 40 | GB; 100 for workers |
+| Network bridge | vmbr0 | |
+| Storage selector | `name == "vm_ssd"` | CEPH RBD pool |
+| Provider ID | Proxmox | |
 
 ## Get MachineClass Name
 
@@ -46,23 +35,25 @@ If `$1` argument provided, use it as the name.
 
 Otherwise, ask user for the MachineClass name.
 
+Naming convention: `matrix-<role>` (e.g., `matrix-control-plane`, `matrix-worker`)
+
 Validate: name should be lowercase, alphanumeric with hyphens only.
 
 ## Gather Specifications
 
 Ask user for VM specifications (offer defaults):
 
-1. **CPU cores** - Number of cores (default from state or 4)
-2. **Sockets** - Number of CPU sockets (default 1)
-3. **Memory** - RAM in MB (default from state or 8192)
-4. **Disk size** - Disk in GB (default from state or 40)
-5. **Network bridge** - Proxmox network bridge (default vmbr0)
-6. **Storage selector** - CEL expression (default from state)
+1. **CPU cores** - Number of cores (default 4 for CP, 8 for workers)
+2. **Memory** - RAM in MB (default 8192 for CP, 16384 for workers)
+3. **Disk size** - Disk in GB (default 40 for CP, 100 for workers)
+4. **Storage selector** - CEL expression (default `name == "vm_ssd"`)
 
 For storage selector, explain:
 
-- Common options: LVM-Thin, ZFS, CEPH/RBD
-- Refer to `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/cel-storage-selectors.md` for patterns
+- Matrix cluster uses CEPH: `name == "vm_ssd"`
+- Local storage option: `name == "local-lvm"`
+- Note: `type` field is reserved in CEL and cannot be used
+- See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/cel-storage-selectors.md`
 
 ## Generate YAML
 
@@ -75,13 +66,13 @@ metadata:
   id: <name>
 spec:
   autoprovision:
-    providerid: <provider_id>
+    providerid: Proxmox
     providerdata: |
       cores: <cores>
-      sockets: <sockets>
+      sockets: 1
       memory: <memory>
       disk_size: <disk>
-      network_bridge: <bridge>
+      network_bridge: vmbr0
       storage_selector: <selector>
 ```
 
@@ -93,9 +84,9 @@ Create the `${CLAUDE_PROJECT_DIR}/machine-classes/` directory if it doesn't exis
 
 Show the user the generated YAML.
 
-## Apply to Omni
+## Check omnictl
 
-Check if omnictl is available:
+Verify omnictl is available:
 
 ```bash
 command -v omnictl || ls ~/.local/bin/omnictl
@@ -111,27 +102,27 @@ curl -fsSL "https://github.com/siderolabs/omni/releases/latest/download/omnictl-
 chmod +x ~/.local/bin/omnictl
 ```
 
-Read state file for `omni_endpoint`.
+## Apply to Omni
 
 Apply the MachineClass:
 
 ```bash
-omnictl --omni-url <endpoint> apply -f ${CLAUDE_PROJECT_DIR}/machine-classes/<name>.yaml
+omnictl --omni-url https://omni.spaceships.work apply -f ${CLAUDE_PROJECT_DIR}/machine-classes/<name>.yaml
 ```
 
 If authentication is required:
 
-1. Check for `OMNICTL_SERVICE_ACCOUNT_KEY` environment variable (for automation)
-2. Or suggest running `omnictl login` for interactive OIDC flow
+1. Check for `OMNICTL_SERVICE_ACCOUNT_KEY` environment variable
+2. Or run `omnictl --omni-url https://omni.spaceships.work login` for interactive Auth0 flow
 
-Note: This is a separate service account from `OMNI_INFRA_PROVIDER_KEY` (used by the infrastructure provider). See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/omnictl-auth.md` for setup.
+See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/omnictl-auth.md` for setup.
 
 ## Verify Creation
 
 List machine classes to confirm:
 
 ```bash
-omnictl --omni-url <endpoint> get machineclasses
+omnictl --omni-url https://omni.spaceships.work get machineclasses
 ```
 
 ## Summary
@@ -139,6 +130,6 @@ omnictl --omni-url <endpoint> get machineclasses
 Report:
 
 - MachineClass name and specs
-- File location
+- File location: `machine-classes/<name>.yaml`
 - Apply status (success/failure)
-- Next steps: Use in cluster template or create more machine classes
+- Next steps: Create cluster template or add more machine classes

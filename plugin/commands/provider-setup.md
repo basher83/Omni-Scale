@@ -1,89 +1,76 @@
 ---
 name: provider-setup
-description: Configure the Proxmox infrastructure provider for Omni
-allowed-tools: Bash, Write, Read, Edit
+description: Verify Proxmox infrastructure provider configuration and connectivity
+allowed-tools: Bash, Read
 ---
 
-# Provider Setup
+# Provider Setup Verification
 
-Configure the Proxmox infrastructure provider connection.
+Verify the Proxmox infrastructure provider is properly configured and connected to Omni.
 
-## Prerequisites Check
+## Current Architecture
 
-First verify required tools are available:
+The provider runs on Foxtrot LXC (VMID 200), managed by the infrastructure team. This command verifies connectivity, not deployment.
 
-1. Check docker is installed: `docker --version`
-2. Check docker compose is available: `docker compose version`
+| Component | Location |
+|-----------|----------|
+| Omni | Holly (omni.spaceships.work) |
+| Provider | Foxtrot LXC (192.168.3.10) |
+| Proxmox API | 192.168.3.5:8006 |
 
-If either is missing, inform the user and stop.
+## Check omnictl
 
-## Configuration Files
-
-Check for required configuration files in the `${CLAUDE_PROJECT_DIR}/docker/` directory:
-
-1. Read `${CLAUDE_PROJECT_DIR}/docker/.env` - if missing, copy from `${CLAUDE_PROJECT_DIR}/docker/.env.example`
-2. Read `${CLAUDE_PROJECT_DIR}/docker/config.yaml` - if missing, copy from `${CLAUDE_PROJECT_DIR}/docker/config.yaml.example`
-
-## Environment Variables
-
-Check `.env` for required variables:
-
-- `TS_AUTHKEY` - Tailscale auth key
-- `OMNI_DOMAIN` - Omni hostname
-- `OMNI_INITIAL_USER` - First admin email
-- `OIDC_ISSUER_URL` - tsidp URL
-- `OIDC_CLIENT_ID` - OIDC client ID
-- `OIDC_CLIENT_SECRET` - OIDC client secret
-- `OMNI_INFRA_PROVIDER_KEY` - Infrastructure provider key
-
-If `OMNI_INFRA_PROVIDER_KEY` is empty or placeholder:
-
-1. Ask user if they have generated a provider key
-2. If not, explain: "Generate key in Omni UI → Settings → Infrastructure Providers → Create"
-3. Wait for user to provide the key
-4. Update `.env` with the provided key
-
-## Proxmox Configuration
-
-Check `${CLAUDE_PROJECT_DIR}/docker/config.yaml` for Proxmox credentials:
-
-- `proxmox.url` - API endpoint
-- Authentication: either `tokenID`/`tokenSecret` OR `username`/`password`/`realm`
-
-If values are placeholders, ask user for their Proxmox connection details.
-
-## Start/Restart Stack
-
-After configuration is complete:
+Verify omnictl is available:
 
 ```bash
-docker compose -f ${CLAUDE_PROJECT_DIR}/docker/compose.yaml up -d
+command -v omnictl || ls ~/.local/bin/omnictl
 ```
 
-## Verify Registration
-
-Wait 10 seconds, then check provider logs:
+If not found, suggest installation:
 
 ```bash
-docker compose -f ${CLAUDE_PROJECT_DIR}/docker/compose.yaml logs --tail=20 proxmox-provider
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+mkdir -p ~/.local/bin
+curl -fsSL "https://github.com/siderolabs/omni/releases/latest/download/omnictl-${OS}-${ARCH}" -o ~/.local/bin/omnictl
+chmod +x ~/.local/bin/omnictl
 ```
 
-Look for "registered" or "connected" messages. Report success or any errors.
+## Check Provider Registration
 
-## Update State File
+Query Omni for registered infrastructure providers:
 
-Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` if it exists. If not, create it from `${CLAUDE_PLUGIN_ROOT}/.claude/omni-scale.local.md.example`.
+```bash
+omnictl --omni-url https://omni.spaceships.work get infraproviders
+```
 
-Update the state file frontmatter:
+Look for:
 
-- `provider_status: healthy` (if registration successful)
-- `last_verified: <current ISO timestamp>`
-- Update `omni_endpoint` and `proxmox_endpoint` based on configuration
+- Provider ID: `Proxmox`
+- Status: `Connected` or `Ready`
+
+## Verify Provider Can List Resources
+
+If provider is registered, it should be able to enumerate Proxmox resources. Check provider logs (requires SSH access to Foxtrot LXC):
+
+```bash
+ssh omni-provider docker logs --tail=20 omni-provider-proxmox-provider-1
+```
+
+Look for successful storage pool enumeration or VM creation messages.
 
 ## Summary
 
 Report to user:
 
-- Provider configuration status
-- Any warnings or issues found
-- Next steps (run `/provider-status` to verify connectivity)
+| Check | Status |
+|-------|--------|
+| omnictl available | Yes/No |
+| Provider registered | Registered/Not found |
+| Provider status | Connected/Disconnected |
+
+If provider not registered or unhealthy:
+
+- Contact infrastructure team
+- Check provider logs on Foxtrot LXC
+- See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/troubleshooting.md`

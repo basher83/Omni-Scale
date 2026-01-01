@@ -1,13 +1,19 @@
 ---
 name: cluster-status
 description: Check status of Omni-managed Kubernetes clusters
-allowed-tools: Bash, Read, Edit
+allowed-tools: Bash, Read
 argument-hint: [cluster-name]
 ---
 
 # Cluster Status
 
 Check the status of Omni-managed Kubernetes clusters.
+
+## Omni Endpoint
+
+```
+https://omni.spaceships.work
+```
 
 ## Check omnictl
 
@@ -17,20 +23,22 @@ Verify omnictl is available:
 command -v omnictl || ls ~/.local/bin/omnictl
 ```
 
-If not found, suggest running `/machineclass-create` first (which installs omnictl) or manual installation.
+If not found, suggest installation:
 
-## Get Omni Endpoint
-
-Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` for `omni_endpoint`.
-
-If not available, ask user for Omni URL.
+```bash
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+mkdir -p ~/.local/bin
+curl -fsSL "https://github.com/siderolabs/omni/releases/latest/download/omnictl-${OS}-${ARCH}" -o ~/.local/bin/omnictl
+chmod +x ~/.local/bin/omnictl
+```
 
 ## Authentication
 
 Check for `OMNICTL_SERVICE_ACCOUNT_KEY` environment variable. If not set, suggest:
 
-1. Run `omnictl login` for interactive OIDC flow, or
-2. Set `OMNICTL_SERVICE_ACCOUNT_KEY` for automation
+1. Run `omnictl --omni-url https://omni.spaceships.work login` for interactive Auth0 flow
+2. Or set `OMNICTL_SERVICE_ACCOUNT_KEY` for automation
 
 See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/omnictl-auth.md` for setup.
 
@@ -39,7 +47,7 @@ See `${CLAUDE_PLUGIN_ROOT}/skills/omni-proxmox/references/omnictl-auth.md` for s
 If no cluster name provided (`$1` empty), list all clusters:
 
 ```bash
-omnictl --omni-url <endpoint> get clusters
+omnictl --omni-url https://omni.spaceships.work get clusters
 ```
 
 ## Cluster Details
@@ -47,7 +55,7 @@ omnictl --omni-url <endpoint> get clusters
 If cluster name provided, get detailed status:
 
 ```bash
-omnictl --omni-url <endpoint> get cluster $1 -o yaml
+omnictl --omni-url https://omni.spaceships.work get cluster $1 -o yaml
 ```
 
 ## Machine Status
@@ -55,7 +63,7 @@ omnictl --omni-url <endpoint> get cluster $1 -o yaml
 List machines in the cluster:
 
 ```bash
-omnictl --omni-url <endpoint> get machines --cluster $1
+omnictl --omni-url https://omni.spaceships.work get machines --cluster $1
 ```
 
 Report:
@@ -66,19 +74,25 @@ Report:
 
 ## Cluster Health
 
-Check for common issues:
+Check cluster health:
+
+```bash
+omnictl --omni-url https://omni.spaceships.work cluster status $1
+```
+
+Common issues:
 
 - Control plane quorum (need 1 or 3 control plane nodes)
 - Machine health status
 - Kubernetes API availability
 
-## Update State File
+## Get Kubeconfig
 
-Read `${CLAUDE_PROJECT_DIR}/.claude/omni-scale.local.md` if it exists.
+If cluster is healthy, offer to get kubeconfig:
 
-Update frontmatter:
-
-- `active_clusters`: List of cluster names found
+```bash
+omnictl --omni-url https://omni.spaceships.work kubeconfig $1 -o ~/.kube/$1.yaml
+```
 
 ## Summary
 
