@@ -33,7 +33,7 @@ omnictl --omni-url https://omni.spaceships.work \
         get clusters
 ```
 
-**In commands:**
+**In scripts:**
 
 ```bash
 # Check for existing key or prompt
@@ -53,41 +53,52 @@ fi
 
 ## Option 2: OIDC Browser Flow (Interactive)
 
-For interactive use, omnictl can authenticate via browser.
+For interactive use, omnictl authenticates via browser on first command.
 
-### Login
+### Triggering Authentication
+
+Any omnictl command triggers OAuth if not already authenticated:
 
 ```bash
-omnictl --omni-url https://omni.spaceships.work login
+omnictl get clusters
 ```
 
 This opens a browser window for Auth0 OIDC authentication. After login, credentials are cached locally.
 
 ### Cached Credentials
 
-Credentials are stored in `~/.talos/omni/` and persist across sessions until they expire.
+Credentials are stored in `~/.talos/omni/config` and persist across sessions until they expire.
 
-### Logout
+## Configuration Management
+
+Use `omnictl config` to manage the configuration file:
 
 ```bash
-omnictl logout
+# View current config
+omnictl config info
+
+# Generate new config (triggers OIDC flow)
+omnictl config new --url https://omni.spaceships.work > ~/.talos/omni/config
+
+# Merge additional context
+omnictl config merge ./another-config
 ```
 
-## Configuration Files
+### Configuration File Location
 
-| Tool | Config Location |
-|------|-----------------|
-| omnictl | `~/.talos/omni/config` |
-| talosctl | `~/.talos/config` |
+| Variable | Default |
+|----------|---------|
+| `OMNICONFIG` env | If set, uses this path |
+| Default | `~/.talos/omni/config` |
+| Deprecated | `$XDG_CONFIG_HOME/omni/config` (read-only fallback) |
 
-Create `~/.talos/omni/config` for persistent omnictl settings:
+### Config File Format
 
 ```yaml
 contexts:
   default:
     url: https://omni.spaceships.work
-    # Optional: include service account key
-    # serviceAccountKey: "your-key"
+    # Auth is cached separately after OIDC flow
 
 current-context: default
 ```
@@ -98,10 +109,14 @@ Test that authentication works:
 
 ```bash
 # Should return cluster list (empty is OK)
+# Triggers browser auth if not authenticated
 omnictl get clusters
 
-# Check current user
-omnictl auth whoami
+# Check infrastructure providers
+omnictl get infraproviders
+
+# Check current user context
+omnictl user list
 ```
 
 ## Troubleshooting
@@ -110,7 +125,7 @@ omnictl auth whoami
 
 - Service account key is invalid or expired
 - Key doesn't have required permissions
-- OIDC session expired (re-run `omnictl login`)
+- OIDC session expired (run any command to re-authenticate)
 
 **"connection refused" error:**
 
@@ -120,9 +135,13 @@ omnictl auth whoami
 
 **"certificate error":**
 
-- Omni uses self-signed cert
-- Tailscale HTTPS certificates not configured
-- Add `--insecure` flag (not recommended for production)
+- Add `--insecure-skip-tls-verify` flag
+- Or configure proper TLS certificates in Omni
+
+**Browser doesn't open for OIDC:**
+
+- Check if `xdg-open` (Linux) or `open` (macOS) works
+- Manually visit the URL printed in terminal
 
 ## Best Practices
 

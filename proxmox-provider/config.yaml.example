@@ -1,0 +1,15 @@
+# Proxmox Provider Configuration
+# Copy to config.yaml and fill in actual values
+
+proxmox:
+  # Proxmox API URL - use any node in the Matrix cluster
+  url: "https://192.168.3.5:8006/api2/json"
+
+  # Authentication - API token recommended for production
+  # Create token: Datacenter → Permissions → API Tokens
+  # Required privileges: See docs/guides/PROXMOX_PERMISSIONS.md
+  tokenID: "terraform@pam!automation"
+  tokenSecret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+  # Skip TLS verification (self-signed Proxmox certs)
+  insecureSkipVerify: true

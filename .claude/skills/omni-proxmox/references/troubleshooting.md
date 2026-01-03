@@ -4,11 +4,11 @@ This document covers operational issues with the Omni + Proxmox provider.
 
 ## Current Architecture
 
-| Component | Location |
-|-----------|----------|
-| Omni | Holly (Docker) |
-| Proxmox Provider | Foxtrot LXC (VMID 200) |
-| Proxmox API | 192.168.3.5:8006 |
+| Component | Location | IP |
+|-----------|----------|-----|
+| Omni | Holly (VMID 101, Quantum) | 192.168.10.20 |
+| Proxmox Provider | Foxtrot LXC (CT 200, Matrix) | 192.168.3.10 |
+| Proxmox API | Matrix cluster | 192.168.3.{5,6,7}:8006 |
 
 ## Provider Registration Issues
 
@@ -208,7 +208,7 @@ omnictl get machineclass <class-name> -o yaml
 
 **Fixes:**
 
-1. Re-authenticate: `omnictl login`
+1. Re-authenticate by running any command (triggers OIDC flow)
 2. Check service account key validity
 3. Verify key has required permissions
 
@@ -226,8 +226,8 @@ omnictl get machineclass <class-name> -o yaml
 
 | Component | Location | Command |
 |-----------|----------|---------|
-| Omni | Holly | `ssh holly docker compose -f /path/to/compose.yaml logs omni` |
-| Tailscale sidecar | Holly | `ssh holly docker compose logs omni-tailscale` |
+| Omni | Holly | `ssh holly 'cd /path/to/omni && docker compose logs omni'` |
+| Tailscale sidecar | Holly | `ssh holly 'cd /path/to/omni && docker compose logs omni-tailscale'` |
 | Provider | Foxtrot LXC | `ssh omni-provider docker logs omni-provider-proxmox-provider-1` |
 | Machine logs | Omni UI | Machines → [machine] → Logs |
 
@@ -237,7 +237,7 @@ Quick health verification:
 
 ```bash
 # Omni services running (on Holly)
-ssh holly docker compose ps
+ssh holly 'cd /path/to/omni && docker compose ps'
 
 # Provider running (on Foxtrot LXC)
 ssh omni-provider docker ps

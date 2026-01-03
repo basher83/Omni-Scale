@@ -17,7 +17,6 @@ fd = "10.2.0"
 rg = "14.1.1"
 git-cliff = "2.10.1"
 shellcheck = "0.11.0"
-prek = "0.2.13"
 "pipx:rumdl" = "0.0.191"
 
 # === Changelog tasks ===
@@ -81,12 +80,12 @@ echo "     git push && git push --tags"
 
 # === Hooks tasks ===
 [tasks.hooks-install]
-description = "Install prek and infisical hooks"
-run = "prek install -f && infisical scan install --pre-commit-hook"
+description = "Install pre-commit and infisical hooks"
+run = "pre-commit install -f && infisical scan install --pre-commit-hook"
 
 [tasks.pre-commit-run]
-description = "Run prek hooks"
-run = "prek run --all-files"
+description = "Run pre-commit hooks"
+run = "pre-commit run --all-files"
 
 # === Infisical tasks ===
 [tasks.infisical-scan]

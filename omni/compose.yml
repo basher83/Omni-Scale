@@ -1,0 +1,68 @@
+services:
+  omni-tailscale:
+    image: tailscale/tailscale:latest
+    container_name: omni-tailscale
+    hostname: omni
+    env_file: omni.env
+    healthcheck:
+      test: ["CMD", "tailscale", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - ./tailscale-state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    restart: always
+    # Bind to host IP for LAN access by Talos VMs
+    # Holly LAN IP: 192.168.10.20
+    ports:
+      - "${HOST_IP:-192.168.10.20}:8090:8090"      # SideroLink (Machine API)
+      - "${HOST_IP:-192.168.10.20}:50180:50180/udp" # WireGuard
+      - "${HOST_IP:-192.168.10.20}:443:443"         # Web UI
+      - "${HOST_IP:-192.168.10.20}:8100:8100"       # Kubernetes Proxy
+
+  omni:
+    image: ghcr.io/siderolabs/omni:${OMNI_IMG_TAG}
+    container_name: omni
+    env_file: omni.env
+    network_mode: "service:omni-tailscale"
+    depends_on:
+      omni-tailscale:
+        condition: service_healthy
+    restart: always
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ${ETCD_VOLUME_PATH}:/_out/etcd
+      - ${ETCD_ENCRYPTION_KEY}:/omni.asc:ro
+      - ${TLS_CERT}:/tls.crt:ro
+      - ${TLS_KEY}:/tls.key:ro
+    command: >
+      --sqlite-storage-path=${OMNI_SQLITE_PATH}
+      --account-id=${OMNI_ACCOUNT_UUID}
+      --name=${NAME}
+      --cert=/tls.crt
+      --key=/tls.key
+      --machine-api-cert=/tls.crt
+      --machine-api-key=/tls.key
+      --private-key-source='file:///omni.asc'
+      --event-sink-port=${EVENT_SINK_PORT}
+      --bind-addr=${BIND_ADDR}
+      --machine-api-bind-addr=${MACHINE_API_BIND_ADDR}
+      --k8s-proxy-bind-addr=${K8S_PROXY_BIND_ADDR}
+      --advertised-api-url=${ADVERTISED_API_URL}
+      --advertised-kubernetes-proxy-url=${ADVERTISED_K8S_PROXY_URL}
+      --machine-api-advertised-url=${SIDEROLINK_ADVERTISED_API_URL}
+      --siderolink-wireguard-advertised-addr=${SIDEROLINK_WIREGUARD_ADVERTISED_ADDR}
+      --initial-users=${INITIAL_USER_EMAILS}
+      ${AUTH}
