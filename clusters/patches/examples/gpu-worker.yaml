@@ -1,0 +1,45 @@
+# GPU Worker Talos Machine Config Patch
+# Source: Adapted from sidero-omni-talos-proxmox-starter
+#
+# This patch configures:
+# - Dual NIC setup (management + storage network)
+# - NVIDIA kernel modules for GPU passthrough
+# - eBPF JIT hardening
+#
+# Usage in cluster template:
+#   patches:
+#     - file: patches/examples/gpu-worker.yaml
+#
+machine:
+  network:
+    interfaces:
+      # Primary NIC - management network (DHCP from Proxmox)
+      - interface: ens18
+        dhcp: true
+      # Secondary NIC - CEPH public network (static)
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.5.50/24  # Adjust IP for each GPU worker
+
+  kubelet:
+    nodeIP:
+      validSubnets:
+        - 192.168.3.0/24  # Matrix management network
+
+  # NVIDIA kernel modules
+  kernel:
+    modules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+
+  # Security hardening
+  sysctls:
+    net.core.bpf_jit_harden: 1
+
+  # Node labels for GPU scheduling
+  nodeLabels:
+    node-role.kubernetes.io/gpu-worker: ""
+    nvidia.com/gpu.present: "true"

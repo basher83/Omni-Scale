@@ -1,0 +1,62 @@
+---
+# Multi-Disk Worker Machine Class Example
+# Source: Adapted from sidero-omni-talos-proxmox-starter
+#
+# This example shows how to configure workers with additional disks
+# for storage workloads (Longhorn, Rook-Ceph, etc.)
+#
+# The primary disk is for Talos/system, additional disks for data.
+#
+# Apply: omnictl apply -f multi-disk-worker.yaml
+#
+metadata:
+  namespace: default
+  type: MachineClasses.omni.sidero.dev
+  id: matrix-storage-worker
+spec:
+  matchlabels: []
+  autoprovision:
+    providerid: proxmox
+    kernelargs: []
+    metavalues: []
+    providerdata: |
+      # Compute resources
+      cores: 8
+      sockets: 1
+      memory: 32768
+
+      # Primary disk (Talos OS)
+      disk_size: 50
+      storage_selector: name == "vm_ssd"
+      disk_ssd: true
+      disk_discard: true
+      disk_iothread: true
+      disk_aio: io_uring
+
+      # Additional data disk for Longhorn/storage
+      additional_disks:
+        - disk_size: 200
+          storage_selector: name == "vm_ssd"
+          disk_ssd: true
+          disk_discard: true
+          disk_iothread: true
+          disk_aio: io_uring
+
+      # Network
+      network_bridge: vmbr0
+
+# Note: The additional disk will appear as /dev/sdb in Talos.
+# Configure Longhorn or your storage solution to use this disk.
+#
+# For Longhorn, add this patch to your cluster template:
+#
+# machine:
+#   kubelet:
+#     extraMounts:
+#       - destination: /var/lib/longhorn
+#         type: bind
+#         source: /var/local/longhorn
+#         options:
+#           - bind
+#           - rshared
+#           - rw

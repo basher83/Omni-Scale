@@ -1,0 +1,58 @@
+# Production cluster for Matrix (Foxtrot/Golf/Hotel)
+# 3 control plane + 2 workers on CEPH storage
+# CNI: Disabled for Cilium installation post-bootstrap
+
+kind: Cluster
+name: talos-prod-01
+labels:
+  environment: production
+kubernetes:
+  version: v1.34.2
+talos:
+  version: v1.12.0
+patches:
+  - name: disable-default-cni
+    inline:
+      cluster:
+        network:
+          cni:
+            name: none
+        proxy:
+          disabled: true
+---
+kind: ControlPlane
+machineClass:
+  name: matrix-control-plane
+  size: 3
+systemExtensions:
+  - siderolabs/iscsi-tools
+  - siderolabs/nfsd
+  - siderolabs/util-linux-tools
+---
+kind: Workers
+name: workers
+machineClass:
+  name: matrix-worker
+  size: 2
+systemExtensions:
+  - siderolabs/iscsi-tools
+  - siderolabs/nfsd
+  - siderolabs/util-linux-tools
+patches:
+  - name: worker-labels
+    inline:
+      machine:
+        nodeLabels:
+          node-role.kubernetes.io/worker: ""
+  - name: longhorn-storage
+    inline:
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/lib/longhorn
+              type: bind
+              source: /var/local/longhorn
+              options:
+                - bind
+                - rshared
+                - rw

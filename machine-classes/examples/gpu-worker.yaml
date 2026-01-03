@@ -1,0 +1,78 @@
+---
+# GPU Worker Machine Class Example
+# Source: Adapted from sidero-omni-talos-proxmox-starter
+#
+# This example shows how to configure a GPU-enabled worker node
+# using the enhanced Proxmox provider features from PR #36.
+#
+# Prerequisites:
+# - IOMMU enabled in BIOS and Proxmox host
+# - GPU isolated via vfio-pci (add to /etc/modules)
+# - Proxmox Resource Mapping configured for GPU(s)
+#
+# Apply: omnictl apply -f gpu-worker.yaml
+#
+metadata:
+  namespace: default
+  type: MachineClasses.omni.sidero.dev
+  id: matrix-gpu-worker
+spec:
+  matchlabels: []
+  autoprovision:
+    providerid: proxmox
+    kernelargs: []
+    metavalues: []
+    providerdata: |
+      # Compute resources (adjust for your GPU workload)
+      cores: 16
+      sockets: 1
+      memory: 65536
+      disk_size: 200
+
+      # Network
+      network_bridge: vmbr0
+
+      # Storage - use CEPH on Matrix
+      storage_selector: name == "vm_ssd"
+
+      # Disk performance (NVMe optimization)
+      disk_ssd: true
+      disk_discard: true
+      disk_iothread: true
+      disk_cache: none
+      disk_aio: io_uring
+
+      # GPU passthrough optimizations (PR #36 features)
+      cpu_type: host          # Pass through host CPU features
+      machine_type: q35       # Modern chipset with native PCIe
+      numa: true              # Better memory locality
+      balloon: false          # Disable memory ballooning (required for GPU)
+      # hugepages: 1GB        # Optional: requires host config
+
+      # GPU passthrough using Proxmox Resource Mappings
+      # Create mappings in Proxmox UI: Datacenter → Resource Mappings → PCI Devices
+      pci_devices:
+        - mapping: nvidia-gpu-1    # Your resource mapping name
+          pcie: true               # Use PCIe (recommended)
+          # primary_gpu: true      # Uncomment if this is the display GPU
+
+      # Optional: 10G storage network for CEPH direct access
+      # additional_nics:
+      #   - bridge: vmbr1
+      #     firewall: false
+
+# Cluster template usage:
+# ---
+# kind: Workers
+# name: gpu-workers
+# machineClass:
+#   name: matrix-gpu-worker
+#   size: 1
+# systemExtensions:
+#   - siderolabs/iscsi-tools
+#   - siderolabs/qemu-guest-agent
+#   - siderolabs/util-linux-tools
+#   - siderolabs/nonfree-kmod-nvidia-production
+#   - siderolabs/nvidia-container-toolkit-production
+# patches:
+#   - file: patches/gpu-worker.yaml

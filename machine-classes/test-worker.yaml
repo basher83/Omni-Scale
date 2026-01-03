@@ -1,11 +1,7 @@
-# MachineClass for worker nodes (Matrix cluster)
-# Storage: vm_ssd (CEPH RBD pool, 12TB usable, replication factor 3)
-# Spec: 8 cores, 16GB RAM, 100GB disk
-
 metadata:
   namespace: default
   type: MachineClasses.omni.sidero.dev
-  id: matrix-worker
+  id: test-worker
 spec:
   matchlabels: []
   autoprovision:
@@ -13,9 +9,10 @@ spec:
     kernelargs: []
     metavalues: []
     providerdata: |
-      cores: 8
+      node: foxtrot
+      cores: 2
       sockets: 1
-      memory: 16384
-      disk_size: 100
+      memory: 2048
+      disk_size: 40
       network_bridge: vmbr0
       storage_selector: name == "vm_ssd"
