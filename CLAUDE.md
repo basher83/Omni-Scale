@@ -6,9 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Omni-Scale is a production-ready deployment kit for self-hosted Sidero Omni with Tailscale authentication. It manages Talos Linux Kubernetes clusters through:
 
-- tsidp (Tailscale OIDC identity provider) running as a systemd service
-- Omni (K8s lifecycle management) running as a Docker Compose stack
-- Proxmox infrastructure provider for automatic Talos VM provisioning
+- Sidero Omni (K8s lifecycle management) running as a Docker Compose stack
+- Sidero Proxmox infrastructure provider for automatic Talos VM provisioning
+
+## Skills
+
+- omni-proxmox: This skill provides guidance for deploying and managing Talos Linux Kubernetes clusters via Sidero Omni with the Proxmox infrastructure provider.
 
 ## Specs
 
@@ -23,13 +26,13 @@ See @specs/README.md for schema documentation.
 
 ## Templates
 
-Templates in `templates/` define output structures for consistent formatting:
+Templates in `.claude/templates/` define output structures for consistent formatting:
 
 | Template | Purpose |
 |----------|---------|
 | `plan-template.md` | Deployment plan structure |
 
-Commands reference templates via `@templates/template-name.md`
+Commands reference templates via `@.claude/templates/template-name.md`
 
 ## State Tracking
 
@@ -41,7 +44,6 @@ Commands reference templates via `@templates/template-name.md`
 
 | Issue | Cause |
 |-------|-------|
-| tsidp and Omni on same host | Networking conflicts between tsnet and host Tailscale |
 | "Invalid JWT" on login | Missing `extraClaims: { "email_verified": true }` in Tailscale ACL grant |
 | `docker compose down -v` | Deletes Tailscale state, causes hostname collisions - never use `-v` |
 | GPG passphrase prompt | Omni GPG key must have NO passphrase |

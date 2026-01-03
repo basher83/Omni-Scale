@@ -58,6 +58,8 @@ status:
 
 ## Example: Omni Platform Spec
 
+See `omni.yaml` for the full production spec. Abbreviated example:
+
 ```yaml
 apiVersion: homelab/v1
 kind: Platform
@@ -66,42 +68,33 @@ metadata:
   description: Sidero Omni Kubernetes management platform
 
 spec:
+  hub:
+    host: holly
+    cluster: quantum
+    ip: 192.168.10.20
+    access:
+      tailscale: omni.spaceships.work
+      lan: 192.168.10.20 (split-horizon DNS)
+
   provider:
     name: omni-provider
     type: lxc
     host: foxtrot
+    cluster: matrix
     ip: 192.168.3.10/24
-    gateway: 192.168.3.1
-    resources:
-      cores: 1
-      memory: 1024
-      disk: 4
-    networking:
-      - vmbr0  # LAN access
-      - tailscale  # Omni connectivity
-
-  clusters:
-    - name: talos-prod
-      controlPlane:
-        count: 3
-        host: pve-matrix-01
-      workers:
-        count: 2
-        host: pve-nexus-01
 
 decisions:
   - key: provider-location
     value: foxtrot (Matrix cluster)
     rationale: Provider must be L2-adjacent to booting VMs for SideroLink registration
-  - key: deployment-type
-    value: LXC
-    rationale: Lightweight, sufficient for provider workload
+  - key: auth-provider
+    value: Auth0
+    rationale: Simpler than self-hosted tsidp, managed service reliability
 
 status:
-  phase: Planning
-  lastUpdated: 2025-12-30
-  blockedBy: Provider relocation
-  notes: Provider currently on Holly (Quantum), needs to move to Matrix
+  phase: Deployed
+  lastUpdated: 2026-01-03
+  notes: Infrastructure FMC. Production cluster ready to deploy.
 ```
 
 ## Usage
@@ -117,4 +110,4 @@ claude
 
 | File | Description | Status |
 |------|-------------|--------|
-| `omni.yaml` | Omni platform deployment | Active |
+| `omni.yaml` | Omni platform deployment | Infrastructure Operational |

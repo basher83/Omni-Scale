@@ -1,15 +1,19 @@
 # Omni Deployment Specification
 # Initiative: Sidero Omni on Quantum managing Talos clusters on Matrix
-# Status: Deployed (Omni + Provider operational)
-# Last Updated: 2026-01-01 (infrastructure team redeployment complete)
+# Status: Infrastructure FMC, Production Cluster Ready to Deploy
+# Last Updated: 2026-01-03 (spec sync - infrastructure validated, prod ready)
 
 ---
 # INITIATIVE METADATA
 initiative:
   name: "omni-deployment"
   started: "2025-12"
-  status: "deployed"
+  status: "infrastructure-operational"
   repository: "Omni-Scale"
+  summary: |
+    Omni Hub and Proxmox Provider fully operational. Test cluster validated.
+    Production cluster spec exists and is ready for deployment.
+    Tailscale Operator on backlog for post-cluster integration.
 
 ---
 # DEFINITION OF DONE (Project-Specific)
@@ -39,10 +43,26 @@ locked_decisions:
       url: "https://omni.spaceships.work"
 
   omni_access:
-    decision: "Tailscale-only access via Serve"
-    rationale: "Zero-trust posture, no public exposure"
-    ports: [443, 8090, 8100]
+    decision: "Dual-network access (Tailscale + LAN)"
+    rationale: "Tailscale for admin UI, LAN for SideroLink registration"
     change_cost: "high - service config rewrites"
+    external:
+      domain: "omni.spaceships.work"
+      via: "Tailscale Serve"
+      ports: [443, 8090, 8100]
+      purpose: "Admin UI, API access"
+    internal:
+      domain: "omni-internal.spaceships.work"
+      ip: "192.168.10.20"
+      dns: "Unifi controller A record"
+      ports:
+        - "443 (HTTPS API)"
+        - "8090 (Machine API - Talos registration)"
+        - "8091 (Event Sink)"
+        - "8100 (K8s Proxy)"
+        - "50180/udp (SideroLink WireGuard)"
+      purpose: "Talos VM SideroLink registration from Matrix (192.168.3.x)"
+      routing: "Static route in Unifi: 192.168.3.0/24 → 192.168.10.0/24"
 
   target_cluster:
     decision: "Matrix cluster (Foxtrot, Golf, Hotel)"
@@ -135,6 +155,19 @@ pivot_decisions:
     status: "complete"
     completed: "2026-01-01"
 
+  omni_dual_network:
+    original: "Tailscale-only access (network_mode: service:omni-tailscale)"
+    new: "Dual-network with explicit LAN port bindings"
+    rationale: "Talos VMs on Matrix (192.168.3.x) cannot reach Tailscale IPs for SideroLink"
+    blocker_resolved: "SideroLink registration failing - VMs couldn't reach omni.spaceships.work"
+    impact:
+      - "compose.yaml: Removed network_mode host, added explicit port bindings on 192.168.10.20"
+      - "omni.env: Added OMNI_INTERNAL_DOMAIN for SideroLink advertised URLs"
+      - "DNS: Added omni-internal.spaceships.work → 192.168.10.20 in Unifi"
+      - "Routing: Static route 192.168.3.0/24 ↔ 192.168.10.0/24 in Unifi"
+    status: "complete"
+    completed: "2026-01-01"
+
 ---
 # OPEN DECISIONS (To be resolved)
 
@@ -150,31 +183,64 @@ open_decisions:
     note: "Deployed with Auth0 OIDC authentication"
 
   talos_cluster_spec:
-    question: "Initial cluster specification"
-    preliminary:
+    question: "Production cluster specification"
+    status: "ready-to-deploy"
+    artifacts:
+      cluster: "clusters/talos-prod-01.yaml"
+      control_plane_class: "machine-classes/matrix-control-plane.yaml"
+      worker_class: "machine-classes/matrix-worker.yaml"
+    spec:
       name: "talos-prod-01"
+      kubernetes_version: "v1.34.2"
+      talos_version: "v1.12.0"
+      cni: "none (Cilium post-bootstrap)"
       control_plane:
         count: 3
         cpu: 4
         memory_gb: 8
         disk_gb: 40
+        machine_class: "matrix-control-plane"
       workers:
         count: 2
         cpu: 8
         memory_gb: 16
         disk_gb: 100
-    status: "needs validation against Matrix capacity"
+        machine_class: "matrix-worker"
+    note: "Specs finalized. Deploy with: omnictl cluster template sync -f clusters/talos-prod-01.yaml"
 
   tailscale_operator:
     question: "Post-cluster Tailscale integration"
     plan: "Deploy Tailscale Kubernetes Operator for workload access"
-    timing: "After first cluster operational"
-    status: "deferred to post-cluster phase"
+    timing: "After production cluster operational"
+    status: "backlog"
 
 ---
 # CONSTRAINTS (Learned from implementation)
 
 constraints:
+  # === CRITICAL: THE DNS LESSON ===
+  split_horizon_dns:
+    severity: "critical"
+    description: |
+      Split-Horizon DNS is MANDATORY for this architecture.
+      The same URL (omni.spaceships.work) must resolve to different IPs
+      depending on who is asking:
+        - Tailscale clients → 100.x.y.z (Tailscale IP)
+        - LAN clients (Talos VMs) → 192.168.10.20 (LAN IP)
+    implementation:
+      public_dns: "Cloudflare A record → Tailscale IP"
+      local_dns: "Unifi Local DNS → LAN IP of Omni VM"
+      proxmox_hosts: "MUST use Unifi Gateway as DNS server"
+    failure_mode: |
+      If Proxmox hosts use public DNS (1.1.1.1, 8.8.8.8), Talos VMs
+      inherit this and resolve to Tailscale IP, which they cannot reach
+      during boot (not on Tailnet yet). SideroLink fails silently.
+    war_story: |
+      Four days of debugging. Five layers of abstraction (Docker → LXC →
+      Proxmox → Talos → Ceph). The Proxmox host silently handed out
+      public DNS to VMs, bypassing correctly configured Unifi Split DNS.
+      First Commandment of IT: "It was DNS."
+
   cel_type_filtering:
     description: "Cannot filter storage by type in CEL selectors"
     cause: "'type' is reserved CEL keyword"
@@ -200,6 +266,27 @@ constraints:
     description: "Provider must be L2-adjacent to booting Talos VMs"
     cause: "SideroLink registration requires local network reachability"
     resolution: "Move Provider to Matrix cluster"
+
+  siderolink_lan_reachability:
+    description: "Talos VMs must reach Omni's machine-api and WireGuard endpoints on LAN"
+    cause: "VMs aren't on Tailscale during boot; can't reach Tailscale IPs"
+    resolution: "Expose ports on LAN IP, advertise internal domain for SideroLink"
+    ports_required:
+      - "8090 (machine-api)"
+      - "8091 (event sink)"
+      - "50180/udp (WireGuard)"
+
+  docker_lan_port_binding:
+    description: "Docker containers using Tailscale sidecar don't listen on host LAN by default"
+    cause: "Tailscale sidecar only exposes ports on the Tailscale interface (100.x)"
+    symptom: "ERR_CONNECTION_REFUSED from LAN clients even though Tailscale access works"
+    resolution: |
+      Add explicit port mappings with host LAN IP in docker-compose.yml:
+        ports:
+          - "192.168.10.20:443:443"
+          - "192.168.10.20:8090:8090"
+          - "192.168.10.20:50180:50180/udp"
+    note: "Both paths (Tailscale tunnel and LAN front door) work simultaneously after fix"
 
 ---
 # IMPLEMENTATION PHASES
@@ -234,27 +321,53 @@ phases:
       - "Can login to Omni via Auth0"
       - "User permissions work correctly"
 
-  phase_3:
-    name: "First Cluster"
-    status: "not started"
+  phase_3a:
+    name: "Infrastructure Validation"
+    status: "complete"
+    completed: "2026-01-01"
     depends_on: ["phase_1"]
     tasks:
-      - "Create MachineClass for control plane"
-      - "Create MachineClass for workers"
-      - "Create cluster template"
-      - "Apply cluster configuration"
+      - "Create test MachineClass ✓"
+      - "Deploy test cluster (1 CP, 0 workers) ✓"
+      - "Validate SideroLink connectivity ✓"
+      - "Confirm VM provisioning workflow ✓"
+      - "Document Split-Horizon DNS solution ✓"
+    exit_criteria:
+      - "Test cluster boots and registers with Omni ✓"
+      - "SideroLink shows green checkmark ✓"
+      - "Infrastructure Provider shows Connected ✓"
+    artifacts:
+      - "machine-classes/test-worker.yaml"
+      - "clusters/test-cluster.yaml"
+    notes: "Validated with test-cluster. DNS was the four-day boss fight."
+
+  phase_3b:
+    name: "Production Cluster"
+    status: "ready"
+    depends_on: ["phase_3a"]
+    tasks:
+      - "Create production MachineClasses ✓"
+      - "Create production cluster template ✓"
+      - "Deploy cluster: omnictl cluster template sync -f clusters/talos-prod-01.yaml"
       - "Monitor VM provisioning"
       - "Verify cluster health"
+      - "Install Cilium CNI"
     exit_criteria:
       - "3 control plane nodes running"
       - "2 worker nodes running"
       - "kubectl access works"
       - "Cluster passes: kubectl get nodes shows Ready"
+      - "Cilium installed and healthy"
+    artifacts:
+      - "machine-classes/matrix-control-plane.yaml"
+      - "machine-classes/matrix-worker.yaml"
+      - "clusters/talos-prod-01.yaml"
+    notes: "Specs ready. Deployment command documented. CNI disabled in template for Cilium."
 
   phase_4:
     name: "Tailscale Integration"
-    status: "not started"
-    depends_on: ["phase_3"]
+    status: "backlog"
+    depends_on: ["phase_3b"]
     tasks:
       - "Deploy Tailscale Kubernetes Operator"
       - "Configure operator auth"
@@ -267,8 +380,9 @@ phases:
 # REFERENCES
 
 references:
-  state_doc: "Omni-Scale/docs/STATE.md"
-  troubleshooting: "Omni-Scale/TROUBLESHOOTING.md"
-  compose: "Omni-Scale/docker/compose.yaml"
+  state_doc: "docs/STATE.md"
+  troubleshooting: "docs/TROUBLESHOOTING.md"
+  omni_compose: "omni/compose.yml"
+  provider_compose: "proxmox-provider/compose.yml"
   sidero_docs: "https://omni.siderolabs.com/"
   proxmox_provider: "https://github.com/siderolabs/omni-infra-provider-proxmox"
