@@ -1,0 +1,34 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "description": "Example config for repos with custom Talos cluster layout (clusters/*.yaml with nested talos.version/kubernetes.version)",
+    "extends": [
+        "local>basher83/renovate-config",
+        "local>basher83/renovate-config//presets/kubernetes.json"
+    ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "description": "Update Talos version in cluster configs (nested talos.version format)",
+            "managerFilePatterns": [
+                "/clusters/.+\\.ya?ml$/"
+            ],
+            "matchStrings": [
+                "talos:\\s*\\n\\s*version:\\s*['\"]?(?<currentValue>v[\\d.]+)['\"]?"
+            ],
+            "depNameTemplate": "siderolabs/talos",
+            "datasourceTemplate": "github-releases"
+        },
+        {
+            "customType": "regex",
+            "description": "Update Kubernetes version in cluster configs (nested kubernetes.version format)",
+            "managerFilePatterns": [
+                "/clusters/.+\\.ya?ml$/"
+            ],
+            "matchStrings": [
+                "kubernetes:\\s*\\n\\s*version:\\s*['\"]?(?<currentValue>v[\\d.]+)['\"]?"
+            ],
+            "depNameTemplate": "kubernetes/kubernetes",
+            "datasourceTemplate": "github-releases"
+        }
+    ]
+}
