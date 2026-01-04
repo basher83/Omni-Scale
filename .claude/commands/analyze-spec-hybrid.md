@@ -15,7 +15,7 @@ PLAN_OUTPUT_DIRECTORY: `docs/plans/`
 ## Context
 
 Spec contents:
-@specs/omni.yaml
+@specs/gitops-bootstrap.yaml
 
 ## Instructions
 

@@ -17,6 +17,7 @@ When working with spec files, follow this systematic approach:
 ## Spec Schema (omni.yaml pattern)
 
 Specs define:
+
 - Target infrastructure (clusters, nodes, networking)
 - Locked decisions (non-negotiable constraints)
 - Dependencies between components
@@ -38,6 +39,7 @@ Plans should include:
 ## Dependency Analysis
 
 When identifying blockers:
+
 - Network adjacency requirements (L2 access, routing)
 - Bootstrap chicken-and-egg problems (auth, discovery, registration)
 - Resource dependencies (what must exist before X can be created)
@@ -46,6 +48,7 @@ When identifying blockers:
 ## Status Determination
 
 To determine component status, check:
+
 - Does implementation exist? (`terraform/`, `ansible/`, config files)
 - Is there state? (`.tfstate`, deployed resources)
 - Can you verify it's running? (API calls, health checks)
