@@ -1,18 +1,14 @@
 # Omni Deployment Specification
-# Initiative: Sidero Omni on Quantum managing Talos clusters on Matrix
-# Status: Infrastructure FMC, Production Cluster Ready to Deploy
-# Last Updated: 2026-01-03 (spec sync - infrastructure validated, prod ready)
-
 ---
 # INITIATIVE METADATA
 initiative:
   name: "omni-deployment"
   started: "2025-12"
-  status: "infrastructure-operational"
+  status: "production-cluster-operational"
   repository: "Omni-Scale"
   summary: |
-    Omni Hub and Proxmox Provider fully operational. Test cluster validated.
-    Production cluster spec exists and is ready for deployment.
+    Production Talos Kubernetes cluster (3 CP + 2 workers) operational on Matrix.
+    Cilium CNI installed and healthy. All 5 nodes Ready.
     Tailscale Operator on backlog for post-cluster integration.
 
 ---
@@ -191,7 +187,7 @@ open_decisions:
       worker_class: "machine-classes/matrix-worker.yaml"
     spec:
       name: "talos-prod-01"
-      kubernetes_version: "v1.34.2"
+      kubernetes_version: "v1.35.0"
       talos_version: "v1.12.0"
       cni: "none (Cilium post-bootstrap)"
       control_plane:
@@ -288,6 +284,29 @@ constraints:
           - "192.168.10.20:50180:50180/udp"
     note: "Both paths (Tailscale tunnel and LAN front door) work simultaneously after fix"
 
+  proxmox_provider_hostname_bug:
+    description: "Upstream Proxmox provider injects hostname config conflicting with Omni"
+    cause: "configureHostname step in provision.go sets machine.network.hostname to request ID"
+    symptom: "Talos VMs fail to register or show hostname conflicts during provisioning"
+    resolution: |
+      Build patched provider with configureHostname step removed.
+      Use :local-fix tag instead of :latest.
+      See docs/TROUBLESHOOTING.md for build instructions.
+    status: "Local workaround. Consider upstreaming fix."
+
+  vm_migration_breaks_talos:
+    description: "Proxmox live migration breaks Talos node state"
+    cause: "Talos machine identity tied to original provisioning context"
+    symptom: "'Talos is not installed' or 'static hostname is already set' after migration"
+    blocker: "CD/DVD mount blocks migration - qm set <VMID> --ide2 none - but don't bother"
+    resolution: "Don't migrate Talos VMs. Accept initial distribution or destroy/recreate."
+    note: "CEPH storage makes migration technically possible but Talos state doesn't survive it"
+
+  service_account_key_expiration:
+    description: "Omni service account keys can expire during long provisioning cycles"
+    symptom: "Provider disconnects mid-deployment, new VMs fail to register"
+    resolution: "Regenerate key in Omni UI, update provider environment, restart provider"
+
 ---
 # IMPLEMENTATION PHASES
 
@@ -343,26 +362,37 @@ phases:
 
   phase_3b:
     name: "Production Cluster"
-    status: "ready"
+    status: "complete"
+    completed: "2026-01-03"
     depends_on: ["phase_3a"]
     tasks:
       - "Create production MachineClasses ✓"
       - "Create production cluster template ✓"
-      - "Deploy cluster: omnictl cluster template sync -f clusters/talos-prod-01.yaml"
-      - "Monitor VM provisioning"
-      - "Verify cluster health"
-      - "Install Cilium CNI"
+      - "Deploy cluster ✓"
+      - "Monitor VM provisioning ✓"
+      - "Verify cluster health ✓"
+      - "Install Cilium CNI ✓"
     exit_criteria:
-      - "3 control plane nodes running"
-      - "2 worker nodes running"
-      - "kubectl access works"
-      - "Cluster passes: kubectl get nodes shows Ready"
-      - "Cilium installed and healthy"
+      - "3 control plane nodes running ✓"
+      - "2 worker nodes running ✓"
+      - "kubectl access works ✓"
+      - "Cluster passes: kubectl get nodes shows Ready ✓"
+      - "Cilium installed and healthy ✓"
     artifacts:
       - "machine-classes/matrix-control-plane.yaml"
-      - "machine-classes/matrix-worker.yaml"
+      - "machine-classes/matrix-worker-golf.yaml"
+      - "machine-classes/matrix-worker-hotel.yaml"
       - "clusters/talos-prod-01.yaml"
-    notes: "Specs ready. Deployment command documented. CNI disabled in template for Cilium."
+    actual_distribution:
+      golf: "3 CP + 1 Worker"
+      hotel: "1 Worker"
+      foxtrot: "none (hosts provider LXC)"
+    lessons_learned:
+      - "Node pinning in machine classes did not distribute as planned (PR #38 submitted upstream)"
+      - "VM migration breaks Talos state - don't migrate, destroy/recreate"
+      - "Service account keys can expire during long provisioning cycles"
+      - "Provider hostname bug required local patch (not yet upstreamed)"
+    notes: "Cluster operational. Distribution suboptimal but stable."
 
   phase_4:
     name: "Tailscale Integration"
@@ -380,9 +410,9 @@ phases:
 # REFERENCES
 
 references:
-  state_doc: "docs/STATE.md"
   troubleshooting: "docs/TROUBLESHOOTING.md"
   omni_compose: "omni/compose.yml"
   provider_compose: "proxmox-provider/compose.yml"
   sidero_docs: "https://omni.siderolabs.com/"
   proxmox_provider: "https://github.com/siderolabs/omni-infra-provider-proxmox"
+  node_pinning_pr: "https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38"
