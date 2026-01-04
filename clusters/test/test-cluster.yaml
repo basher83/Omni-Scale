@@ -2,7 +2,7 @@
 kind: Cluster
 name: test-cluster
 kubernetes:
-  version: v1.35 # Requires Talos 1.12.0+
+  version: v1.35.0 # Requires Talos 1.12.0+
 talos:
   version: v1.12.0
 ---
