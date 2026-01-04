@@ -1,11 +1,11 @@
-# MachineClass for control plane nodes (Matrix cluster)
-# Storage: local-lvm (local NVMe, optimal etcd latency)
-# Spec: 4 cores, 8GB RAM, 40GB disk
+# MachineClass for worker on Golf
+# Storage: vm_ssd (CEPH RBD, distributed storage)
+# Pinned to golf node
 
 metadata:
   namespace: default
   type: MachineClasses.omni.sidero.dev
-  id: matrix-control-plane
+  id: matrix-worker-golf
 spec:
   matchlabels: []
   autoprovision:
@@ -13,12 +13,13 @@ spec:
     kernelargs: []
     metavalues: []
     providerdata: |
-      cores: 4
+      cores: 8
       sockets: 1
-      memory: 8192
-      disk_size: 40
+      memory: 16384
+      disk_size: 100
       network_bridge: vmbr0
-      storage_selector: name == "local-lvm"
+      storage_selector: name == "vm_ssd"
+      node: golf
       cpu_type: host
       machine_type: q35
       balloon: false

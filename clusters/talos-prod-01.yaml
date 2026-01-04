@@ -1,13 +1,17 @@
 # Production cluster for Matrix (Foxtrot/Golf/Hotel)
 # 3 control plane + 2 workers on CEPH storage
 # CNI: Disabled for Cilium installation post-bootstrap
+#
+# Node distribution:
+#   Control Planes: Provider-distributed (Omni template limitation)
+#   Workers: Pinned to Golf and Hotel (Foxtrot hosts provider LXC)
 
 kind: Cluster
 name: talos-prod-01
 labels:
   environment: production
 kubernetes:
-  version: v1.34.2
+  version: v1.35.0
 talos:
   version: v1.12.0
 patches:
@@ -30,10 +34,10 @@ systemExtensions:
   - siderolabs/util-linux-tools
 ---
 kind: Workers
-name: workers
+name: worker-golf
 machineClass:
-  name: matrix-worker
-  size: 2
+  name: matrix-worker-golf
+  size: 1
 systemExtensions:
   - siderolabs/iscsi-tools
   - siderolabs/nfsd
@@ -44,6 +48,36 @@ patches:
       machine:
         nodeLabels:
           node-role.kubernetes.io/worker: ""
+          topology.kubernetes.io/zone: "golf"
+  - name: longhorn-storage
+    inline:
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/lib/longhorn
+              type: bind
+              source: /var/local/longhorn
+              options:
+                - bind
+                - rshared
+                - rw
+---
+kind: Workers
+name: worker-hotel
+machineClass:
+  name: matrix-worker-hotel
+  size: 1
+systemExtensions:
+  - siderolabs/iscsi-tools
+  - siderolabs/nfsd
+  - siderolabs/util-linux-tools
+patches:
+  - name: worker-labels
+    inline:
+      machine:
+        nodeLabels:
+          node-role.kubernetes.io/worker: ""
+          topology.kubernetes.io/zone: "hotel"
   - name: longhorn-storage
     inline:
       machine:
