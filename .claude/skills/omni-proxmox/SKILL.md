@@ -15,10 +15,10 @@ This skill provides guidance for deploying and managing Talos Linux Kubernetes c
 
 | Component | Location | IP | Endpoint |
 |-----------|----------|-----|----------|
-| Omni | Holly (VMID 101, Quantum) | 192.168.10.20 | https://omni.spaceships.work |
+| Omni | Holly (VMID 101, Quantum) | 192.168.10.20 | <https://omni.spaceships.work> |
 | Auth0 OIDC | Managed | — | Auth0 tenant |
 | Proxmox Provider | Foxtrot LXC (CT 200, Matrix) | 192.168.3.10 | L2 adjacent to Talos VMs |
-| Target Cluster | Matrix (Foxtrot/Golf/Hotel) | 192.168.3.{5,6,7} | https://192.168.3.5:8006 |
+| Target Cluster | Matrix (Foxtrot/Golf/Hotel) | 192.168.3.{5,6,7} | <https://192.168.3.5:8006> |
 | Storage | CEPH RBD | — | `vm_ssd` pool |
 
 ## Architecture Overview
@@ -133,25 +133,93 @@ spec:
       node: foxtrot  # Pin to specific node (requires PR #38)
 ```
 
-**Required providerdata fields:**
+**Provider Data Fields:**
 
-| Field | Description |
-|-------|-------------|
-| `cores` | Number of CPU cores |
-| `sockets` | Number of CPU sockets |
-| `memory` | RAM in megabytes |
-| `disk_size` | Disk size in gigabytes |
-| `network_bridge` | Proxmox network bridge (vmbr0 for Matrix) |
-| `storage_selector` | CEL expression selecting Proxmox storage pool |
+Source: [PR #36](https://github.com/siderolabs/omni-infra-provider-proxmox/pull/36) (merged Dec 30, 2025)
 
-**Optional providerdata fields:**
+| Category | Fields |
+|----------|--------|
+| **Compute** | `cores`, `sockets`, `memory`, `cpu_type`, `machine_type`, `numa`, `hugepages`, `balloon` |
+| **Storage** | `disk_size`, `storage_selector`, `disk_ssd`, `disk_discard`, `disk_iothread`, `disk_cache`, `disk_aio`, `additional_disks` |
+| **Network** | `network_bridge`, `vlan`, `additional_nics` |
+| **PCI** | `pci_devices` (requires Proxmox resource mappings) |
+| **Placement** | `node` ([PR #38](https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38)) |
 
-| Field | Description |
-|-------|-------------|
-| `node` | Pin VM to specific Proxmox node (requires PR #38) |
-| `disk_ssd` | Enable SSD emulation (true/false) |
-| `disk_discard` | Enable TRIM/discard (true/false) |
-| `cpu_type` | CPU type (default: x86-64-v2-AES, use "host" for GPU) |
+### Compute Fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `cores` | int | *required* | CPU cores per socket |
+| `sockets` | int | 1 | Number of CPU sockets |
+| `memory` | int | *required* | RAM in MB |
+| `cpu_type` | string | `x86-64-v2-AES` | CPU type. Use `host` for passthrough |
+| `machine_type` | string | `i440fx` | VM machine type. Use `q35` for PCIe passthrough |
+| `numa` | bool | false | Enable NUMA topology |
+| `hugepages` | string | - | Hugepages size: `2`, `1024`, or `any` |
+| `balloon` | bool | true | Enable memory ballooning. Disable for GPU/HPC |
+
+### Storage Fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `disk_size` | int | *required* | Primary disk size in GB |
+| `storage_selector` | string | *required* | CEL expression for storage pool |
+| `disk_ssd` | bool | false | Enable SSD emulation |
+| `disk_discard` | bool | false | Enable TRIM/discard support |
+| `disk_iothread` | bool | false | Enable dedicated IO thread |
+| `disk_cache` | string | - | Cache mode: `none`, `writeback`, `writethrough`, `directsync`, `unsafe` |
+| `disk_aio` | string | - | AIO mode: `native`, `io_uring`, `threads` |
+
+**Additional disks:**
+
+```yaml
+additional_disks:
+  - disk_size: 500
+    storage_selector: name == "nvme-pool"
+    disk_ssd: true
+    disk_iothread: true
+  - disk_size: 1000
+    storage_selector: name == "hdd-archive"
+    disk_cache: writeback
+```
+
+### Network Fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `network_bridge` | string | `vmbr0` | Primary network bridge |
+| `vlan` | int | 0 | VLAN tag (0 = untagged) |
+
+**Additional NICs:**
+
+```yaml
+additional_nics:
+  - bridge: vmbr1
+    firewall: false
+  - bridge: vmbr2
+    vlan: 20
+```
+
+### PCI Passthrough
+
+Requires Proxmox Resource Mappings configured.
+
+```yaml
+pci_devices:
+  - mapping: nvidia-rtx-4090
+    pcie: true
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `mapping` | string | Proxmox resource mapping name |
+| `pcie` | bool | Use PCIe (requires `machine_type: q35`) |
+
+### Placement Fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `node` | string | - | Pin VM to specific Proxmox node |
 
 ## CEL Storage Selectors
 
@@ -297,9 +365,19 @@ For more troubleshooting, see `references/troubleshooting.md`.
 
 **Provider limitations:**
 
-- Single disk per VM (additional disks via PR #36)
-- Node pinning requires PR #38 (or custom build)
-- CEL `type` keyword reserved — use `name` only
+- CEL `type` keyword reserved — use `name` only for storage selectors
+- **Hostname conflict bug:** Upstream provider injects hostname config that conflicts with Omni. Requires local patched build (`:local-fix` tag). See `docs/TROUBLESHOOTING.md`.
+
+**Omni template limitations:**
+
+- **ControlPlane pinning not possible:** Omni requires exactly 1 `kind: ControlPlane` section per cluster template. Cannot use multiple pinned machine classes for CPs.
+- Workers CAN be pinned via multiple `kind: Workers` sections with different machine classes.
+- See `docs/TROUBLESHOOTING.md` → "Control Plane Node Distribution Cannot Be Pinned".
+
+**Upstream PRs (merged):**
+
+- [PR #36](https://github.com/siderolabs/omni-infra-provider-proxmox/pull/36) — Advanced VM options (multi-disk, PCI passthrough, etc.)
+- [PR #38](https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38) — Node pinning support
 
 **Storage:**
 
@@ -319,3 +397,6 @@ For more troubleshooting, see `references/troubleshooting.md`.
 - `examples/machineclass-ceph.yaml` — MachineClass with CEPH storage
 - `examples/machineclass-local.yaml` — MachineClass with local LVM
 - `examples/cluster-template.yaml` — Complete cluster template
+- `examples/proxmox-gpu-worker.yaml` — GPU worker MachineClass
+- `examples/proxmox-storage-node.yaml` — Storage node MachineClass
+- `examples/proxmox-worker-multi-net.yaml` — Multi-network worker MachineClass
