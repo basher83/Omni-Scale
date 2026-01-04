@@ -395,7 +395,153 @@ nameservers:
 
 ## Open Issues
 
-*No open issues at this time.*
+### Proxmox Provider Hostname Conflict (Requires Local Patch)
+
+**Symptom:** Talos VMs fail to register or show hostname conflicts during provisioning.
+
+**Error signature in `omnictl machine-logs`:**
+```
+static hostname is already set in v1alpha1 config
+```
+
+**Diagnostic command:**
+```bash
+# Check machine logs for hostname conflict
+omnictl machine-logs <machine-id> --tail 100 | grep -i hostname
+
+# Check provider logs for configureHostname step
+docker logs omni-provider-proxmox-provider-1 --tail 100 | grep -i hostname
+```
+
+**Root Cause:** The upstream `omni-infra-provider-proxmox` injects a `configureHostname` step that sets `machine.network.hostname` to the Omni request ID. This conflicts with Omni's hostname management.
+
+**Location:** `internal/pkg/provider/provision.go` lines 193-197
+
+**Resolution:** Build a patched provider image with the `configureHostname` step removed:
+
+```go
+// REMOVE THIS STEP:
+provision.NewStep("configureHostname", func(ctx context.Context, _ *zap.Logger, pctx provision.Context[*resources.Machine]) error {
+    return pctx.CreateConfigPatch(ctx, "000-hostname-%s"+pctx.GetRequestID(), []byte(fmt.Sprintf(`machine:
+  network:
+    hostname: %s`, pctx.GetRequestID())))
+}),
+```
+
+**Building the patched image (from Apple Silicon):**
+
+```bash
+# Clone and patch
+git clone https://github.com/siderolabs/omni-infra-provider-proxmox.git
+cd omni-infra-provider-proxmox
+# Remove configureHostname step from internal/pkg/provider/provision.go
+
+# Cross-compile (kres Makefile is broken for arm64→amd64)
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s" \
+    -o omni-infra-provider-proxmox-linux-amd64 \
+    ./cmd/omni-infra-provider-proxmox
+
+# Build minimal container
+cat <<'EOF' | docker build --platform linux/amd64 -t ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix -f - .
+FROM ghcr.io/siderolabs/fhs:v1.11.0 AS fhs
+FROM ghcr.io/siderolabs/ca-certificates:v1.11.0 AS certs
+FROM scratch
+COPY --from=fhs / /
+COPY --from=certs / /
+COPY omni-infra-provider-proxmox-linux-amd64 /omni-infra-provider-proxmox
+ENTRYPOINT ["/omni-infra-provider-proxmox"]
+EOF
+
+# Transfer to provider host
+docker save ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix | ssh omni-provider 'docker load'
+```
+
+**Update compose.yml:**
+
+```yaml
+services:
+  proxmox-provider:
+    image: ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix
+```
+
+**Status:** Local workaround only. Not yet submitted upstream.
+
+**Related:** PR #38 (node pinning) submitted by project author: https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38
+
+**Type:** Upstream bug / Local patch
+
+---
+
+### VM Migration Breaks Talos State
+
+**Symptom:** After Proxmox live migration, Talos node shows "Talos is not installed" or fails to rejoin cluster.
+
+**Error signature:**
+```
+Talos is not installed
+static hostname is already set in v1alpha1 config
+```
+
+**Cause:** Talos machine identity is tied to the original provisioning context. Migration preserves disk but breaks the node's relationship with Omni/SideroLink. Migrated VMs have stale state from the previous provisioning.
+
+**Migration blockers you'll hit first:**
+```
+Cannot migrate with local CD/DVD
+```
+Fix with: `qm set <VMID> --ide2 none` — but don't bother, migration will break Talos anyway.
+
+**Resolution:** Don't migrate Talos VMs. Accept initial node distribution or destroy and recreate:
+
+```bash
+# Destroy cluster (Provider will clean up VMs)
+omnictl cluster template delete -f clusters/talos-prod-01.yaml
+
+# Wait for cleanup
+sleep 20 && omnictl get machines
+
+# Redeploy
+omnictl cluster template sync -f clusters/talos-prod-01.yaml
+```
+
+**Note:** CEPH shared storage makes migration technically possible, but Talos state doesn't survive it. This is a fundamental constraint, not a bug.
+
+**Type:** Constraint
+
+---
+
+### Control Plane Node Distribution Cannot Be Pinned
+
+**Symptom:** Control plane VMs all land on same Proxmox node despite having per-node machine classes.
+
+**Error when trying multiple ControlPlane sections:**
+```
+Error: 1 error occurred:
+    * template should contain 1 controlplane, got 3
+```
+
+**Cause:** Omni cluster templates require **exactly 1** `kind: ControlPlane` section. Unlike Workers (which can have multiple named sections), you cannot specify multiple ControlPlane sections with different machine classes.
+
+**What works vs. what doesn't:**
+
+| Component | Multiple Sections | Node Pinning | Result |
+|-----------|------------------|--------------|--------|
+| Workers | ✓ Yes | ✓ Works | Correct distribution |
+| ControlPlane | ✗ No (exactly 1) | ✗ N/A | Provider picks one node |
+
+**Workarounds:**
+
+1. **Accept CP distribution** — Let Provider place CPs, pin only workers
+2. **Proxmox HA Groups** — Configure at hypervisor level (outside Omni)
+3. **Feature request** — Omni should support multiple ControlPlane sections or Provider anti-affinity
+
+**Resolution:** For production cluster, accepted suboptimal distribution:
+- Golf: 3 CPs + 1 Worker (overloaded)
+- Hotel: 1 Worker
+- Foxtrot: none (hosts provider LXC)
+
+**Related:** PR #38 adds `node:` field support to Provider, but Omni template format prevents using it for CPs.
+
+**Type:** Omni Limitation
 
 ---
 

@@ -24,8 +24,10 @@ services:
     restart: always
 
   # Proxmox Infrastructure Provider
+  # NOTE: Using local-fix tag - upstream has hostname conflict bug
+  # See docs/TROUBLESHOOTING.md "Proxmox Provider Hostname Conflict"
   proxmox-provider:
-    image: ghcr.io/siderolabs/omni-infra-provider-proxmox:latest
+    image: ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix
     container_name: proxmox-provider
     restart: always
     # Share network namespace with Tailscale sidecar
