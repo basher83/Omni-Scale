@@ -1,0 +1,450 @@
+# GitOps Bootstrap Specification
+---
+# INITIATIVE METADATA
+initiative:
+  name: "gitops-bootstrap"
+  started: "2026-01"
+  status: "planning"
+  repository: "mothership-gitops"
+  depends_on: "omni-deployment (production-cluster-operational)"
+  summary: |
+    GitOps foundation for talos-prod-01 cluster.
+    Single kubectl apply bootstrap, everything else via ArgoCD.
+    Components: ArgoCD, Tailscale Operator, Longhorn, External Secrets, Netdata.
+
+---
+# DEFINITION OF DONE
+definition_of_done:
+  - "Single bootstrap command deploys entire stack"
+  - "All components managed via ArgoCD Applications"
+  - "Secrets sourced from Infisical via ESO"
+  - "Services accessible via Tailscale (no public exposure)"
+  - "Persistent storage available via Longhorn"
+  - "Cluster monitoring operational via Netdata"
+  - "ArgoCD running in HA mode with persistent storage"
+  - "Recovery procedure documented and tested"
+
+---
+# ARCHITECTURE DECISIONS
+
+decisions:
+  repository_structure:
+    decision: "Separate GitOps repo (mothership-gitops)"
+    rationale:
+      - "Omni-Scale = how cluster exists (infra provisioning)"
+      - "mothership-gitops = what runs on cluster (workloads)"
+      - "Different change cadences, clean git history"
+      - "Enables multi-cluster GitOps future"
+    change_cost: "low - repo is new"
+
+  bootstrap_pattern:
+    decision: "App of Apps with sync waves"
+    rationale:
+      - "Single entry point (bootstrap.yaml)"
+      - "Ordered deployment via sync waves"
+      - "Self-managing ArgoCD upgrades"
+    reference: "https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/"
+
+  secrets_bootstrap:
+    decision: "One manual secret for Infisical auth, everything else via ESO"
+    rationale:
+      - "Breaks chicken-and-egg cleanly"
+      - "Single manual step, documented"
+      - "All other secrets GitOps-managed"
+    manual_secret:
+      name: "universal-auth-credentials"
+      namespace: "external-secrets"
+      keys: ["clientId", "clientSecret"]
+      source: "Infisical Universal Auth (Machine Identity)"
+
+  tailscale_operator_mode:
+    decision: "Standard operator (expose services)"
+    rationale: "Cluster access already works via Omni K8s proxy"
+    optional_future: "API server proxy for Omni-independent kubectl access"
+    reference: "https://tailscale.com/kb/1236/kubernetes-operator"
+
+  longhorn_replicas:
+    decision: "2 replicas (Golf + Hotel workers only)"
+    rationale:
+      - "Research doc discourages workloads on control planes"
+      - "2 workers = 2 replicas max for full redundancy"
+      - "Can increase if workers added"
+    storage_class_default: true
+
+  argocd_ha_strategy:
+    decision: "Bootstrap non-HA, self-upgrade to HA after Longhorn"
+    rationale:
+      - "Non-HA ArgoCD needs no PVCs"
+      - "HA requires Redis cluster + repo-server PVCs"
+      - "Self-upgrade via separate Application with sync-wave 99"
+    risk_window: "Hours (acceptable for homelab)"
+
+---
+# REPOSITORY STRUCTURE
+
+repo_structure:
+  root: "mothership-gitops"
+  description: |
+    bootstrap/ - kubectl apply entry point (bootstrap.yaml, namespace.yaml)
+    apps/ - ArgoCD Applications
+      root.yaml - App of Apps
+      argocd/ - ArgoCD manifests (non-HA + HA upgrade)
+      external-secrets/ - ESO + ClusterSecretStore
+      tailscale-operator/ - Tailscale operator
+      longhorn/ - Storage
+      netdata/ - Monitoring
+    workloads/ - Future application deployments
+
+---
+# SYNC WAVE ORDER
+
+sync_waves:
+  wave_1:
+    component: "ArgoCD (non-HA)"
+    method: "bootstrap.yaml includes directly"
+    requires: "nothing"
+    provides: "GitOps engine"
+
+  wave_2:
+    component: "External Secrets Operator"
+    method: "ArgoCD Application"
+    requires: "ArgoCD"
+    provides: "CRDs, controller (no auth yet)"
+
+  wave_3:
+    component: "ClusterSecretStore"
+    method: "ArgoCD Application (same as ESO)"
+    requires: "ESO CRDs + manual infisical-auth secret"
+    provides: "Infisical connectivity"
+
+  wave_4:
+    component: "Tailscale Operator"
+    method: "ArgoCD Application"
+    requires: "ESO (for OAuth client secret)"
+    provides: "Tailscale service exposure"
+    secrets_from_infisical:
+      - "tailscale-operator-oauth-client"
+
+  wave_5:
+    component: "Longhorn"
+    method: "ArgoCD Application"
+    requires: "nothing (optional: ESO for encryption)"
+    provides: "PersistentVolumeClaims"
+    config:
+      default_replicas: 2
+      default_storage_class: true
+
+  wave_6:
+    component: "Netdata"
+    method: "ArgoCD Application"
+    requires: "ESO (for claim token)"
+    provides: "Cluster monitoring"
+    secrets_from_infisical:
+      - "netdata-claim-token"
+
+  wave_99:
+    component: "ArgoCD HA Upgrade"
+    method: "ArgoCD Application (self-managed)"
+    requires: "Longhorn PVCs"
+    provides: "HA ArgoCD (Redis cluster, persistent repo-server)"
+    sync_policy: "manual (safety)"
+
+---
+# BOOTSTRAP PROCEDURE
+
+bootstrap:
+  prerequisites:
+    - "talos-prod-01 cluster operational"
+    - "kubectl access via Omni proxy"
+    - "Infisical Universal Auth credentials available"
+    - "Tailscale OAuth client created (tag: k8s-operator)"
+    - "Netdata claim token from cloud.netdata.cloud"
+
+  steps:
+    step_1:
+      name: "Create Infisical auth secret"
+      type: "manual"
+      command: |
+        kubectl create namespace external-secrets
+        kubectl create secret generic universal-auth-credentials \
+          --from-literal=clientId=<INFISICAL_CLIENT_ID> \
+          --from-literal=clientSecret=<INFISICAL_CLIENT_SECRET> \
+          -n external-secrets
+
+    step_2:
+      name: "Bootstrap GitOps"
+      type: "automated"
+      command: |
+        kubectl apply -f https://raw.githubusercontent.com/<user>/mothership-gitops/main/bootstrap/bootstrap.yaml
+      note: "Or clone repo first: kubectl apply -f bootstrap/bootstrap.yaml"
+
+    step_3:
+      name: "Monitor deployment"
+      type: "verification"
+      commands:
+        - "kubectl get applications -n argocd"
+        - "kubectl get pods -n argocd"
+        - "kubectl get pods -n external-secrets"
+        - "kubectl get pods -n tailscale-operator"
+        - "kubectl get pods -n longhorn-system"
+        - "kubectl get pods -n netdata"
+
+    step_4:
+      name: "Trigger ArgoCD HA upgrade"
+      type: "manual"
+      timing: "After Longhorn healthy"
+      command: |
+        argocd app sync argocd-ha
+      note: "Or via ArgoCD UI"
+
+  recovery:
+    description: "Full cluster rebuild from Git"
+    steps:
+      - "Rebuild cluster via Omni (specs/omni.yaml)"
+      - "Run bootstrap step 1 (manual secret)"
+      - "Run bootstrap step 2 (kubectl apply)"
+      - "Wait for sync"
+    note: "Workload data in Longhorn lost unless backed up externally"
+
+---
+# COMPONENT CONFIGURATIONS
+
+components:
+  argocd:
+    chart: "argo/argo-cd"
+    version: "~7.x" # Renovate managed
+    namespace: "argocd"
+    base_config:
+      server:
+        extraArgs:
+          - "--insecure" # TLS via Tailscale
+      configs:
+        params:
+          server.insecure: true
+    ha_overlay:
+      redis-ha:
+        enabled: true
+      controller:
+        replicas: 2
+      server:
+        replicas: 2
+        pdb:
+          enabled: true
+      repoServer:
+        replicas: 2
+        pdb:
+          enabled: true
+        persistence:
+          enabled: true
+          storageClass: "longhorn"
+
+  external_secrets:
+    chart: "external-secrets/external-secrets"
+    version: "~0.x"
+    namespace: "external-secrets"
+    config:
+      installCRDs: true
+    cluster_secret_store:
+      name: "infisical"
+      provider: "infisical"
+      auth:
+        universalAuthCredentials:
+          clientId:
+            name: "universal-auth-credentials"
+            namespace: "external-secrets"
+            key: "clientId"
+          clientSecret:
+            name: "universal-auth-credentials"
+            namespace: "external-secrets"
+            key: "clientSecret"
+      secretsScope:
+        projectSlug: "mothership-s0-ew"
+        environmentSlug: "prod"
+      # hostAPI: https://app.infisical.com (default for cloud)
+
+  tailscale_operator:
+    chart: "tailscale/tailscale-operator"
+    version: "~1.x"
+    namespace: "tailscale-operator"
+    config:
+      oauth:
+        clientId: "" # From ESO
+        clientSecret: "" # From ESO
+      operatorConfig:
+        hostname: "talos-prod-operator"
+        tags:
+          - "tag:k8s-operator"
+    secrets_required:
+      - name: "tailscale-operator-oauth"
+        infisical_path: "/tailscale-operator"
+        mapping:
+          CLIENT_ID: "clientId" # Infisical → K8s secret key
+          CLIENT_SECRET: "clientSecret"
+
+  longhorn:
+    chart: "longhorn/longhorn"
+    version: "~1.x"
+    namespace: "longhorn-system"
+    config:
+      defaultSettings:
+        defaultReplicaCount: 2
+        storageMinimalAvailablePercentage: 10
+        defaultDataPath: "/var/lib/longhorn"
+      persistence:
+        defaultClass: true
+        defaultClassReplicaCount: 2
+
+  netdata:
+    chart: "netdata/netdata"
+    version: "~3.x"
+    namespace: "netdata"
+    config:
+      image:
+        tag: "stable"
+      parent:
+        claiming:
+          enabled: true
+          token: "" # From ESO
+          rooms: "" # From ESO
+      child:
+        claiming:
+          enabled: true
+          token: "" # From ESO (same as parent)
+          rooms: "" # From ESO (same as parent)
+    secrets_required:
+      - name: "netdata-claiming"
+        infisical_path: "/netdata"
+        mapping:
+          CLAIM_TOKEN: "claimToken" # Infisical → K8s secret key
+          CLAIM_ROOMS: "claimRooms"
+
+---
+# INFISICAL SECRETS STRUCTURE
+
+infisical:
+  projectSlug: "mothership-s0-ew"
+  environmentSlug: "prod"
+  paths:
+    /tailscale-operator:
+      CLIENT_ID: "tskey-client-..." # Maps to clientId in K8s secret
+      CLIENT_SECRET: "..." # Maps to clientSecret in K8s secret
+    /netdata:
+      CLAIM_TOKEN: "..." # Maps to claimToken in K8s secret
+      CLAIM_ROOMS: "..." # Maps to claimRooms in K8s secret
+    /argocd:
+      # Future: ADMIN_PASSWORD, OIDC_SECRET
+    /longhorn:
+      # Future: BACKUP_ACCESS_KEY, BACKUP_SECRET_KEY
+
+---
+# CONSTRAINTS
+
+constraints:
+  worker_only_storage:
+    description: "Longhorn runs on workers only (Golf, Hotel)"
+    rationale: "Research doc discourages control plane workloads"
+    impact: "Max 2 replicas until workers added"
+
+  single_manual_secret:
+    description: "One kubectl create secret for Infisical auth"
+    rationale: "Breaks ESO chicken-and-egg"
+    recovery_impact: "Must recreate manually after cluster rebuild"
+
+  argocd_ha_manual_sync:
+    description: "HA upgrade requires manual trigger"
+    rationale: "Safety gate - ensure Longhorn healthy first"
+    pattern: "sync-wave 99 + manual sync policy"
+
+  tailscale_api_proxy_deferred:
+    description: "API server proxy not implemented initially"
+    rationale: "Omni K8s proxy provides kubectl access"
+    future: "Add if Omni-independent access needed"
+
+---
+# PHASES
+
+phases:
+  phase_1:
+    name: "Repository Setup"
+    status: "not-started"
+    tasks:
+      - "Create mothership-gitops repository"
+      - "Initialize directory structure"
+      - "Create bootstrap.yaml"
+      - "Create App of Apps root"
+      - "Configure Renovate for Helm chart updates"
+    exit_criteria:
+      - "Repo structure matches spec"
+      - "bootstrap.yaml applies cleanly to empty cluster"
+
+  phase_2:
+    name: "Core Infrastructure Apps"
+    status: "not-started"
+    depends_on: ["phase_1"]
+    tasks:
+      - "ArgoCD Application (non-HA)"
+      - "External Secrets Application + ClusterSecretStore"
+      - "Create Infisical project 'mothership'"
+      - "Populate Infisical secrets"
+    exit_criteria:
+      - "ArgoCD UI accessible"
+      - "ESO controller running"
+      - "ClusterSecretStore shows Ready"
+
+  phase_3:
+    name: "Platform Services"
+    status: "not-started"
+    depends_on: ["phase_2"]
+    tasks:
+      - "Tailscale Operator Application"
+      - "Longhorn Application"
+      - "Netdata Application"
+    exit_criteria:
+      - "Tailscale operator running, connected to tailnet"
+      - "Longhorn UI accessible"
+      - "StorageClass 'longhorn' available"
+      - "Netdata child pods on all nodes"
+      - "Netdata visible in cloud.netdata.cloud"
+
+  phase_4:
+    name: "ArgoCD HA Upgrade"
+    status: "not-started"
+    depends_on: ["phase_3"]
+    tasks:
+      - "Create ArgoCD HA Application"
+      - "Verify Longhorn PVC provisioning"
+      - "Trigger sync"
+      - "Verify HA components healthy"
+    exit_criteria:
+      - "Redis HA running"
+      - "Multiple ArgoCD replicas"
+      - "PVCs bound to Longhorn volumes"
+
+  phase_5:
+    name: "Validation & Documentation"
+    status: "not-started"
+    depends_on: ["phase_4"]
+    tasks:
+      - "Test recovery procedure"
+      - "Document bootstrap in repo README"
+      - "Update Omni-Scale spec (link to GitOps repo)"
+      - "Update kernel.md if needed"
+    exit_criteria:
+      - "Recovery procedure tested"
+      - "README complete"
+      - "Cross-references updated"
+
+---
+# REFERENCES
+
+references:
+  argocd_docs: "https://argo-cd.readthedocs.io/"
+  external_secrets_docs: "https://external-secrets.io/"
+  external_secrets_infisical: "https://external-secrets.io/latest/provider/infisical/"
+  tailscale_operator: "https://tailscale.com/kb/1236/kubernetes-operator"
+  tailscale_api_proxy: "https://tailscale.com/kb/1437/kubernetes-operator-api-server-proxy"
+  longhorn_docs: "https://longhorn.io/docs/"
+  netdata_helm: "https://learn.netdata.cloud/docs/netdata-agent/installation/kubernetes"
+  app_of_apps: "https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/"
+  research_doc: "docs/guides/talos-proxmox-research.md"
+  omni_spec: "specs/omni.yaml"
