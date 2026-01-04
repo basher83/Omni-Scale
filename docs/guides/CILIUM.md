@@ -130,6 +130,14 @@ cilium install \
 | `cgroup.hostRoot` | `/sys/fs/cgroup` | Talos cgroup mount point |
 | `securityContext.capabilities.*` | (list) | Required for Talos minimal kernel |
 
+## Gateway API Parameters Explained
+
+| Parameter | Why |
+|-----------|-----|
+| `gatewayAPI.enabled` | Enable Gateway API support (requires CRDs installed first) |
+| `gatewayAPI.enableAlpn` | **Required for gRPC/GRPCRoutes with TLS.** ALPN negotiates HTTP/2 between client and server. |
+| `gatewayAPI.enableAppProtocol` | Enables appProtocol field support in Services |
+
 ## Verify Installation
 
 ```bash

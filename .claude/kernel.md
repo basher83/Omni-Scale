@@ -11,7 +11,7 @@
 
 | Cluster | Nodes | Purpose | Storage | Network |
 |---------|-------|---------|---------|---------|
-| **Matrix** | 3 (Foxtrot, Golf, Hotel) | Production workloads | CEPH (24TB raw, 12TB usable) | 192.168.3.0/24 (mgmt), 192.168.5.0/24 (CEPH public), 192.168.7.0/24 (CEPH private) |
+| **Matrix** | 3 (Foxtrot, Golf, Hotel) | Production workloads | CEPH (24TB raw, 12TB usable) + Local LVM-thin (1TB/node) | 192.168.3.0/24 (mgmt), 192.168.5.0/24 (CEPH public), 192.168.7.0/24 (CEPH private) |
 | **Nexus** | 2 (Alpha, Bravo) | Mixed workloads, legacy | Local LVM-thin + NFS | 192.168.30.0/24 |
 | **Quantum** | 3 (Holly, Lloyd, Mable) | Management plane (Omni Hub on Holly) | Local LVM-thin + NFS | 192.168.10.0/24 |
 

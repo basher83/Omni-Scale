@@ -90,6 +90,8 @@ Configuration: `proxmox-provider/config.yaml.example`
 
 ### Machine Classes
 
+See [docs/references/providerdata-fields.md](docs/references/providerdata-fields.md) for the complete field reference.
+
 Define VM specifications for auto-provisioning:
 
 ```yaml
@@ -172,6 +174,23 @@ prompt at container startup.
 --auth-auth0-domain=https://dev-xyz.us.auth0.com
 ```
 
+### Proxmox Provider Hostname Bug
+
+The upstream `omni-infra-provider-proxmox` injects a hostname config that conflicts with Omni's
+hostname management. You need a patched build with the `configureHostname` step removed.
+
+See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for build instructions. Use the `:local-fix`
+tag instead of `:latest`.
+
+### Don't Migrate Talos VMs
+
+Proxmox live migration breaks Talos node state. Even with CEPH shared storage, migration
+preserves disk but destroys the node's identity/SideroLink relationship.
+
+You'll hit "Cannot migrate with local CD/DVD" first (`qm set <VMID> --ide2 none` to remove),
+but don't bother — migration will break the node anyway. Accept initial distribution or
+destroy and recreate.
+
 ## Tools
 
 The project uses [mise](https://mise.jdx.dev/) for tool management. Install mise, then:
@@ -192,6 +211,7 @@ mise run pre-commit-run   # Run pre-commit hooks
 
 - [Sidero Omni Documentation](https://omni.siderolabs.com/)
 - [omni-infra-provider-proxmox](https://github.com/siderolabs/omni-infra-provider-proxmox)
+- [PR #38: Node Pinning](https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38) (contributed by this project)
 - [Talos Linux](https://www.talos.dev/)
 
 ## License

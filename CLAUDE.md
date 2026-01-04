@@ -47,6 +47,8 @@ Commands reference templates via `@.claude/templates/template-name.md`
 | "Invalid JWT" on login | Missing `extraClaims: { "email_verified": true }` in Tailscale ACL grant |
 | `docker compose down -v` | Deletes Tailscale state, causes hostname collisions - never use `-v` |
 | GPG passphrase prompt | Omni GPG key must have NO passphrase |
+| VMs fail to register / hostname conflicts | Upstream provider bug - use `:local-fix` tag, not `:latest` |
+| VM migration breaks Talos | Don't migrate - destroys node state. CD/DVD blocks it anyway. Destroy/recreate instead. |
 
 ## Code Exploration
 
