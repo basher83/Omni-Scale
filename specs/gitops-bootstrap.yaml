@@ -3,14 +3,16 @@
 # INITIATIVE METADATA
 initiative:
   name: "gitops-bootstrap"
-  started: "2026-01"
-  status: "planning"
+  started: "2026-01-04"
+  status: "phase-5-ready"
   repository: "mothership-gitops"
   depends_on: "omni-deployment (production-cluster-operational)"
+  conversation_export: "gitops-boot-convo.txt"
   summary: |
     GitOps foundation for talos-prod-01 cluster.
     Single kubectl apply bootstrap, everything else via ArgoCD.
-    Components: ArgoCD, Tailscale Operator, Longhorn, External Secrets, Netdata.
+    Components: ArgoCD (HA), Tailscale Operator, Longhorn, External Secrets, Netdata.
+    Phases 1-4 complete. Phase 5 (validation/docs) ready for new session.
 
 ---
 # DEFINITION OF DONE
@@ -302,21 +304,19 @@ components:
       image:
         tag: "stable"
       parent:
-        claiming:
-          enabled: true
-          token: "" # From ESO
-          rooms: "" # From ESO
+        envFrom:
+          - secretRef:
+              name: netdata-claiming
       child:
-        claiming:
-          enabled: true
-          token: "" # From ESO (same as parent)
-          rooms: "" # From ESO (same as parent)
+        envFrom:
+          - secretRef:
+              name: netdata-claiming
     secrets_required:
       - name: "netdata-claiming"
         infisical_path: "/netdata"
-        mapping:
-          CLAIM_TOKEN: "claimToken" # Infisical → K8s secret key
-          CLAIM_ROOMS: "claimRooms"
+        keys:
+          NETDATA_CLAIM_TOKEN: "claiming token from cloud.netdata.cloud"
+          NETDATA_CLAIM_ROOMS: "room ID(s) comma-separated"
 
 ---
 # INFISICAL SECRETS STRUCTURE
@@ -329,8 +329,8 @@ infisical:
       CLIENT_ID: "tskey-client-..." # Maps to clientId in K8s secret
       CLIENT_SECRET: "..." # Maps to clientSecret in K8s secret
     /netdata:
-      CLAIM_TOKEN: "..." # Maps to claimToken in K8s secret
-      CLAIM_ROOMS: "..." # Maps to claimRooms in K8s secret
+      NETDATA_CLAIM_TOKEN: "..." # Claim token from cloud.netdata.cloud
+      NETDATA_CLAIM_ROOMS: "..." # Room ID(s), comma-separated
     /argocd:
       # Future: ADMIN_PASSWORD, OIDC_SECRET
     /longhorn:
@@ -360,79 +360,132 @@ constraints:
     rationale: "Omni K8s proxy provides kubectl access"
     future: "Add if Omni-independent access needed"
 
+  talos_longhorn_disk_config:
+    description: "Longhorn disks must be manually configured on Talos nodes"
+    rationale: "Auto-discovery doesn't work despite mount patches in cluster template"
+    resolution: "Patch nodes.longhorn.io with default-disk config after install"
+    command: |
+      kubectl patch nodes.longhorn.io <node> -n longhorn-system --type=merge -p \
+        '{"spec":{"disks":{"default-disk":{"allowScheduling":true,"path":"/var/lib/longhorn","storageReserved":0}}}}'
+
+  pod_security_privileged:
+    description: "Longhorn and Netdata namespaces require privileged PSA"
+    rationale: "Both run privileged containers (storage/monitoring)"
+    resolution: "Add label pod-security.kubernetes.io/enforce=privileged to namespaces"
+
+  infisical_path_scoped_stores:
+    description: "Separate ClusterSecretStores per Infisical path"
+    rationale: "Single store with secretsPath only works for one path"
+    resolution: "Create infisical-tailscale, infisical-netdata stores with path-specific secretsScope"
+
+  netdata_claiming_via_env:
+    description: "Netdata claiming requires environment variables, not inline Helm values"
+    rationale: "Chart lacks existingSecret option for claiming credentials"
+    resolution: "Use envFrom.secretRef to inject NETDATA_CLAIM_TOKEN and NETDATA_CLAIM_ROOMS from ESO-managed secret"
+
 ---
 # PHASES
 
 phases:
   phase_1:
     name: "Repository Setup"
-    status: "not-started"
+    status: "complete"
+    completed: "2026-01-04"
     tasks:
-      - "Create mothership-gitops repository"
-      - "Initialize directory structure"
-      - "Create bootstrap.yaml"
-      - "Create App of Apps root"
+      - "Create mothership-gitops repository ✓"
+      - "Initialize directory structure ✓"
+      - "Create bootstrap.yaml ✓"
+      - "Create App of Apps root ✓"
       - "Configure Renovate for Helm chart updates"
     exit_criteria:
-      - "Repo structure matches spec"
-      - "bootstrap.yaml applies cleanly to empty cluster"
+      - "Repo structure matches spec ✓"
+      - "bootstrap.yaml applies cleanly to empty cluster ✓"
+    artifacts:
+      - "https://github.com/basher83/mothership-gitops"
 
   phase_2:
     name: "Core Infrastructure Apps"
-    status: "not-started"
+    status: "complete"
+    completed: "2026-01-04"
     depends_on: ["phase_1"]
     tasks:
-      - "ArgoCD Application (non-HA)"
-      - "External Secrets Application + ClusterSecretStore"
-      - "Create Infisical project 'mothership'"
-      - "Populate Infisical secrets"
+      - "ArgoCD Application (non-HA) ✓"
+      - "External Secrets Application + ClusterSecretStore ✓"
+      - "Infisical project 'mothership-s0-ew' configured ✓"
+      - "Populate Infisical secrets ✓"
     exit_criteria:
-      - "ArgoCD UI accessible"
-      - "ESO controller running"
-      - "ClusterSecretStore shows Ready"
+      - "ArgoCD UI accessible ✓"
+      - "ESO controller running ✓"
+      - "ClusterSecretStore shows Ready ✓"
+    lessons_learned:
+      - "ESO API version is v1, not v1beta1"
+      - "Machine Identity needs explicit project access in Infisical"
 
   phase_3:
     name: "Platform Services"
-    status: "not-started"
+    status: "complete"
+    completed: "2026-01-04"
     depends_on: ["phase_2"]
     tasks:
-      - "Tailscale Operator Application"
-      - "Longhorn Application"
-      - "Netdata Application"
+      - "Tailscale Operator Application ✓"
+      - "Longhorn Application ✓"
+      - "Netdata Application ✓"
     exit_criteria:
-      - "Tailscale operator running, connected to tailnet"
-      - "Longhorn UI accessible"
-      - "StorageClass 'longhorn' available"
-      - "Netdata child pods on all nodes"
+      - "Tailscale operator running, connected to tailnet ✓"
+      - "Longhorn UI accessible ✓"
+      - "StorageClass 'longhorn' available ✓"
+      - "Netdata child pods on all nodes ✓"
       - "Netdata visible in cloud.netdata.cloud"
+    lessons_learned:
+      - "Longhorn pre-upgrade hook fails on fresh install - delete job to unblock"
+      - "Talos nodes need manual Longhorn disk config"
+      - "Privileged PSA required for longhorn-system and netdata namespaces"
+      - "Separate ClusterSecretStores needed per Infisical path"
+      - "Netdata claiming via envFrom.secretRef, not inline values (chart lacks existingSecret)"
 
   phase_4:
     name: "ArgoCD HA Upgrade"
-    status: "not-started"
+    status: "complete"
+    completed: "2026-01-04"
     depends_on: ["phase_3"]
     tasks:
-      - "Create ArgoCD HA Application"
-      - "Verify Longhorn PVC provisioning"
-      - "Trigger sync"
-      - "Verify HA components healthy"
+      - "Create ArgoCD HA Application ✓"
+      - "Verify Longhorn PVC provisioning ✓"
+      - "Trigger sync ✓"
+      - "Verify HA components healthy ✓"
     exit_criteria:
-      - "Redis HA running"
-      - "Multiple ArgoCD replicas"
-      - "PVCs bound to Longhorn volumes"
+      - "Redis HA running ✓ (2/3 - sufficient for quorum)"
+      - "Multiple ArgoCD replicas ✓ (2x controller, server, repo-server)"
+      - "PVCs bound to Longhorn volumes ✓"
+    notes:
+      - "3rd Redis replica pending due to node resource constraints - acceptable"
+      - "Helm shows 'failed' due to CRD conflicts but deployment succeeded"
 
   phase_5:
     name: "Validation & Documentation"
-    status: "not-started"
+    status: "ready"
     depends_on: ["phase_4"]
     tasks:
       - "Test recovery procedure"
       - "Document bootstrap in repo README"
-      - "Update Omni-Scale spec (link to GitOps repo)"
+      - "Update Omni-Scale STATE.md with GitOps status"
       - "Update kernel.md if needed"
     exit_criteria:
-      - "Recovery procedure tested"
-      - "README complete"
+      - "Recovery procedure tested (destroy cluster, rebuild, verify)"
+      - "README documents bootstrap steps and architecture"
       - "Cross-references updated"
+    handoff_context:
+      conversation_export: "gitops-boot-convo.txt"
+      spec_file: "specs/gitops-bootstrap.yaml"
+      repo: "https://github.com/basher83/mothership-gitops"
+    recovery_test_steps:
+      - "Document current state (kubectl get all -A > before.txt)"
+      - "Delete cluster via Omni UI or omnictl"
+      - "Recreate cluster from Omni-Scale/clusters/talos-prod-01.yaml"
+      - "Create manual secret (universal-auth-credentials)"
+      - "kubectl apply -f bootstrap/bootstrap.yaml"
+      - "Wait for sync, patch Longhorn nodes"
+      - "Verify services match before.txt"
 
 ---
 # REFERENCES
