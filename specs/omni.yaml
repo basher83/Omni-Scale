@@ -397,21 +397,31 @@ phases:
 
   phase_4:
     name: "Tailscale Integration"
-    status: "partial"
+    status: "complete"
+    completed: "2026-01-08"
     depends_on: ["phase_3b"]
     tasks:
       - "Deploy Tailscale Kubernetes Operator ✓"
       - "Configure operator auth ✓"
-      - "Expose test workload via Tailscale"
+      - "Expose test workload via Tailscale ✓"
     exit_criteria:
       - "Operator running ✓"
-      - "Can access workload via Tailscale hostname"
-    notes: "Operator deployed via mothership-gitops. No workloads exposed yet."
+      - "Can access workload via Tailscale hostname ✓"
     deployed:
       namespace: "tailscale-operator"
       deployment: "operator"
       status: "Running"
       managed_by: "mothership-gitops (ArgoCD)"
+      exposed_services:
+        - name: "argocd-server"
+          namespace: "argocd"
+          tailscale_hostname: "argocd.tailfb3ea.ts.net"
+    lessons_learned:
+      - key: "podsecurity-privileged"
+        issue: "Tailscale proxy pods require privileged mode"
+        symptom: "StatefulSet fails with PodSecurity violation"
+        fix: "Label namespace: pod-security.kubernetes.io/enforce=privileged"
+        action_needed: "Add namespace labels to GitOps config for persistence"
 
 ---
 # REFERENCES
