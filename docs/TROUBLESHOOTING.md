@@ -751,6 +751,51 @@ metadata:
 
 ---
 
+### Helm Chart Doesn't Propagate Service Annotations
+
+**Symptom:** Service annotations defined in Helm values don't appear on the deployed Service resource.
+
+**Example:** Tailscale exposure annotations set in values but not applied:
+
+```yaml
+helm:
+  valuesObject:
+    service:
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "myapp"
+```
+
+**Cause:** Some Helm charts don't template service annotations, or use non-standard value paths.
+
+**Resolution:**
+
+1. Apply annotation manually:
+   ```bash
+   kubectl annotate svc <service-name> -n <namespace> \
+     tailscale.com/expose="true" \
+     tailscale.com/hostname="myapp"
+   ```
+
+2. Configure ArgoCD to preserve the annotation (prevent revert on sync):
+   ```yaml
+   spec:
+     ignoreDifferences:
+       - group: ""
+         kind: Service
+         name: <service-name>
+         jsonPointers:
+           - /metadata/annotations/tailscale.com~1expose
+           - /metadata/annotations/tailscale.com~1hostname
+           - /metadata/finalizers
+   ```
+
+**Note:** The `~1` is JSON Pointer encoding for `/` in annotation keys.
+
+**Type:** Helm chart limitation
+
+---
+
 ## Closed/Won't Fix Issues
 
 ### Machine Classes

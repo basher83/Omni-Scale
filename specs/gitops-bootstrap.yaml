@@ -502,6 +502,8 @@ phases:
       - "ESO-managed Secrets cause Helm app drift - ignore /data, /metadata/annotations, /metadata/labels"
       - "Ingress without controller causes perpetual Progressing health - disable unused ingress"
       - "Tailscale proxy pods require privileged mode - namespace needs PodSecurity exemption"
+      - "Homarr chart expects db-encryption-key secret key, not just key"
+      - "Some Helm charts don't propagate service.annotations - manual annotation + ignoreDifferences workaround"
 
   phase_4:
     name: "ArgoCD HA Upgrade"
