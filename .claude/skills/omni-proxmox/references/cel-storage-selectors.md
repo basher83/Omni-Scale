@@ -20,7 +20,7 @@ Use these fields in selector conditions:
 |-------|------|-------------|----------------|
 | `name` | string | Storage pool name | `"local-lvm"`, `"vm_ssd"`, `"local"` |
 
-> **Warning:** The `type` field (for storage backend type like "rbd", "lvmthin") is **not currently usable** because `type` is a reserved keyword in CEL. Use `name` for storage selection until this is resolved. See [troubleshooting](troubleshooting.md#cel-type-keyword-error).
+> **Warning:** The `type` field (for storage backend type like "rbd", "lvmthin") is **not currently usable** because `type` is a reserved keyword in CEL. Use `name` for storage selection until this is resolved. See [debugging](debugging.md#cel-type-keyword-error).
 
 ## Common Patterns
 
