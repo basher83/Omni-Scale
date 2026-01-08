@@ -397,15 +397,21 @@ phases:
 
   phase_4:
     name: "Tailscale Integration"
-    status: "backlog"
+    status: "partial"
     depends_on: ["phase_3b"]
     tasks:
-      - "Deploy Tailscale Kubernetes Operator"
-      - "Configure operator auth"
+      - "Deploy Tailscale Kubernetes Operator ✓"
+      - "Configure operator auth ✓"
       - "Expose test workload via Tailscale"
     exit_criteria:
-      - "Operator running"
+      - "Operator running ✓"
       - "Can access workload via Tailscale hostname"
+    notes: "Operator deployed via mothership-gitops. No workloads exposed yet."
+    deployed:
+      namespace: "tailscale-operator"
+      deployment: "operator"
+      status: "Running"
+      managed_by: "mothership-gitops (ArgoCD)"
 
 ---
 # REFERENCES
