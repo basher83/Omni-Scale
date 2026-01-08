@@ -353,7 +353,7 @@ pvesh get /storage --output-format json | jq '.[].storage'
 # Look for: "no storage pools matched selector"
 ```
 
-For more troubleshooting, see `references/troubleshooting.md`.
+For more diagnostics, see `references/debugging.md`. For recovery from stuck states, see `references/recovery-procedures.md`.
 
 ## Key Constraints
 
@@ -390,7 +390,8 @@ For more troubleshooting, see `references/troubleshooting.md`.
 - `references/cel-storage-selectors.md` — CEL syntax and patterns
 - `references/proxmox-permissions.md` — API token setup
 - `references/omnictl-auth.md` — Authentication methods
-- `references/troubleshooting.md` — Common issues
+- `references/debugging.md` — Common issues
+- `references/recovery-procedures.md` — Recovery procedures
 
 ## Example Files
 
