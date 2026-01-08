@@ -509,6 +509,102 @@ omnictl cluster template sync -f clusters/talos-prod-01.yaml
 
 ---
 
+### Machine Stuck in "Destroying" State with Finalizers
+
+**Symptom:** Machine shows "Destroying/Unreachable" in Omni UI for 24+ hours. Cannot delete via UI or `omnictl delete machine`.
+
+**Error signature:**
+```
+rpc error: code = PermissionDenied desc = only read access is permitted for resources of type machines.omni.sidero.dev
+```
+
+**Cause:** Out-of-band VM deletion in Proxmox (e.g., manual `qm destroy` or Proxmox UI) causes state drift. The VM is gone but Omni still has the machine resource with finalizers preventing cleanup.
+
+**Key insight:** `machine` resources are read-only to users (even Admins). You must delete the `clustermachine` resource instead.
+
+**Resolution:**
+
+```bash
+# Find the stuck machine
+omnictl get machines -o table
+
+# Delete the clustermachine (NOT the machine)
+omnictl delete clustermachine <machine-uuid>
+
+# Verify cleanup
+omnictl get machines -o table
+```
+
+**Type:** State drift recovery
+
+---
+
+### "Only Read Access Is Permitted" Despite Admin Role
+
+**Symptom:** `omnictl delete machine <uuid>` fails with permission error even for Admin users.
+
+**Error signature:**
+```
+rpc error: code = PermissionDenied desc = only read access is permitted for resources of type machines.omni.sidero.dev
+```
+
+**Cause:** The `machines.omni.sidero.dev` resource type is read-only by design. This isn't a permissions bug—it's intentional. Machines are managed by the infrastructure provider.
+
+**Resolution:** Use `clustermachine` instead:
+
+```bash
+# This fails (machines are read-only)
+omnictl delete machine <uuid>
+
+# This works
+omnictl delete clustermachine <uuid>
+```
+
+**Type:** Expected behavior (misleading error message)
+
+---
+
+### NodeRestriction Blocks node-role.kubernetes.io/* Labels
+
+**Symptom:** Talos node stuck in reboot loop after provisioning.
+
+**Error signature in node events or kubelet logs:**
+```
+nodes X is forbidden: is not allowed to modify labels: node-role.kubernetes.io/worker
+```
+
+**Cause:** Kubernetes NodeRestriction admission controller blocks kubelets from setting labels in protected namespaces:
+- `node-role.kubernetes.io/*`
+- `kubernetes.io/*` (except specific allowed keys like `topology.kubernetes.io/zone`)
+
+If your cluster template sets these labels in `machine.nodeLabels`, the kubelet will fail to apply them on every boot.
+
+**Resolution:** Remove protected labels from cluster template or use an unprivileged namespace:
+
+```yaml
+# WRONG - blocked by NodeRestriction
+machine:
+  nodeLabels:
+    node-role.kubernetes.io/worker: ""
+
+# CORRECT - use custom namespace
+machine:
+  nodeLabels:
+    omni.sidero.dev/role: worker
+
+# CORRECT - skip the label entirely, apply externally after node joins
+# (leave nodeLabels empty or omit the protected key)
+```
+
+**Alternative:** Apply labels externally after the node joins using kubectl:
+```bash
+kubectl label node <node-name> node-role.kubernetes.io/worker=""
+```
+
+**Type:** Kubernetes constraint
+
+---
+
 ### Control Plane Node Distribution Cannot Be Pinned
 
 **Symptom:** Control plane VMs all land on same Proxmox node despite having per-node machine classes.
@@ -535,9 +631,9 @@ Error: 1 error occurred:
 3. **Feature request** — Omni should support multiple ControlPlane sections or Provider anti-affinity
 
 **Resolution:** For production cluster, accepted suboptimal distribution:
-- Golf: 3 CPs + 1 Worker (overloaded)
+- Golf: 3 CPs + 1 Worker
 - Hotel: 1 Worker
-- Foxtrot: none (hosts provider LXC)
+- Foxtrot: 1 Worker (+ provider LXC)
 
 **Related:** PR #38 adds `node:` field support to Provider, but Omni template format prevents using it for CPs.
 
