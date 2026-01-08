@@ -641,6 +641,116 @@ Error: 1 error occurred:
 
 ---
 
+## ArgoCD / GitOps Issues
+
+### Application Stuck in "Progressing" Health
+
+**Symptom:** ArgoCD Application shows health status "Progressing" indefinitely.
+
+**Common causes:**
+
+1. **Ingress without controller:** Ingress resource exists but no Ingress controller is installed. ArgoCD waits for an address that will never come.
+
+2. **Deployment waiting for pods:** Pods can't schedule (resources, node selectors, taints).
+
+**Resolution for Ingress issue:**
+
+```yaml
+# Disable ingress in Helm values
+helm:
+  valuesObject:
+    ingress:
+      enabled: false
+```
+
+**Type:** Configuration fix
+
+---
+
+### ExternalSecret Causes Parent App OutOfSync
+
+**Symptom:** Parent Application shows OutOfSync even though child Helm apps are Synced. ExternalSecret resource shows as drifted.
+
+**Cause:** External Secrets Operator adds default fields that aren't in git:
+- `conversionStrategy: Default`
+- `decodingStrategy: None`
+- `metadataPolicy: None`
+
+**Resolution:** Add `ignoreDifferences` to the parent Application in root.yaml:
+
+```yaml
+spec:
+  ignoreDifferences:
+    - group: external-secrets.io
+      kind: ExternalSecret
+      jsonPointers:
+        - /spec/data/0/remoteRef/conversionStrategy
+        - /spec/data/0/remoteRef/decodingStrategy
+        - /spec/data/0/remoteRef/metadataPolicy
+        - /spec/data/1/remoteRef/conversionStrategy
+        - /spec/data/1/remoteRef/decodingStrategy
+        - /spec/data/1/remoteRef/metadataPolicy
+```
+
+**Type:** Expected drift (ESO behavior)
+
+---
+
+### Helm App Bounces In/Out of Sync (ESO-Managed Secret)
+
+**Symptom:** Helm Application repeatedly shows OutOfSync then Synced. Secret resource managed by ExternalSecret causes drift.
+
+**Cause:** Helm chart references an `existingSecret` created by ESO. ESO periodically refreshes the secret, causing ArgoCD to detect drift.
+
+**Resolution:** Add `ignoreDifferences` to the Helm Application:
+
+```yaml
+spec:
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: <secret-name>
+      jsonPointers:
+        - /data
+        - /metadata/annotations
+        - /metadata/labels
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true
+```
+
+**Type:** Expected drift (ESO behavior)
+
+---
+
+### Tailscale Proxy Pods Fail with PodSecurity Violation
+
+**Symptom:** Tailscale proxy StatefulSet fails to create pods.
+
+**Error signature:**
+```
+pods "ts-xxx-0" is forbidden: violates PodSecurity "baseline:latest": privileged
+```
+
+**Cause:** Tailscale proxy pods require privileged mode for networking. Kubernetes PodSecurity admission blocks them.
+
+**Resolution:** Label the namespace to allow privileged pods:
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tailscale-operator
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged
+```
+
+**Type:** Kubernetes constraint
+
+---
+
 ## Closed/Won't Fix Issues
 
 ### Machine Classes

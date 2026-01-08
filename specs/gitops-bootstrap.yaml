@@ -495,9 +495,13 @@ phases:
     lessons_learned:
       - "Longhorn pre-upgrade hook fails on fresh install - delete job to unblock"
       - "Talos nodes need manual Longhorn disk config"
-      - "Privileged PSA required for longhorn-system and netdata namespaces"
+      - "Privileged PSA required for longhorn-system, netdata, and tailscale-operator namespaces"
       - "Separate ClusterSecretStores needed per Infisical path"
       - "Netdata claiming via envFrom.secretRef, not inline values (chart lacks existingSecret)"
+      - "ESO adds default fields to ExternalSecrets - use ignoreDifferences in parent apps"
+      - "ESO-managed Secrets cause Helm app drift - ignore /data, /metadata/annotations, /metadata/labels"
+      - "Ingress without controller causes perpetual Progressing health - disable unused ingress"
+      - "Tailscale proxy pods require privileged mode - namespace needs PodSecurity exemption"
 
   phase_4:
     name: "ArgoCD HA Upgrade"
