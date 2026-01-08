@@ -383,6 +383,62 @@ constraints:
     rationale: "Chart lacks existingSecret option for claiming credentials"
     resolution: "Use envFrom.secretRef to inject NETDATA_CLAIM_TOKEN and NETDATA_CLAIM_ROOMS from ESO-managed secret"
 
+  redis_ha_topology_mismatch:
+    description: "Redis HA 3rd replica stuck Pending - not resource constraints, topology mismatch"
+    rationale: |
+      Redis HA StatefulSet requires 3 replicas with pod anti-affinity (one per node).
+      Cluster has 5 nodes: 3 control-plane (tainted NoSchedule), 2 workers.
+      Only 2 schedulable nodes exist, so 3rd replica can never schedule.
+    symptom: "argocd-redis-ha-server-2 and haproxy replica Pending for 41+ hours"
+    resolution: "Add 3rd worker node via Omni. Pods will auto-schedule once node joins."
+    alternative: "Scale redis-ha replicas to 2 (accepts reduced HA) or add control-plane tolerations"
+    status: "resolved"
+    discovered: "2026-01-06"
+    resolved: "2026-01-08"
+    notes: |
+      3rd worker (Foxtrot) added via matrix-worker-foxtrot MachineClass.
+      Node talos-udo-ld3 joined, Redis HA 3/3, all pods Running.
+
+  node_role_label_blocked:
+    description: "node-role.kubernetes.io/* labels cannot be set by kubelet"
+    rationale: |
+      Kubernetes NodeRestriction admission controller blocks kubelets from setting
+      labels in protected namespaces: node-role.kubernetes.io/*, kubernetes.io/*
+      (except specific allowed keys like topology.kubernetes.io/zone).
+    symptom: |
+      Node stuck in reboot loop with error:
+      "nodes X is forbidden: is not allowed to modify labels: node-role.kubernetes.io/worker"
+    resolution: |
+      Remove node-role.kubernetes.io/worker from machine.nodeLabels in cluster template.
+      Either skip the label entirely, use a custom namespace (e.g., omni.sidero.dev/role),
+      or apply labels externally via kubectl after node joins.
+    status: "resolved"
+    discovered: "2026-01-06"
+    resolved: "2026-01-06"
+    files_updated:
+      - "clusters/talos-prod-01.yaml (commented out blocked labels for all workers)"
+
+  workload_resource_requests_missing:
+    description: "Most pods have no CPU/memory requests set"
+    rationale: |
+      ArgoCD Helm chart and other workloads deployed with default values - no resource requests.
+      Scheduler cannot make informed placement decisions. Current allocation shows:
+        - Worker nodes: 13% CPU requested, 0% memory requested
+        - Longhorn instance-manager is only pod with meaningful requests (954m CPU)
+    impact:
+      - "Scheduler flies blind - can't predict capacity exhaustion"
+      - "No eviction priority during resource pressure"
+      - "Cluster appears empty when it's not"
+    resolution: |
+      Add resource requests/limits to Helm values for:
+        - ArgoCD components (server, controller, repo-server, redis)
+        - External Secrets controller
+        - Tailscale operator
+        - Netdata parent/child
+      Use observed usage as baseline, add headroom.
+    status: "backlog"
+    discovered: "2026-01-06"
+
 ---
 # PHASES
 
@@ -458,7 +514,9 @@ phases:
       - "Multiple ArgoCD replicas ✓ (2x controller, server, repo-server)"
       - "PVCs bound to Longhorn volumes ✓"
     notes:
-      - "3rd Redis replica pending due to node resource constraints - acceptable"
+      - "3rd Redis replica pending - topology mismatch, not resource constraints (see constraint: redis_ha_topology_mismatch)"
+      - "Root cause: 3 replicas with anti-affinity, only 2 worker nodes (control-plane tainted NoSchedule)"
+      - "Resolution: Add 3rd worker via Omni - pods will auto-schedule"
       - "Helm shows 'failed' due to CRD conflicts but deployment succeeded"
 
   phase_5:

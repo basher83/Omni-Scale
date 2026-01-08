@@ -380,13 +380,14 @@ phases:
       - "Cilium installed and healthy ✓"
     artifacts:
       - "machine-classes/matrix-control-plane.yaml"
+      - "machine-classes/matrix-worker-foxtrot.yaml"
       - "machine-classes/matrix-worker-golf.yaml"
       - "machine-classes/matrix-worker-hotel.yaml"
       - "clusters/talos-prod-01.yaml"
     actual_distribution:
+      foxtrot: "1 Worker (+ provider LXC)"
       golf: "3 CP + 1 Worker"
       hotel: "1 Worker"
-      foxtrot: "none (hosts provider LXC)"
     lessons_learned:
       - "Node pinning in machine classes did not distribute as planned (PR #38 submitted upstream)"
       - "VM migration breaks Talos state - don't migrate, destroy/recreate"
