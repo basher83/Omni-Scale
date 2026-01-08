@@ -1,6 +1,9 @@
-# Operational Troubleshooting
+# Debugging Guide
 
-This document covers operational issues with the Omni + Proxmox provider.
+Common issues and diagnostics for the Omni + Proxmox provider.
+
+> For recovery procedures (stuck machines, state drift), see `recovery-procedures.md`.
+> For full context and war stories, see `docs/TROUBLESHOOTING.md`.
 
 ## Current Architecture
 
