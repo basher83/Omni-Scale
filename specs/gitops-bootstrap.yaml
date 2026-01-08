@@ -504,6 +504,8 @@ phases:
       - "Tailscale proxy pods require privileged mode - namespace needs PodSecurity exemption"
       - "Homarr chart expects db-encryption-key secret key, not just key"
       - "Some Helm charts don't propagate service.annotations - manual annotation + ignoreDifferences workaround"
+      - "Tailscale Service annotation preserves backend port - use Ingress (ingressClassName: tailscale) for HTTPS on 443"
+      - "Tailscale Ingress TLS cert provisioning is slow on first access"
 
   phase_4:
     name: "ArgoCD HA Upgrade"

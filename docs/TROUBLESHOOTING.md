@@ -796,6 +796,43 @@ helm:
 
 ---
 
+### Tailscale Service Exposure Requires Non-Standard Port
+
+**Symptom:** Service exposed via `tailscale.com/expose` annotation requires specifying port in URL (e.g., `http://myapp.tailnet.ts.net:8080`).
+
+**Cause:** Service annotation does IP-level forwarding, not port remapping. The backend port is preserved.
+
+**Resolution:** Use Tailscale Ingress instead for HTTPS on port 443:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp
+  namespace: myapp
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: myapp-service
+      port:
+        number: 8080  # Your backend port
+  tls:
+    - hosts:
+        - myapp
+```
+
+**Benefits:**
+- Always serves on port 443
+- Automatic LetsEncrypt TLS certificates
+- No port in URL needed
+
+**Note:** First access may be slow while TLS cert is provisioned. MagicDNS and HTTPS must be enabled on your tailnet.
+
+**Type:** Expected behavior (use Ingress for port 443)
+
+---
+
 ## Closed/Won't Fix Issues
 
 ### Machine Classes
