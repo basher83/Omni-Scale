@@ -1,4 +1,3 @@
-# Mise configuration for terraform-homelab
 min_version = "2024.9.5"
 
 [settings]
