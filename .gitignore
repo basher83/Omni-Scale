@@ -2,7 +2,7 @@
 .env
 *.env
 !*.env.example
-
+.mcp.json
 # GPG/encryption keys
 *.asc
 *.gpg
@@ -18,6 +18,11 @@ omni/tailscale-state/
 # Local overrides
 mise.local.toml
 .claude/*.local.md
+
+# Claude Code skill artifacts (not project-specific)
+.claude/skills/skill-development/
+.claude/skills/advanced-skill-builder/
+.claude/agents/skill-reviewer.md
 
 # Terraform state and secrets
 .terraform/
