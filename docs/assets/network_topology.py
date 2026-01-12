@@ -52,6 +52,7 @@ with Diagram(
                 talos_workers = [
                     Pod("Worker Node 1"),
                     Pod("Worker Node 2"),
+                    Pod("Woeker Node 3")
                 ]
 
     # Connections - External
