@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Run `/omni-scale:omni-prime` at session start for operational context (MCP tools, validation patterns).**
+
 ## Project Overview
 
 Omni-Scale is a production-ready deployment kit for self-hosted Sidero Omni with Tailscale authentication. It manages Talos Linux Kubernetes clusters through:

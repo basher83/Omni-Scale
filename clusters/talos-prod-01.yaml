@@ -1,5 +1,5 @@
 # Production cluster for Matrix (Foxtrot/Golf/Hotel)
-# 3 control plane + 3 workers on CEPH storage
+# 3 control planes + 3 workers on CEPH storage
 # CNI: Disabled for Cilium installation post-bootstrap
 #
 # Node distribution:

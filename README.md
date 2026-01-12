@@ -19,122 +19,35 @@ provisioner (Proxmox Provider), connected via Tailscale.
 │  └───────────────────┘  │         │  └─────────┬─────────┘  │
 │                         │         │            │            │
 └─────────────────────────┘         │  ┌─────────▼─────────┐  │
-                                    │  │   Talos VMs       │  │
-                                    │  │ (K8s Nodes)       │  │
-                                    │  └───────────────────┘  │
-                                    └─────────────────────────┘
+                                   │  │   Talos VMs       │  │
+                                   │  │ (K8s Nodes)       │  │
+                                   │  └───────────────────┘  │
+                                   └─────────────────────────┘
 ```
 
 The Provider sits on the same L2 network as Talos VMs — this is required for SideroLink registration during boot.
 
-## Prerequisites
+## Repository Structure
 
-- Proxmox VE cluster with shared storage (CEPH or similar)
-- Tailscale account with MagicDNS enabled
-- Auth0 tenant (or other OIDC provider)
-- Domain with DNS control (Cloudflare recommended for cert automation)
-- Docker and Docker Compose on the Hub host
+This is a reference implementation. Each directory has its own README with details.
 
-## Quick Start
-
-```bash
-git clone https://github.com/youruser/Omni-Scale.git
-cd Omni-Scale
-```
-
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the full installation runbook.
-
-## Project Structure
-
-```text
-├── omni/                    # Omni Hub deployment
-│   ├── compose.yml          # Docker Compose for Hub + Tailscale sidecar
-│   └── omni.env.example     # Environment configuration template
-├── proxmox-provider/        # Proxmox infrastructure provider
-│   ├── compose.yml          # Docker Compose for Provider
-│   └── config.yaml.example  # Provider configuration template
-├── clusters/                # Cluster templates (Omni format)
-│   ├── talos-prod-01.yaml   # Production cluster (3 CP + 2 workers)
-│   └── test-cluster.yaml    # Minimal test cluster
-├── machine-classes/         # VM sizing definitions
-│   ├── matrix-control-plane.yaml
-│   ├── matrix-worker.yaml
-│   └── examples/            # Additional examples (GPU, multi-disk)
-├── docs/
-│   ├── DEPLOYMENT.md        # Installation runbook
-│   ├── OPERATIONS.md        # Day-to-day management
-│   ├── TROUBLESHOOTING.md   # Issue resolution guide
-│   └── guides/
-│       └── CILIUM.md        # CNI installation post-bootstrap
-├── scripts/
-│   └── proxmox-vm-optimize.sh  # VM disk/GPU optimization
-└── specs/
-    └── omni.yaml            # Infrastructure specification
-```
-
-## Key Components
-
-### Omni Hub
-
-The Hub runs as a Docker Compose stack with a Tailscale sidecar for external access. It
-exposes ports on both the Tailscale interface and the LAN IP to support Split-Horizon DNS.
-
-Configuration: `omni/omni.env.example`
-
-### Proxmox Provider
-
-An LXC container on the Proxmox cluster running the Sidero infrastructure provider. Must be
-L2-adjacent to the Talos VMs it provisions.
-
-Configuration: `proxmox-provider/config.yaml.example`
-
-### Machine Classes
-
-See [docs/references/providerdata-fields.md](docs/references/providerdata-fields.md) for the complete field reference.
-
-Define VM specifications for auto-provisioning:
-
-```yaml
-# machine-classes/matrix-worker.yaml
-spec:
-  autoprovision:
-    providerid: matrix-cluster
-    providerdata: |
-      cores: 8
-      memory: 16384
-      disk_size: 100
-      network_bridge: vmbr0
-      storage_selector: name == "vm_ssd"
-```
-
-### Cluster Templates
-
-Multi-document YAML defining cluster configuration:
-
-```yaml
-kind: Cluster
-name: talos-prod-01
-kubernetes:
-  version: v1.34.2
-talos:
-  version: v1.12.0
----
-kind: ControlPlane
-machineClass:
-  name: matrix-control-plane
-  size: 3
-```
-
-Deploy with: `omnictl cluster template sync -f clusters/talos-prod-01.yaml`
+| Directory | Purpose |
+|-----------|---------|
+| `omni/` | Omni Hub Docker Compose stack |
+| `proxmox-provider/` | Proxmox infrastructure provider |
+| `clusters/` | Cluster templates (Omni format) |
+| `machine-classes/` | VM sizing definitions |
+| `docs/` | Deployment, operations, troubleshooting |
+| `specs/` | Infrastructure specifications |
 
 ## Documentation
 
 | Document | Purpose |
 |----------|---------|
-| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Full installation runbook with prerequisites |
-| [OPERATIONS.md](docs/OPERATIONS.md) | CLI tools, cluster management, day-2 operations |
-| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Resolved issues and diagnostic commands |
-| [CILIUM.md](docs/guides/CILIUM.md) | Post-bootstrap CNI installation |
+| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Full installation runbook |
+| [OPERATIONS.md](docs/OPERATIONS.md) | Day-to-day management |
+| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Issue resolution |
+| [CILIUM.md](docs/guides/CILIUM.md) | CNI installation post-bootstrap |
 
 ## Critical Gotchas
 
@@ -193,19 +106,8 @@ destroy and recreate.
 
 ## Tools
 
-The project uses [mise](https://mise.jdx.dev/) for tool management. Install mise, then:
-
-```bash
-mise install
-```
-
-Available tasks:
-
-```bash
-mise run changelog        # Update CHANGELOG.md
-mise run markdown-lint    # Lint markdown files
-mise run pre-commit-run   # Run pre-commit hooks
-```
+Uses [mise](https://mise.jdx.dev/) for tool management. Run `mise install` then `mise tasks`
+to see available commands.
 
 ## References
 
@@ -213,6 +115,7 @@ mise run pre-commit-run   # Run pre-commit hooks
 - [omni-infra-provider-proxmox](https://github.com/siderolabs/omni-infra-provider-proxmox)
 - [PR #38: Node Pinning](https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38) (contributed by this project)
 - [Talos Linux](https://www.talos.dev/)
+- [sidero-omni-talos-proxmox-starter](https://github.com/mitchross/sidero-omni-talos-proxmox-starter) (reference implementation that inspired this project)
 
 ## License
 

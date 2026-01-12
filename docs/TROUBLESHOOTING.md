@@ -643,6 +643,35 @@ Error: 1 error occurred:
 
 ## ArgoCD / GitOps Issues
 
+### Redis HA Topology Mismatch (3rd Replica Pending)
+
+**Symptom:** `argocd-redis-ha-server-2` stuck in Pending state for hours/days. HAProxy replica also Pending.
+
+**Error signature in pod events:**
+
+```
+0/5 nodes are available: 3 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 node(s) didn't match pod anti-affinity rules
+```
+
+**Cause:** Redis HA StatefulSet requires 3 replicas with pod anti-affinity (one per node). If your cluster has 3 control-plane nodes (tainted NoSchedule) and only 2 workers, only 2 schedulable nodes exist. The 3rd replica can never schedule.
+
+**Resolution:** Add a 3rd worker node. Pods auto-schedule once the node joins.
+
+```bash
+# Create new worker MachineClass if needed (e.g., matrix-worker-foxtrot)
+omnictl apply -f machine-classes/matrix-worker-foxtrot.yaml
+
+# Update cluster template to reference the new worker
+# Then sync
+omnictl cluster template sync -f clusters/talos-prod-01.yaml
+```
+
+**Alternative:** Scale redis-ha replicas to 2 (accepts reduced HA) or add control-plane tolerations to Redis pods.
+
+**Type:** Topology constraint
+
+---
+
 ### Application Stuck in "Progressing" Health
 
 **Symptom:** ArgoCD Application shows health status "Progressing" indefinitely.
