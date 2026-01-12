@@ -8,7 +8,7 @@ Omni-Scale deploys Sidero Omni for managing Talos Linux Kubernetes clusters on P
 infrastructure. The architecture separates the control plane (Omni Hub) from the VM
 provisioner (Proxmox Provider), connected via Tailscale.
 
-![Cluster topology: Quantum (management) and Matrix (workloads)](docs/assets/talos-prod-01.jpeg)
+<img src="docs/assets/talos-prod-01.jpeg" alt="Cluster topology" style="max-width:600px; width:100%; height:auto;" />
 
 The Provider sits on the same L2 network as Talos VMs — this is required for SideroLink registration during boot.
 
