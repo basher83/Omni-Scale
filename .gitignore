@@ -51,3 +51,4 @@ terraform.rc
 *~
 .venv
 .cursorindexingignore
+.claude/.supermemory-claude/
