@@ -19,6 +19,12 @@ Before installing Cilium:
 2. kubeconfig downloaded from Omni
 3. Cilium CLI installed
 
+## MTU Configuration (REQUIRED)
+
+Cilium auto-detects MTU from the lowest-MTU interface on the host. On Omni-managed Talos nodes, the `siderolink` WireGuard management tunnel runs at MTU 1280. Without an explicit override, Cilium applies 1280 to all pod veth pairs cluster-wide, causing severe throughput degradation through Tailscale Ingress proxies (~22 KB/s instead of ~99 Mbps).
+
+All install and upgrade commands must include `--set MTU=1450` (1500 physical NIC minus 50 VXLAN overhead). If Cilium is patched or upgraded without this flag, verify `mtu` is set in the `cilium-config` ConfigMap in `kube-system`.
+
 ## Disable kube-proxy (REQUIRED)
 
 **Critical**: Must be done **before** cluster creation.
@@ -70,6 +76,7 @@ cilium version --client
 cilium install \
     --set ipam.mode=kubernetes \
     --set kubeProxyReplacement=true \
+    --set MTU=1450 \
     --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
     --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
     --set cgroup.autoMount.enabled=false \
@@ -88,6 +95,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/downloa
 cilium install \
     --set ipam.mode=kubernetes \
     --set kubeProxyReplacement=true \
+    --set MTU=1450 \
     --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
     --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
     --set cgroup.autoMount.enabled=false \
@@ -107,6 +115,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/downloa
 cilium install \
     --set ipam.mode=kubernetes \
     --set kubeProxyReplacement=true \
+    --set MTU=1450 \
     --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
     --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
     --set cgroup.autoMount.enabled=false \
@@ -124,6 +133,7 @@ cilium install \
 
 | Parameter | Value | Why |
 |-----------|-------|-----|
+| `MTU` | `1450` | Override auto-detection. Omni's `siderolink` tunnel (MTU 1280) poisons Cilium's auto-detect, clamping all pod interfaces to 1280. 1450 = 1500 physical NIC minus 50 VXLAN overhead. |
 | `k8sServiceHost` | `localhost` | Talos API server binding |
 | `k8sServicePort` | `7445` | Talos uses 7445, not 6443 |
 | `cgroup.autoMount.enabled` | `false` | Talos manages cgroups |
@@ -352,8 +362,16 @@ kubectl get pods -n kube-system -l k8s-app=cilium-envoy
 
 ```bash
 cilium version
-cilium upgrade --version 1.15.0
+cilium upgrade --version 1.15.0 --set MTU=1450
 cilium status
+```
+
+If the upgrade fails with field manager conflicts (server-side apply), patch the ConfigMap directly instead:
+
+```bash
+kubectl patch configmap cilium-config -n kube-system --type merge -p '{"data":{"mtu":"1450"}}'
+kubectl rollout restart daemonset/cilium -n kube-system
+kubectl rollout restart daemonset/cilium-envoy -n kube-system
 ```
 
 ## Resources
