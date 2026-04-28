@@ -42,7 +42,7 @@ The main documentation drift is structural rather than cosmetic. Several docs st
 | Line | Claim | Reality | Fix |
 |------|-------|---------|-----|
 | 19 | Optimized machine classes are ready in `pending/`. | No `pending/` directory exists. Current optimized classes appear under `machine-classes/matrix-*.yaml`. | Update the near-term status to point at `machine-classes/` or remove the stale item. |
-| 21 | Storage solution decision is still Longhorn vs Proxmox CSI. | `docs/components/longhorn-storage.md` states Longhorn is deployed, default, and backed by worker mount patches in `clusters/talos-prod-01.yaml`. | Mark the storage decision as made, or move any remaining comparison work into a live-review queue. |
+| 21 | Storage solution decision is still Longhorn vs Proxmox CSI. | Longhorn substrate support is present in `clusters/talos-prod-01.yaml`, while Longhorn implementation state belongs in `../mothership-gitops`. | Keep only substrate requirements in Omni-Scale and move or delete app/platform roadmap details. |
 | 59 | `specs/omni.yaml` contains the current phase implementation. | `specs/omni.yaml` does not exist. | Replace with `clusters/talos-prod-01.yaml`, a current plan, or remove the execution details section. |
 
 ### docs/OPERATIONS.md
@@ -85,17 +85,50 @@ The main documentation drift is structural rather than cosmetic. Several docs st
 
 This untracked file duplicated GitOps-owned Longhorn implementation details and
 had already drifted from `../mothership-gitops`. It should not be committed to
-Omni-Scale in its current form.
+Omni-Scale as source of truth.
 
 The substrate-level Longhorn contract has been moved into `clusters/README.md`:
 Omni-Scale owns the Talos worker mount patch in `clusters/talos-prod-01.yaml`.
 The Longhorn Helm release, default StorageClass, backup target, RecurringJobs,
 backup tiers, and restore procedures are owned by `../mothership-gitops`.
 
+This is a wrong repo ownership finding, not a patch-this-doc-here finding. Any
+useful substrate note should be merged into Omni-Scale docs; Longhorn
+implementation details should remain in `../mothership-gitops`.
+
 The specific stale claims in the removed file were: a non-existent
 `mothership-gitops/apps/longhorn/values.yaml`, old backup tier assignments,
 old backup retention values, and stale statements that RecurringJobs were not
 yet applied.
+
+## Reclassified Fix Buckets
+
+### Fix in Omni-Scale
+
+These findings describe docs that should remain in this repo but need to match
+the checked-in substrate files:
+
+- Stale `specs/` and `pending/` workflow references.
+- Bad Proxmox provider compose references, including old service names, image
+  tags, inline provider flags, and stale service-account variable names.
+- Bad machine-class paths that still use generic examples instead of the
+  Matrix files under `machine-classes/`.
+- Deployment and operations runbook drift against `omni/compose.yml`,
+  `proxmox-provider/compose.yml`, and current cluster templates.
+- Substrate troubleshooting drift for Omni, Tailscale sidecars, provider logs,
+  SideroLink, Talos, and VM lifecycle operations.
+
+### Move or Delete From Omni-Scale
+
+These subjects should not be mirrored as source-of-truth content here:
+
+- Longhorn app state and Helm values.
+- Backup schedules, backup targets, retention tiers, RecurringJobs, and restore
+  procedures.
+- StorageClasses and default class behavior.
+- ArgoCD app sync waves and platform reconciliation ordering.
+- GitOps app inventory, External Secrets app wiring, Tailscale Operator
+  manifests, monitoring, dashboards, and workload exposure.
 
 ### scripts/README.md
 

@@ -24,7 +24,8 @@ You need two separate keys: one for the Omni Hub (requires ACL tag) and one for 
    - Reusable: ✅ (recommended for Docker containers)
    - Ephemeral: ✅ (optional, good for containers)
    - Tags: Select `tag:omni` (create in Access Controls if it doesn't exist)
-   - ⚠️ **Critical:** Your `docker-compose.yml` uses `TS_EXTRA_ARGS=--advertise-tags=tag:omni`. If the key is not pre-authorized for this tag, the container will fail to start.
+   - If you add Tailscale advertise tags to `omni/compose.yml`, pre-authorize
+     this key for those tags in Tailscale ACLs.
 5. Click **Generate** and copy to `omni.env` as `TS_AUTHKEY`
 
 **For the Worker (Matrix/LXC):**
@@ -362,11 +363,10 @@ services:
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
-      - TS_EXTRA_ARGS=--advertise-tags=tag:omni
     volumes:
       - ./tailscale-state:/var/lib/tailscale
     devices:
-      - /dev/net/tun:/dev/net/tun
+      - /dev/net/tun
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -460,23 +460,26 @@ services:
       timeout: 5s
       retries: 3
 
-  omni-infra-provider-proxmox:
-    image: ghcr.io/siderolabs/omni-infra-provider-proxmox:latest
-    container_name: omni-infra-provider-proxmox
+  proxmox-provider:
+    image: ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix
+    container_name: proxmox-provider
     restart: always
-    network_mode: service:worker-tailscale
+    network_mode: "service:worker-tailscale"
     depends_on:
       worker-tailscale:
         condition: service_healthy
+    volumes:
+      - ./config.yaml:/config.yaml:ro
     command:
-      - --omni-api-endpoint=https://omni.spaceships.work
-      - --omni-service-account-key=[SA_KEY]
-      - --proxmox-url=https://192.168.3.X:8006/api2/json
-      - --proxmox-username=root@pam
-      - --proxmox-token=[TOKEN]
-      - --proxmox-insecure-skip-tls-verify=true
-      - --system-id=matrix-cluster
+      - --config-file=/config.yaml
+      - --omni-api-endpoint=${OMNI_API_ENDPOINT:-https://omni.spaceships.work/}
+      - --omni-service-account-key=${OMNI_SERVICE_ACCOUNT_KEY}
+      - --id=${PROVIDER_ID:-matrix-cluster}
 ```
+
+Proxmox API URL and token credentials live in
+`proxmox-provider/config.yaml`, copied from
+`proxmox-provider/config.yaml.example`.
 
 ---
 

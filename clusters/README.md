@@ -119,9 +119,12 @@ patches:
 ## Longhorn Substrate Contract
 
 Omni-Scale owns only the Talos node requirement that makes Longhorn usable on
-this cluster. The production worker groups in `clusters/talos-prod-01.yaml`
-carry a `longhorn-storage` patch that bind-mounts `/var/local/longhorn` to
-`/var/lib/longhorn` with `rshared` propagation.
+this cluster. The production cluster template includes worker-only Talos kubelet
+extra mounts for Longhorn:
+
+```text
+/var/local/longhorn -> /var/lib/longhorn
+```
 
 The Longhorn Helm release, default StorageClass, backup target, RecurringJobs,
 backup tiers, and restore procedures are owned by `../mothership-gitops`.

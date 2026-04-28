@@ -2,29 +2,32 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Run `/omni-scale:omni-prime` at session start for operational context (MCP tools, validation patterns).**
-
 ## Project Overview
 
-Omni-Scale is a production-ready deployment kit for self-hosted Sidero Omni with Tailscale authentication. It manages Talos Linux Kubernetes clusters through:
+Omni-Scale is a production-ready deployment kit for self-hosted Sidero Omni with
+Tailscale authentication. It manages Talos Linux Kubernetes clusters through:
 
 - Sidero Omni (K8s lifecycle management) running as a Docker Compose stack
 - Sidero Proxmox infrastructure provider for automatic Talos VM provisioning
 
 ## Skills
 
-- omni-proxmox: This skill provides guidance for deploying and managing Talos Linux Kubernetes clusters via Sidero Omni with the Proxmox infrastructure provider.
+- omni-proxmox: guidance for deploying and managing Talos Linux Kubernetes
+  clusters via Sidero Omni with the Proxmox infrastructure provider.
 
-## Specs
+## Desired State
 
-Specs in `specs/*.yaml` define desired state. When working with specs:
+Desired substrate state is represented by checked-in Omni artifacts:
 
-1. Parse spec to understand target architecture
-2. Compare against current repo state
-3. Identify gaps (what exists vs what's needed)
-4. Generate prioritized task list
+- `clusters/` contains Omni cluster templates, including `clusters/talos-prod-01.yaml`
+- `machine-classes/` contains Proxmox VM sizing and placement definitions
+- `omni/compose.yml` defines the self-hosted Omni Hub stack
+- `proxmox-provider/compose.yml` and `proxmox-provider/config.yaml.example` define the provider stack
 
-See @specs/README.md for schema documentation.
+When changing desired state, compare the requested architecture against those
+files first, then update the relevant docs so commands and paths stay aligned.
+
+Post-bootstrap platform state belongs in `../mothership-gitops`, not this repo.
 
 ## Templates
 
@@ -40,7 +43,6 @@ Commands reference templates via `@.claude/templates/template-name.md`
 
 - Deployment plans: `docs/plans/`
 - Task status tracked in plan files, not separate system
-- Specs may include `status` block for component-level tracking
 
 ## Critical Gotchas
 
@@ -54,4 +56,6 @@ Commands reference templates via `@.claude/templates/template-name.md`
 
 ## Code Exploration
 
-ALWAYS read and understand relevant files before proposing code edits. Do not speculate about code you have not inspected. Be rigorous and persistent in searching code for key facts.
+ALWAYS read and understand relevant files before proposing code edits. Do not
+speculate about code you have not inspected. Be rigorous and persistent in
+searching code for key facts.

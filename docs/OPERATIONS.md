@@ -2,7 +2,7 @@
 
 Day-to-day management of Sidero Omni clusters via CLI tools.
 
-**Prerequisites:** Omni Hub and Worker deployed per [Sidero_Omni_Runbook.md](./Sidero_Omni_Runbook.md)
+**Prerequisites:** Omni Hub and Worker deployed per [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ---
 
@@ -16,6 +16,14 @@ exposure, and workload operations are owned by `../mothership-gitops`.
 After the cluster is reachable and the bootstrap command has been applied,
 use `../mothership-gitops/README.md` and `../mothership-gitops/docs/` for
 platform operations.
+
+Keep this repo as a handoff pointer, not a mirror of GitOps state. The current
+GitOps source-of-truth entry points are:
+
+- Bootstrap: `../mothership-gitops/bootstrap/bootstrap.yaml`
+- App of Apps: `../mothership-gitops/apps/root.yaml`
+- Longhorn: `../mothership-gitops/apps/longhorn/`
+- Backup storage docs: `../mothership-gitops/docs/backup-storage.md`
 
 ---
 
@@ -117,8 +125,10 @@ Machine classes define VM specs for Proxmox provisioning.
 ### Apply Machine Classes
 
 ```bash
-omnictl apply -f machine-classes/control-plane.yaml
-omnictl apply -f machine-classes/worker.yaml
+omnictl apply -f machine-classes/matrix-control-plane.yaml
+omnictl apply -f machine-classes/matrix-worker-foxtrot.yaml
+omnictl apply -f machine-classes/matrix-worker-golf.yaml
+omnictl apply -f machine-classes/matrix-worker-hotel.yaml
 ```
 
 ### Verify
@@ -130,12 +140,18 @@ omnictl get machineclasses
 ### Example Machine Class
 
 ```yaml
-# machine-classes/control-plane.yaml
-kind: MachineClass
+# machine-classes/matrix-control-plane.yaml
 metadata:
-  name: control-plane
+  namespace: default
+  type: MachineClasses.omni.sidero.dev
+  id: matrix-control-plane
 spec:
-  # TODO: Add your machine class spec
+  autoprovision:
+    providerid: matrix-cluster
+    providerdata: |
+      cores: 4
+      memory: 8192
+      storage_selector: name == "local-lvm"
 ```
 
 ---
@@ -145,7 +161,7 @@ spec:
 ### Sync Cluster Template
 
 ```bash
-omnictl cluster template sync -v -f cluster-template.yaml
+omnictl cluster template sync -v -f clusters/talos-prod-01.yaml
 ```
 
 ### Create Cluster
@@ -153,7 +169,7 @@ omnictl cluster template sync -v -f cluster-template.yaml
 **Via CLI:**
 
 ```bash
-omnictl apply -f clusters/my-cluster.yaml
+omnictl cluster template sync -v -f clusters/talos-prod-01.yaml
 ```
 
 **Via UI:**
@@ -182,7 +198,8 @@ omnictl get machines -w
 ### Provider Logs
 
 ```bash
-docker compose logs -f omni-infra-provider-proxmox
+cd proxmox-provider
+docker compose logs -f proxmox-provider
 ```
 
 ### Common Issues
@@ -209,8 +226,8 @@ omnictl get infraproviders
 # Check available versions
 omnictl get talosversions
 
-# Trigger upgrade via UI or apply updated cluster template
-omnictl cluster template sync -v -f cluster-template.yaml
+# Trigger upgrade via UI or sync the updated cluster template
+omnictl cluster template sync -v -f clusters/talos-prod-01.yaml
 ```
 
 ### Scale Cluster
@@ -218,7 +235,7 @@ omnictl cluster template sync -v -f cluster-template.yaml
 Update machine count in cluster template and re-sync:
 
 ```bash
-omnictl cluster template sync -v -f cluster-template.yaml
+omnictl cluster template sync -v -f clusters/talos-prod-01.yaml
 ```
 
 ### Access Cluster via kubectl

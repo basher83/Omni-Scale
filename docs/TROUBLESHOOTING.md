@@ -377,7 +377,13 @@ omni:
 
 **Symptom:** `missing required config value: Params.Storage.SQLite.Path`
 
-**Resolution:** Add `--sqlite-storage-path=/_out/omni.db` to omni command.
+**Resolution:** Keep `OMNI_SQLITE_PATH=/_out/etcd/omni.db` in
+`omni/omni.env` and pass it through `omni/compose.yml`:
+
+```yaml
+command: >
+  --sqlite-storage-path=${OMNI_SQLITE_PATH}
+```
 
 **Type:** Fix
 
@@ -391,7 +397,7 @@ omni:
 
 ```yaml
 cap_add: [NET_ADMIN]
-volumes: [/dev/net/tun:/dev/net/tun]
+devices: [/dev/net/tun:/dev/net/tun]
 ```
 
 **Type:** Fix
@@ -428,12 +434,12 @@ omni:
 
 #### Missing Service Account Key
 
-**Symptom:** `OMNI_INFRA_PROVIDER_KEY variable is not set`
+**Symptom:** `OMNI_SERVICE_ACCOUNT_KEY variable is not set`
 
 **Resolution:**
 
 1. Create service account in Omni UI
-2. Add to `.env`: `OMNI_INFRA_PROVIDER_KEY=<key>`
+2. Add to `proxmox-provider/.env`: `OMNI_SERVICE_ACCOUNT_KEY=<key>`
 3. Restart provider
 
 **Type:** Fix
@@ -525,7 +531,7 @@ static hostname is already set in v1alpha1 config
 omnictl machine-logs <machine-id> --tail 100 | grep -i hostname
 
 # Check provider logs for configureHostname step
-docker logs omni-provider-proxmox-provider-1 --tail 100 | grep -i hostname
+docker logs proxmox-provider --tail 100 | grep -i hostname
 ```
 
 **Root Cause:** The upstream `omni-infra-provider-proxmox` injects a `configureHostname` step that sets `machine.network.hostname` to the Omni request ID. This conflicts with Omni's hostname management.
@@ -579,7 +585,9 @@ services:
     image: ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix
 ```
 
-**Status:** Local workaround only. Not yet submitted upstream.
+**Status:** Local hostname workaround. The checked-in provider compose uses the
+patched `:local-fix` image until the upstream hostname behavior is confirmed
+fixed in a released provider image.
 
 **Related:** PR #38 (node pinning) submitted by project author: https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38
 

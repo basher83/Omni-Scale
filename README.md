@@ -39,7 +39,6 @@ This is a reference implementation. Each directory has its own README with detai
 | `clusters/` | Cluster templates (Omni format) |
 | `machine-classes/` | VM sizing definitions |
 | `docs/` | Deployment, operations, troubleshooting |
-| `specs/` | Infrastructure specifications |
 
 ## Documentation
 
