@@ -1,14 +1,16 @@
 # Roadmap
 
-High-level trajectory for Omni-Scale infrastructure.
+High-level trajectory for the Omni-managed Talos substrate.
 
-**Last Updated:** 2026-01-04
+**Last Updated:** 2026-04-28
 
 ---
 
 ## Current Focus
 
-**Cluster Redeploy** — Tear down, apply optimized machine classes, redeploy with Cilium.
+**Substrate hygiene** — Keep Omni, the Proxmox provider, machine classes,
+cluster templates, and bootstrap handoff docs aligned with the checked-in
+configuration.
 
 ---
 
@@ -16,10 +18,10 @@ High-level trajectory for Omni-Scale infrastructure.
 
 | Priority | Item | Notes |
 |----------|------|-------|
-| 1 | Cluster redeploy | Optimized machine classes ready in `pending/` |
-| 2 | Cilium CNI | Gateway API enabled |
-| 3 | Storage solution | Longhorn vs Proxmox CSI — decision needed |
-| 4 | Secrets management | External Secrets + Infisical (aligns with Ansible) |
+| 1 | Provider docs | Refresh deployment and operations docs against `proxmox-provider/compose.yml` and `config.yaml.example` |
+| 2 | Omni docs | Refresh Omni Hub compose/env examples against `omni/compose.yml` and `omni/omni.env.example` |
+| 3 | Cluster template docs | Replace stale generic examples with `clusters/talos-prod-01.yaml` and `clusters/test/test-cluster.yaml` |
+| 4 | GitOps handoff | Keep only bootstrap pointers to `../mothership-gitops`; do not duplicate app/platform state |
 
 ---
 
@@ -27,18 +29,18 @@ High-level trajectory for Omni-Scale infrastructure.
 
 | Item | Notes |
 |------|-------|
-| GitOps | Flux or ArgoCD |
-| Authentik | SSO/Identity |
-| PowerDNS | Authoritative DNS for spaceships.work |
-| Tailscale Operator | Workload access |
-| Monitoring | Prometheus/Grafana or VictoriaMetrics |
+| Cilium MTU durability | Keep the Omni/Talos `siderolink` MTU requirement explicit here and in `../mothership-gitops/README.md` bootstrap commands |
+| Pod-MTU regression signal | Define the substrate invariant: pod `eth0` MTU should be 1450. Implementation may live in `../mothership-gitops` if it becomes a monitored workload. |
+| Provider lifecycle | Track whether the local `:local-fix` provider image can be replaced by an upstream release |
+| Recovery drill | Keep disaster recovery solo-executable through cluster recreation and GitOps bootstrap handoff |
 
 ---
 
 ## Backlog
 
-- Network policies / pod security
-- Backup strategy (Velero)
+- Proxmox provider upstream replacement check
+- Omni Hub backup/restore procedure
+- Machine class validation examples
 - GPU passthrough workloads
 - Multi-cluster (Quantum as dev?)
 
@@ -54,4 +56,6 @@ High-level trajectory for Omni-Scale infrastructure.
 
 ## Execution Details
 
-See `specs/omni.yaml` for current phase implementation.
+Desired substrate state is represented by `clusters/`, `machine-classes/`,
+`omni/`, and `proxmox-provider/`. Post-bootstrap platform state is owned by
+`../mothership-gitops`.

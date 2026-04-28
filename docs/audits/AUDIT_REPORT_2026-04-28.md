@@ -83,13 +83,19 @@ The main documentation drift is structural rather than cosmetic. Several docs st
 
 ### docs/components/longhorn-storage.md
 
-| Line | Claim | Reality | Fix |
-|------|-------|---------|-----|
-| 13, 53, 220 | Helm values live at `mothership-gitops/apps/longhorn/values.yaml` / `apps/longhorn/values.yaml`. | The sibling repo has no `apps/longhorn/values.yaml`. Helm values are inline under `valuesObject` in `apps/longhorn/application.yaml`. | Replace the values path with `apps/longhorn/application.yaml` and describe inline Helm values. |
-| 74-79 | Redis HA PVCs are `critical`, Homarr is `important`, and Netdata is `standard`. | `mothership-gitops/docs/backup-storage.md` maps Homarr to `critical`, the three ArgoCD Redis HA PVCs to `important`, and Netdata PVCs to `standard`. The sister audit says live Longhorn labels match that mapping. | Update the PVC inventory tiers to the GitOps mapping. |
-| 103-107 | Critical backups retain 24, important retains 7, and standard runs daily at 03:00 retaining 3. | `mothership-gitops/apps/longhorn/recurringjobs.yaml` defines critical `0 */4 * * *` retain 42, important `0 2 * * *` retain 14, and standard `0 3 * * 0` retain 4. | Replace the schedule table with the current recurring jobs. |
-| 196 | Backup schedule not yet applied; Phase 6.3 pending. | The sibling repo has `apps/longhorn/recurringjobs.yaml`, `apps/longhorn/storageclasses.yaml`, and a completed audit saying live backup-tier labels match documented PVC mapping with recent backups. | Mark backup schedules as implemented, with any remaining work scoped to restore/client verification if applicable. |
-| 209 | RecurringJob schedules are not yet applied. | RecurringJobs are checked into `mothership-gitops/apps/longhorn/recurringjobs.yaml` and the sibling audit reports live backup labels/recent backups. | Change status to applied/managed by GitOps, subject to live recheck when needed. |
+This untracked file duplicated GitOps-owned Longhorn implementation details and
+had already drifted from `../mothership-gitops`. It should not be committed to
+Omni-Scale in its current form.
+
+The substrate-level Longhorn contract has been moved into `clusters/README.md`:
+Omni-Scale owns the Talos worker mount patch in `clusters/talos-prod-01.yaml`.
+The Longhorn Helm release, default StorageClass, backup target, RecurringJobs,
+backup tiers, and restore procedures are owned by `../mothership-gitops`.
+
+The specific stale claims in the removed file were: a non-existent
+`mothership-gitops/apps/longhorn/values.yaml`, old backup tier assignments,
+old backup retention values, and stale statements that RecurringJobs were not
+yet applied.
 
 ### scripts/README.md
 
@@ -106,7 +112,7 @@ The main documentation drift is structural rather than cosmetic. Several docs st
 | Generic example paths replacing real Matrix files | 6 | Operations and cluster docs were not updated after Matrix-specific filenames were introduced. |
 | Proxmox provider compose drift | 7 | Docs mix old provider service names, image tag, env variable names, and command flags with the current `proxmox-provider/compose.yml`. |
 | Stale roadmap/status claims | 3 | Roadmap still describes pre-Longhorn and pre-redeploy state. |
-| Longhorn GitOps drift | 5 | `docs/components/longhorn-storage.md` predates the current `mothership-gitops` backup implementation and still references a non-existent values file plus old backup tiers/status. |
+| Wrong repo ownership | 1 | The untracked `docs/components/longhorn-storage.md` duplicated GitOps-owned Longhorn implementation details and has been removed from Omni-Scale. |
 
 ## Verified True Highlights
 
@@ -124,7 +130,7 @@ Several Longhorn GitOps claims are now confirmed from the sibling repo. `mothers
 
 ## Human Review Queue
 
-- Confirm live cluster state for Longhorn: default StorageClass, PVC inventory, backup target, ESO backup credentials, recurring jobs, and restore test status. The local repo documents these as current, but the backing artifacts are in a separate GitOps repo or the live cluster.
+- Confirm live cluster state for Longhorn from `../mothership-gitops` when needed: default StorageClass, PVC inventory, backup target, ESO backup credentials, recurring jobs, and restore test status.
 - Confirm the current deployed provider container name on the host. The checked-in compose uses `proxmox-provider`, while the DR script and scripts README refer to `omni-provider-proxmox-provider-1`.
 - Confirm whether the `TS_EXTRA_ARGS=--advertise-tags=tag:omni` requirement is still operationally required. If yes, the local compose/env examples are missing it; if no, `docs/DEPLOYMENT.md` should drop that prerequisite.
 - Verify external/upstream claims in `docs/references/providerdata-fields.md`, especially PR #36 merge status and field defaults. Local machine-class files use many of the listed fields, but the defaults are provider-source claims rather than repo-source claims.
@@ -133,7 +139,7 @@ Several Longhorn GitOps claims are now confirmed from the sibling repo. `mothers
 
 1. Update `docs/OPERATIONS.md` first. It has the highest concentration of commands that will fail immediately in this repository.
 2. Reconcile all Proxmox provider references against `proxmox-provider/compose.yml`, `proxmox-provider/.env.example`, and `proxmox-provider/config.yaml.example`.
-3. Update `docs/components/longhorn-storage.md` against `mothership-gitops/apps/longhorn/application.yaml`, `recurringjobs.yaml`, `storageclasses.yaml`, and `docs/backup-storage.md`.
+3. Keep `docs/components/longhorn-storage.md` out of Omni-Scale; keep only the Talos mount-patch substrate contract in `clusters/README.md`.
 4. Remove or replace the stale `specs/` and `pending/` references in `README.md`, `CLAUDE.md`, and `docs/ROADMAP.md`.
 5. Decide whether `docs/DEPLOYMENT.md` is a historical runbook or the current install runbook. If current, refresh both compose snippets from checked-in files.
 6. Do a live-cluster pass for remaining runtime claims that cannot be verified from local or sibling repositories alone.

@@ -157,13 +157,19 @@ gpg --export-secret-keys --armor <KEY_ID> > omni.asc
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ Phase 4: First Cluster                                          │
-│   Sync Cluster Template → Watch VM provision                    │
-│                                                                 │
-│   ✓ Gate: VM boots, SideroLink shows ✓, node joins cluster     │
-└─────────────────────────────────────────────────────────────────┘
+	┌─────────────────────────────────────────────────────────────────┐
+	│ Phase 4: First Cluster                                          │
+	│   Sync Cluster Template → Watch VM provision                    │
+	│                                                                 │
+	│   ✓ Gate: VM boots, SideroLink shows ✓, node joins cluster     │
+	└─────────────────────────────────────────────────────────────────┘
 ```
+
+After Phase 4, platform reconciliation moves to `../mothership-gitops`.
+Omni-Scale owns the substrate through cluster creation and the handoff point;
+the GitOps repo owns ArgoCD app waves, Longhorn values and backups, External
+Secrets, Tailscale Operator manifests, ingress exposure, and workload
+operations.
 
 ---
 

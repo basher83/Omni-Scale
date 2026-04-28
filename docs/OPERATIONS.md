@@ -6,6 +6,19 @@ Day-to-day management of Sidero Omni clusters via CLI tools.
 
 ---
 
+## Repo Boundary
+
+This guide covers Omni, Talos, cluster templates, machine classes, and the
+Proxmox infrastructure provider. ArgoCD applications, Longhorn backups,
+StorageClasses, External Secrets, Tailscale Operator manifests, ingress
+exposure, and workload operations are owned by `../mothership-gitops`.
+
+After the cluster is reachable and the bootstrap command has been applied,
+use `../mothership-gitops/README.md` and `../mothership-gitops/docs/` for
+platform operations.
+
+---
+
 ## 1. CLI Installation
 
 ### Install via Homebrew (macOS)

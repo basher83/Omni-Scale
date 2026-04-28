@@ -116,6 +116,16 @@ patches:
 | `siderolabs/nonfree-kmod-nvidia` | NVIDIA kernel modules |
 | `siderolabs/nvidia-container-toolkit` | NVIDIA container runtime |
 
+## Longhorn Substrate Contract
+
+Omni-Scale owns only the Talos node requirement that makes Longhorn usable on
+this cluster. The production worker groups in `clusters/talos-prod-01.yaml`
+carry a `longhorn-storage` patch that bind-mounts `/var/local/longhorn` to
+`/var/lib/longhorn` with `rshared` propagation.
+
+The Longhorn Helm release, default StorageClass, backup target, RecurringJobs,
+backup tiers, and restore procedures are owned by `../mothership-gitops`.
+
 ## Commands
 
 ```bash

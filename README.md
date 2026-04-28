@@ -2,12 +2,28 @@
 
 Self-hosted Sidero Omni deployment kit with Tailscale authentication and Proxmox infrastructure provider.
 
+## Repo Boundary
+
+This repo answers: how is the Omni-managed Talos substrate created and operated?
+
+Omni-Scale owns the self-hosted Omni Hub, the Proxmox infrastructure provider,
+cluster templates, machine classes, Talos node requirements, SideroLink/DNS/Tailscale
+access constraints, and the handoff into GitOps.
+
+It does not own post-bootstrap platform applications. Longhorn Helm values,
+backup schedules, StorageClasses, ArgoCD app waves, ESO app wiring, Tailscale
+Operator manifests, monitoring, dashboards, and workload exposure live in
+`../mothership-gitops`. This repo may document the substrate requirement that
+enables those systems, such as Talos worker mount patches for Longhorn, but
+the GitOps repo is the source of truth for their implementation and operation.
+
 ## What This Does
 
 Omni-Scale deploys Sidero Omni for managing Talos Linux Kubernetes clusters on Proxmox
 infrastructure. The architecture separates the control plane (Omni Hub) from the VM
 provisioner (Proxmox Provider), connected via Tailscale.
 
+<!-- markdownlint-disable-next-line MD033 -->
 <img src="docs/assets/talos-prod-01.jpeg" alt="Cluster topology" style="max-width:600px; width:100%; height:auto;" />
 
 The Provider sits on the same L2 network as Talos VMs — this is required for SideroLink registration during boot.
@@ -37,6 +53,25 @@ This is a reference implementation. Each directory has its own README with detai
 ## Critical Gotchas
 
 These cost days of debugging. Don't repeat them.
+
+### Cilium MTU Auto-Detect (The Silent Assassin)
+
+Unlike the other gotchas in this list, this one ran for months without anyone
+noticing. Tailscale Ingress throughput sat at ~22 KB/s instead of ~99 Mbps
+(commit `e0d5f5e`). No errors. No alerts. Just slow web pages.
+
+Omni's `siderolink` WireGuard tunnel runs at MTU 1280 on every Talos node
+(`talosctl get links siderolink -o yaml` → `mtu: 1280, kind: wireguard`).
+Without `--set MTU=1450` at Cilium install, pod networking ends up at 1280.
+The exact Cilium auto-detect path that resolves to 1280 on Talos is not
+mapped — see CILIUM.md for what is and isn't documented.
+
+**Fix**: Install and upgrade Cilium with `--set MTU=1450` (1500 NIC minus 50
+VXLAN overhead). For a live cluster already affected, patch `cilium-config`
+and restart the Cilium DaemonSets plus the `tailscale-operator` namespace
+StatefulSets — see [CILIUM.md](docs/guides/CILIUM.md) and
+[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). The ConfigMap patch does not
+survive a future `cilium install`; update the runbooks too.
 
 ### Split-Horizon DNS (The Four-Day Boss Fight)
 

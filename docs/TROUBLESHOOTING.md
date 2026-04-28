@@ -6,6 +6,121 @@ Consolidated troubleshooting for Omni-Scale deployment.
 
 ## Resolved Issues
 
+### Networking
+
+#### Cilium MTU Auto-Detect Poisoning (The Silent Assassin)
+
+**Symptoms:**
+- Web UIs through Tailscale Ingress load slowly or time out (Phoenix, ArgoCD, Homarr)
+- `kubectl exec` and `kubectl port-forward` hang or return partial output
+- `cilium upgrade` and `cilium status` return `context deadline exceeded`
+- Log tails and large responses stall mid-stream
+- Throughput through Tailscale Ingress at ~22 KB/s (commit `e0d5f5e`)
+
+**Root Cause:**
+
+Omni-managed Talos nodes carry a `siderolink` WireGuard tunnel at MTU 1280. Verified 2026-04-16 on node 192.168.3.155:
+
+```bash
+talosctl -n 192.168.3.155 get links siderolink -o yaml | grep -E "mtu|kind"
+#   mtu: 1280
+#   kind: wireguard
+```
+
+Without `--set MTU=1450` at Cilium install, pod networking ends up at 1280. Setting MTU=1450 in `cilium-config` and restarting affected pods restores throughput.
+
+Parts of the failure chain that are not mapped from primary evidence:
+
+- Cilium's documented auto-detection (PR [cilium/cilium#4687](https://github.com/cilium/cilium/pull/4687)) reads the MTU of the default-route device. Issue [cilium/cilium#14339](https://github.com/cilium/cilium/issues/14339) shows a 9000-MTU interface winning over a 1500-MTU one. The exact path that resolves to siderolink's 1280 on Talos is not documented in upstream sources.
+- Pre-fix pod MTU across namespaces was asserted in the 2026-04-06 fix session AAR but not sampled in any record. Post-fix sampling confirms 1450 on both Tailscale proxies and Longhorn manager.
+- Tailscale Ingress proxy pods use gVisor userspace netstack ([Tailscale docs](https://tailscale.com/docs/concepts/userspace-networking); local research at `workshop/ensue-snapshot/2026-04-14/research/otel-protocol-tailscale/technical/tailscale-h2c-proxy-mechanism.md`). Tailscale documents a kernel-vs-netstack performance gap ([kb/1177](https://tailscale.com/kb/1177/kernel-vs-userspace-routers/)) but does not document MTU-fragmentation behavior under netstack specifically. Tailscale Ingress was the loudest symptom; the mechanism for that is not proven.
+
+Fix session AAR: `lab-polish/aar/2026-04-06-cilium-mtu-siderolink-fix.md`.
+
+**Diagnostic commands:**
+
+```bash
+# ConfigMap — expect "1450"
+kubectl get cm -n kube-system cilium-config -o jsonpath='{.data.mtu}'; echo
+
+# Cilium agent reported MTU
+kubectl get pods -n kube-system -l k8s-app=cilium -o name | head -1 | \
+  xargs -I{} kubectl exec -n kube-system {} -c cilium-agent -- cilium status | grep -i mtu
+
+# Pod-level MTU
+kubectl exec -n <namespace> <pod-name> -- ip link show eth0 | grep mtu
+
+# Siderolink interface on a Talos node
+talosctl -n <node-ip> get links siderolink -o yaml | grep -E "mtu|kind"
+
+# Rule out DERP-relayed Tailscale path as a separate cause
+tailscale ping <peer-hostname>
+# Expect "via <IP>:<port>", not "via DERP"
+```
+
+**Primary Fix (new installs):**
+
+Add `--set MTU=1450` to every Cilium install and upgrade command. 1450 = 1500 NIC minus 50 VXLAN overhead (commit `e0d5f5e`). Present in `docs/guides/CILIUM.md` and in `mothership-gitops/README.md`.
+
+**Fallback Fix (live cluster already broken):**
+
+`cilium upgrade --set MTU=1450` is the documented path. In the 2026-04-06 fix session, that path did not update `cilium-config`.
+
+Cluster and CLI versions (verified 2026-04-16):
+
+```bash
+kubectl get ds cilium -n kube-system -o jsonpath='{.spec.template.spec.containers[0].image}'
+# → quay.io/cilium/cilium:v1.18.6@sha256:42ec562a5ff6c8a860c0639f5a7611685e253fd9eb2d2fcdade693724c9166a4
+
+cilium version
+# cilium-cli: v0.19.2
+# cilium image (default): v1.19.1
+```
+
+DaemonSet is v1.18.6; CLI defaults to v1.19.1. The AAR attributes the SSA conflict to that skew. No upstream Cilium issue or PR documents CLI-version skew as a documented cause of SSA conflicts on `cilium-config`.
+
+The AAR reports `--helm-set upgrade.serverSideApply.force=true` was tried and did not resolve the conflict. No transcript of that command is in the record. Trying it before the ConfigMap fallback is reasonable.
+
+The fix session transcript also shows `context deadline exceeded` errors during `cilium upgrade`. The prior agent's note: "likely the Tailscale proxy throughput issue (ironic) slowing down the Helm chart pull." Whether the CLI routed through a Tailscale Ingress proxy at that moment is not recorded. The timeouts are observed; the causal attribution is hypothesis.
+
+**Fallback recipe:**
+
+```bash
+kubectl patch configmap cilium-config -n kube-system \
+  --type merge -p '{"data":{"mtu":"1450"}}'
+kubectl rollout restart daemonset/cilium -n kube-system
+kubectl rollout restart daemonset/cilium-envoy -n kube-system
+
+# Tailscale namespace is "tailscale-operator". Pod veth MTU is set at pod
+# creation; existing pods keep the old MTU until replaced.
+kubectl get statefulset -n tailscale-operator -o name | \
+  xargs -I{} kubectl rollout restart {} -n tailscale-operator
+
+kubectl get cm -n kube-system cilium-config -o jsonpath='{.data.mtu}'; echo
+kubectl exec -n tailscale-operator <any-ts-pod> -- ip link show eth0 | grep mtu
+```
+
+StatefulSet count (verified 2026-04-16):
+
+```bash
+kubectl get statefulset -A | grep -c tailscale-operator
+# → 11
+```
+
+The count drifts as apps are added or removed.
+
+**Durability:**
+
+The ConfigMap patch does not survive a future `cilium install`. The install and upgrade runbooks carry `--set MTU=1450` for durability.
+
+**Related observation:**
+
+`cilium status` reports `Auto-detected cluster name: talos-prod-operator-tailfb3ea-ts-net` — the Tailscale hostname. Harmless today. If ClusterMesh or cluster-name-keyed tooling is added, set `cluster.name` explicitly.
+
+**Type:** Silent performance bug
+
+---
+
 ### DNS / Network Architecture
 
 #### Split-Horizon DNS Resolution Failure (The Four-Day Boss Fight)
@@ -641,224 +756,26 @@ Error: 1 error occurred:
 
 ---
 
-## ArgoCD / GitOps Issues
+## GitOps / Application Issues
 
-### Redis HA Topology Mismatch (3rd Replica Pending)
+Application-level troubleshooting lives in `../mothership-gitops/docs/troubleshooting.md`.
+That repo owns ArgoCD app waves, Longhorn, ESO, Tailscale Operator manifests,
+Tailscale Ingress exposure, monitoring, dashboards, and workload operations.
 
-**Symptom:** `argocd-redis-ha-server-2` stuck in Pending state for hours/days. HAProxy replica also Pending.
+Keep only substrate implications here. If a GitOps application cannot schedule
+because there are too few worker nodes, fix the substrate in this repo by adding
+or resizing machine classes and updating `clusters/talos-prod-01.yaml`.
 
-**Error signature in pod events:**
-
-```
-0/5 nodes are available: 3 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 node(s) didn't match pod anti-affinity rules
-```
-
-**Cause:** Redis HA StatefulSet requires 3 replicas with pod anti-affinity (one per node). If your cluster has 3 control-plane nodes (tainted NoSchedule) and only 2 workers, only 2 schedulable nodes exist. The 3rd replica can never schedule.
-
-**Resolution:** Add a 3rd worker node. Pods auto-schedule once the node joins.
+Example: ArgoCD Redis HA requires three schedulable worker slots when it uses
+three replicas with pod anti-affinity. If the cluster has three tainted control
+planes and only two workers, the third Redis pod remains Pending. Add another
+worker MachineClass and sync the cluster template here, then let
+`../mothership-gitops` reconcile the application.
 
 ```bash
-# Create new worker MachineClass if needed (e.g., matrix-worker-foxtrot)
 omnictl apply -f machine-classes/matrix-worker-foxtrot.yaml
-
-# Update cluster template to reference the new worker
-# Then sync
 omnictl cluster template sync -f clusters/talos-prod-01.yaml
 ```
-
-**Alternative:** Scale redis-ha replicas to 2 (accepts reduced HA) or add control-plane tolerations to Redis pods.
-
-**Type:** Topology constraint
-
----
-
-### Application Stuck in "Progressing" Health
-
-**Symptom:** ArgoCD Application shows health status "Progressing" indefinitely.
-
-**Common causes:**
-
-1. **Ingress without controller:** Ingress resource exists but no Ingress controller is installed. ArgoCD waits for an address that will never come.
-
-2. **Deployment waiting for pods:** Pods can't schedule (resources, node selectors, taints).
-
-**Resolution for Ingress issue:**
-
-```yaml
-# Disable ingress in Helm values
-helm:
-  valuesObject:
-    ingress:
-      enabled: false
-```
-
-**Type:** Configuration fix
-
----
-
-### ExternalSecret Causes Parent App OutOfSync
-
-**Symptom:** Parent Application shows OutOfSync even though child Helm apps are Synced. ExternalSecret resource shows as drifted.
-
-**Cause:** External Secrets Operator adds default fields that aren't in git:
-- `conversionStrategy: Default`
-- `decodingStrategy: None`
-- `metadataPolicy: None`
-
-**Resolution:** Add `ignoreDifferences` to the parent Application in root.yaml:
-
-```yaml
-spec:
-  ignoreDifferences:
-    - group: external-secrets.io
-      kind: ExternalSecret
-      jsonPointers:
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/1/remoteRef/conversionStrategy
-        - /spec/data/1/remoteRef/decodingStrategy
-        - /spec/data/1/remoteRef/metadataPolicy
-```
-
-**Type:** Expected drift (ESO behavior)
-
----
-
-### Helm App Bounces In/Out of Sync (ESO-Managed Secret)
-
-**Symptom:** Helm Application repeatedly shows OutOfSync then Synced. Secret resource managed by ExternalSecret causes drift.
-
-**Cause:** Helm chart references an `existingSecret` created by ESO. ESO periodically refreshes the secret, causing ArgoCD to detect drift.
-
-**Resolution:** Add `ignoreDifferences` to the Helm Application:
-
-```yaml
-spec:
-  ignoreDifferences:
-    - group: ""
-      kind: Secret
-      name: <secret-name>
-      jsonPointers:
-        - /data
-        - /metadata/annotations
-        - /metadata/labels
-  syncPolicy:
-    syncOptions:
-      - RespectIgnoreDifferences=true
-```
-
-**Type:** Expected drift (ESO behavior)
-
----
-
-### Tailscale Proxy Pods Fail with PodSecurity Violation
-
-**Symptom:** Tailscale proxy StatefulSet fails to create pods.
-
-**Error signature:**
-```
-pods "ts-xxx-0" is forbidden: violates PodSecurity "baseline:latest": privileged
-```
-
-**Cause:** Tailscale proxy pods require privileged mode for networking. Kubernetes PodSecurity admission blocks them.
-
-**Resolution:** Label the namespace to allow privileged pods:
-
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: tailscale-operator
-  labels:
-    pod-security.kubernetes.io/enforce: privileged
-    pod-security.kubernetes.io/audit: privileged
-    pod-security.kubernetes.io/warn: privileged
-```
-
-**Type:** Kubernetes constraint
-
----
-
-### Helm Chart Doesn't Propagate Service Annotations
-
-**Symptom:** Service annotations defined in Helm values don't appear on the deployed Service resource.
-
-**Example:** Tailscale exposure annotations set in values but not applied:
-
-```yaml
-helm:
-  valuesObject:
-    service:
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "myapp"
-```
-
-**Cause:** Some Helm charts don't template service annotations, or use non-standard value paths.
-
-**Resolution:**
-
-1. Apply annotation manually:
-   ```bash
-   kubectl annotate svc <service-name> -n <namespace> \
-     tailscale.com/expose="true" \
-     tailscale.com/hostname="myapp"
-   ```
-
-2. Configure ArgoCD to preserve the annotation (prevent revert on sync):
-   ```yaml
-   spec:
-     ignoreDifferences:
-       - group: ""
-         kind: Service
-         name: <service-name>
-         jsonPointers:
-           - /metadata/annotations/tailscale.com~1expose
-           - /metadata/annotations/tailscale.com~1hostname
-           - /metadata/finalizers
-   ```
-
-**Note:** The `~1` is JSON Pointer encoding for `/` in annotation keys.
-
-**Type:** Helm chart limitation
-
----
-
-### Tailscale Service Exposure Requires Non-Standard Port
-
-**Symptom:** Service exposed via `tailscale.com/expose` annotation requires specifying port in URL (e.g., `http://myapp.tailnet.ts.net:8080`).
-
-**Cause:** Service annotation does IP-level forwarding, not port remapping. The backend port is preserved.
-
-**Resolution:** Use Tailscale Ingress instead for HTTPS on port 443:
-
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: myapp
-  namespace: myapp
-spec:
-  ingressClassName: tailscale
-  defaultBackend:
-    service:
-      name: myapp-service
-      port:
-        number: 8080  # Your backend port
-  tls:
-    - hosts:
-        - myapp
-```
-
-**Benefits:**
-- Always serves on port 443
-- Automatic LetsEncrypt TLS certificates
-- No port in URL needed
-
-**Note:** First access may be slow while TLS cert is provisioned. MagicDNS and HTTPS must be enabled on your tailnet.
-
-**Type:** Expected behavior (use Ingress for port 443)
 
 ---
 
