@@ -161,6 +161,22 @@ The Cilium MTU cross-reference is confirmed in the sibling GitOps repo. `mothers
 
 Several Longhorn GitOps claims are now confirmed from the sibling repo. `mothership-gitops/apps/root.yaml` defines the root Longhorn Application at sync wave 5 and ArgoCD HA at wave 99. `mothership-gitops/apps/longhorn/application.yaml` sets `defaultReplicaCount: 2`, `persistence.defaultClass: true`, `defaultClassReplicaCount: 2`, `backupTarget: "s3://longhorn-backups@us-east-1/"`, and `backupTargetCredentialSecret: "longhorn-backup-credentials"`. `apps/longhorn/externalsecret.yaml` pulls MinIO credentials from the `infisical-longhorn` ClusterSecretStore, and `apps/external-secrets/clustersecretstore.yaml` maps that store to Infisical path `/longhorn`.
 
+## GitOps Cross-Check Map
+
+Every app/platform detail removed from Omni-Scale is either retained here only
+as a substrate warning or is owned by the sibling GitOps repo:
+
+| Topic | Omni-Scale treatment | GitOps source |
+|-------|----------------------|---------------|
+| Cilium MTU | Keep substrate warning and install requirement | `../mothership-gitops/README.md` |
+| Longhorn node mounts | Keep Talos patch rationale | `clusters/talos-prod-01.yaml` |
+| Longhorn Helm values | Link only | `../mothership-gitops/apps/longhorn/application.yaml` |
+| Backup schedules | Link only | `../mothership-gitops/apps/longhorn/recurringjobs.yaml` |
+| StorageClasses | Link only | `../mothership-gitops/apps/longhorn/storageclasses.yaml` |
+| Backup docs | Link only | `../mothership-gitops/docs/backup-storage.md` |
+| App sync waves | Link only | `../mothership-gitops/apps/root.yaml` |
+| ArgoCD HA | Link only after bootstrap handoff | `../mothership-gitops/apps/argocd/` and `../mothership-gitops/apps/root.yaml` |
+
 ## Human Review Queue
 
 - Confirm live cluster state for Longhorn from `../mothership-gitops` when needed: default StorageClass, PVC inventory, backup target, ESO backup credentials, recurring jobs, and restore test status.

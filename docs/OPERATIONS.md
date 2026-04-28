@@ -22,8 +22,12 @@ GitOps source-of-truth entry points are:
 
 - Bootstrap: `../mothership-gitops/bootstrap/bootstrap.yaml`
 - App of Apps: `../mothership-gitops/apps/root.yaml`
-- Longhorn: `../mothership-gitops/apps/longhorn/`
+- Longhorn Helm values: `../mothership-gitops/apps/longhorn/application.yaml`
+- Longhorn backup schedules: `../mothership-gitops/apps/longhorn/recurringjobs.yaml`
+- Longhorn StorageClasses: `../mothership-gitops/apps/longhorn/storageclasses.yaml`
 - Backup storage docs: `../mothership-gitops/docs/backup-storage.md`
+- ArgoCD HA: `../mothership-gitops/apps/argocd/` and
+  `../mothership-gitops/apps/root.yaml`
 
 ---
 

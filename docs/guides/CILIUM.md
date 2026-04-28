@@ -21,9 +21,59 @@ Before installing Cilium:
 
 ## MTU Configuration (REQUIRED)
 
-Cilium auto-detects MTU from the lowest-MTU interface on the host. On Omni-managed Talos nodes, the `siderolink` WireGuard management tunnel runs at MTU 1280. Without an explicit override, Cilium applies 1280 to all pod veth pairs cluster-wide, causing severe throughput degradation through Tailscale Ingress proxies (~22 KB/s instead of ~99 Mbps).
+Omni-managed Talos nodes carry a `siderolink` WireGuard tunnel at MTU 1280.
+Without `--set MTU=1450` at Cilium install, pod networking ends up at 1280 and
+Tailscale Ingress throughput drops to ~22 KB/s (commit `e0d5f5e`).
 
-All install and upgrade commands must include `--set MTU=1450` (1500 physical NIC minus 50 VXLAN overhead). If Cilium is patched or upgraded without this flag, verify `mtu` is set in the `cilium-config` ConfigMap in `kube-system`.
+Verify siderolink MTU on a node:
+
+```bash
+talosctl -n <node-ip> get links siderolink -o yaml | grep -E "mtu|kind"
+#   mtu: 1280
+#   kind: wireguard
+```
+
+Verified 2026-04-16 on node 192.168.3.155 (Talos v1.12.1).
+
+### Cilium MTU auto-detection
+
+Cilium reads the MTU of the device the default route points to (Cilium PR
+[#4687](https://github.com/cilium/cilium/pull/4687)). Not the lowest-MTU
+interface — issue [#14339](https://github.com/cilium/cilium/issues/14339) shows
+a 9000-MTU storage interface winning over a 1500-MTU external interface.
+
+The exact selection that resolves to siderolink's 1280 on these Talos nodes is
+not mapped in upstream sources. The outcome is observed; the selection path is
+not.
+
+### Install and verify
+
+All install and upgrade commands in this guide carry `--set MTU=1450` (1500 NIC
+minus 50 VXLAN overhead). The bootstrap runbook in
+`mothership-gitops/README.md` also carries it. After install or upgrade:
+
+```bash
+kubectl get cm -n kube-system cilium-config -o jsonpath='{.data.mtu}'; echo
+# Expect: 1450
+```
+
+### ConfigMap-only fixes do not survive reinstall
+
+A direct `kubectl patch` on `cilium-config` is overwritten by a future
+`cilium install`. The flag in the install commands is what makes the fix
+durable.
+
+Cilium on this cluster is installed imperatively, not via GitOps:
+
+```bash
+kubectl -n kube-system get cm cilium-config -o jsonpath='{.metadata.managedFields[*].manager}'
+# → helm kubectl-patch
+
+kubectl -n kube-system get ds cilium -o jsonpath='{.metadata.managedFields[*].manager}'
+# → helm kubectl-rollout kube-controller-manager
+```
+
+No ArgoCD Application manages Cilium. GitOps management of Cilium is tracked in `docs/ROADMAP.md`.
 
 ## Disable kube-proxy (REQUIRED)
 
@@ -133,7 +183,7 @@ cilium install \
 
 | Parameter | Value | Why |
 |-----------|-------|-----|
-| `MTU` | `1450` | Override auto-detection. Omni's `siderolink` tunnel (MTU 1280) poisons Cilium's auto-detect, clamping all pod interfaces to 1280. 1450 = 1500 physical NIC minus 50 VXLAN overhead. |
+| `MTU` | `1450` | Required override. Omni's `siderolink` WireGuard tunnel (MTU 1280) is present on every Talos node; without this flag, Cilium auto-detect produces sub-1500 pod networking. See MTU Configuration section. 1450 = 1500 NIC − 50 VXLAN overhead. |
 | `k8sServiceHost` | `localhost` | Talos API server binding |
 | `k8sServicePort` | `7445` | Talos uses 7445, not 6443 |
 | `cgroup.autoMount.enabled` | `false` | Talos manages cgroups |
@@ -366,13 +416,105 @@ cilium upgrade --version 1.15.0 --set MTU=1450
 cilium status
 ```
 
-If the upgrade fails with field manager conflicts (server-side apply), patch the ConfigMap directly instead:
+### When `cilium upgrade` does not change the ConfigMap
+
+In the 2026-04-06 fix session, `cilium upgrade --set MTU=1450` exited
+successfully but did not update `cilium-config`. The AAR attributes this to a
+server-side-apply field-manager conflict and hypothesizes CLI-version skew as
+the cause.
+
+Cluster and CLI versions (verified 2026-04-16):
+
+```bash
+kubectl get ds cilium -n kube-system -o jsonpath='{.spec.template.spec.containers[0].image}'
+# → quay.io/cilium/cilium:v1.18.6@sha256:42ec562a5ff6c8a860c0639f5a7611685e253fd9eb2d2fcdade693724c9166a4
+
+cilium version
+# cilium-cli: v0.19.2
+# cilium image (default): v1.19.1
+```
+
+DaemonSet is v1.18.6; CLI defaults to v1.19.1. No upstream Cilium issue or PR I
+located confirms CLI-version skew as the documented cause of SSA conflicts on
+`cilium-config`. The version gap is verified; the causal link is the AAR's
+hypothesis.
+
+After any `cilium upgrade`, verify the ConfigMap directly:
+
+```bash
+kubectl get cm -n kube-system cilium-config -o jsonpath='{.data.mtu}'; echo
+```
+
+### `--helm-set upgrade.serverSideApply.force=true`
+
+The AAR reports this flag was tried in the 2026-04-06 session and did not
+resolve the conflict. No transcript of that command is in the record and no
+upstream source confirms its effect on this failure mode. Trying it before
+falling back to the ConfigMap patch is reasonable.
+
+### `cilium upgrade` timeouts
+
+The 2026-04-06 transcript shows `context deadline exceeded` errors during
+`cilium upgrade`. The prior agent's note: "likely the Tailscale proxy
+throughput issue (ironic) slowing down the Helm chart pull."
+
+Whether the CLI routed through a Tailscale Ingress proxy, a Tailscale subnet
+router, or directly to the API server at that moment is not recorded. The
+timeouts are observed; the causal attribution is hypothesis.
+
+The direct ConfigMap patch below works whether or not the CLI is timing out.
+
+### Direct ConfigMap patch
+
+Patch the ConfigMap, restart the Cilium DaemonSets, then restart the Tailscale
+proxy StatefulSets. The Tailscale namespace is `tailscale-operator`:
 
 ```bash
 kubectl patch configmap cilium-config -n kube-system --type merge -p '{"data":{"mtu":"1450"}}'
 kubectl rollout restart daemonset/cilium -n kube-system
 kubectl rollout restart daemonset/cilium-envoy -n kube-system
+
+kubectl get statefulset -n tailscale-operator -o name | \
+  xargs -I{} kubectl rollout restart {} -n tailscale-operator
+
+kubectl get cm -n kube-system cilium-config -o jsonpath='{.data.mtu}'; echo
+kubectl exec -n tailscale-operator <any-ts-pod> -- ip link show eth0 | grep mtu
 ```
+
+Pod veth MTU is set at pod creation and does not change for the pod's lifetime.
+Restarting the Tailscale StatefulSets forces veth recreation at the new MTU.
+
+StatefulSet count (verified 2026-04-16):
+
+```bash
+kubectl get statefulset -A | grep -c tailscale-operator
+# → 11
+```
+
+The count drifts as apps are added or removed.
+
+### Pod MTU after the fix
+
+Post-fix pod MTU sampled across two namespaces (verified 2026-04-16):
+
+```bash
+kubectl exec -n tailscale-operator ts-anthropic-oauth-proxy-mrcz2-0 -- ip link show eth0 | grep mtu
+# → mtu 1450
+
+kubectl exec -n longhorn-system <longhorn-manager-pod> -- ip link show eth0 | grep mtu
+# → mtu 1450
+```
+
+This is consistent with cluster-wide CNI-level MTU configuration. No pre-fix pod
+MTU sampling across namespaces exists in the record.
+
+Other pods pick up the new MTU as they naturally roll. Restart latency-sensitive workloads explicitly if needed.
+
+### The patch does not survive reinstall
+
+A future `cilium install` recreates `cilium-config` from flags. The MTU override
+is lost unless the install command carries `--set MTU=1450`. Both this guide
+and `mothership-gitops/README.md` carry the flag.
 
 ## Resources
 
