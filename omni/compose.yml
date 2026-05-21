@@ -1,6 +1,6 @@
 services:
   omni-tailscale:
-    image: tailscale/tailscale:latest
+    image: tailscale/tailscale:latest@sha256:dbeff02d2337344b351afac203427218c4d0a06c43fc10a865184063498472a6
     container_name: omni-tailscale
     hostname: omni
     env_file: omni.env
