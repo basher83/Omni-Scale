@@ -16,8 +16,8 @@ fd = "10.4.2"
 rg = "15.1.0"
 git-cliff = "2.13.1"
 shellcheck = "0.11.0"
-"pipx:rumdl" = "0.2.22"
-uv = "0.11.24"
+"pipx:rumdl" = "0.2.27"
+uv = "0.11.26"
 python = "3.14.6"
 
 [env]
