@@ -4,13 +4,12 @@
 [global]
 respect_gitignore = true
 
-# ONLY lint these paths (everything else ignored)
+# Only lint user-facing repository READMEs.
 include = [
-    "./README.md",
-    "plugins/*/README.md",
-    "plugins/*/*/README.md",
-    "docs/architecture/*.md",
-    "docs/checklists/*.md",
+    "README.md",
+    "clusters/README.md",
+    "machine-classes/README.md",
+    "scripts/README.md",
 ]
 
 [MD013]

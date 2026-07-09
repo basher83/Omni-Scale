@@ -44,7 +44,7 @@ repos:
     rev: v0.0.208
     hooks:
       - id: rumdl
-        files: ^README\.md$
+        files: ^(README\.md|clusters/README\.md|machine-classes/README\.md|scripts/README\.md)$
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
     rev: 42.70.2

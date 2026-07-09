@@ -4,7 +4,8 @@ Automation scripts for Omni-Scale infrastructure management.
 
 ## disaster-recovery.sh
 
-Automated cluster destruction and recreation from declarative specs. Executes the full DR drill without human intervention (after initial confirmation).
+Automated cluster destruction and recreation from declarative specs. Executes
+the full DR drill without human intervention after initial confirmation.
 
 ### Usage
 
@@ -45,23 +46,32 @@ Total expected runtime: 30-45 minutes.
 
 ### Interactive Points
 
-**Start confirmation:** Script requires typing `yes` to proceed. This is the only interactive prompt under normal operation.
+**Start confirmation:** Script requires typing `yes` to proceed. This is the
+only interactive prompt under normal operation.
 
-**Secret creation (conditional):** If `universal-auth-credentials` secret doesn't exist in `external-secrets` namespace, script pauses and provides the command to create it. This is the one secret that cannot be automated (Infisical bootstrap chicken-and-egg).
+**Secret creation (conditional):** If `universal-auth-credentials` secret
+doesn't exist in the `external-secrets` namespace, the script pauses and
+provides the command to create it. This is the one secret that cannot be
+automated because of the Infisical bootstrap chicken-and-egg problem.
 
 ### Features
 
-**Poll-based waiting:** Each phase uses `poll_until()` function that checks a condition every 10 seconds until success or timeout. No human judgment required mid-run.
+**Poll-based waiting:** Each phase uses `poll_until()` to check a condition every
+10 seconds until success or timeout. No human judgment is required mid-run.
 
-**Failure diagnostics:** On timeout, each phase runs diagnostic commands and reports what's stuck:
+**Failure diagnostics:** On timeout, each phase runs diagnostic commands and
+reports what's stuck:
+
 - VM cleanup: Lists remaining VMs per Proxmox host
 - Machine provisioning: Shows machine phases + provider logs
 - Node health: Describes node conditions
 - App sync: Lists apps with sync/health status
 
-**Multi-host VM monitoring:** Checks for Talos VMs across foxtrot, golf, and hotel (all Matrix cluster hosts), not just a single node.
+**Multi-host VM monitoring:** Checks for Talos VMs across Foxtrot, Golf, and
+Hotel—all Matrix cluster hosts—not just a single node.
 
-**Phase gating:** Each phase must complete successfully before the next begins. Failure exits immediately with diagnostics.
+**Phase gating:** Each phase must complete successfully before the next begins.
+Failure exits immediately with diagnostics.
 
 **Timing summary:** Final output shows cumulative time per phase and total runtime.
 
@@ -88,6 +98,7 @@ After script completes:
 1. All nodes should be Ready
 2. All ArgoCD apps should be Synced/Healthy (except argocd-ha)
 3. ArgoCD HA requires manual sync if desired:
+
    ```bash
    argocd app sync argocd-ha
    ```

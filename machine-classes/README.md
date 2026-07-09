@@ -15,7 +15,10 @@ Machine class definitions for Omni Proxmox provider autoprovisioning.
 
 **Workers:** Can be pinned to specific nodes via separate `Workers` sections in cluster template.
 
-**Control Planes:** Cannot be pinned. Omni requires exactly 1 `kind: ControlPlane` section per cluster template, so all CPs must use the same machine class. The Provider distributes them (currently all land on one node).
+**Control Planes:** Cannot be pinned. Omni requires exactly one
+`kind: ControlPlane` section per cluster template, so all control planes must
+use the same machine class. The provider distributes them; currently, all land
+on one node.
 
 ```text
 # This fails with "template should contain 1 controlplane, got 3"
