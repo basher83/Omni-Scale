@@ -113,12 +113,14 @@ while [[ $# -gt 0 ]]; do
       INCLUDE_RUNNING=true
       shift
       ;;
-    -h|--help)
-      usage; exit 0
+    -h | --help)
+      usage
+      exit 0
       ;;
     *)
       echo "Unknown argument: $1" >&2
-      usage; exit 2
+      usage
+      exit 2
       ;;
   esac
 done
@@ -131,11 +133,12 @@ expand_vmids() {
     if [[ "$part" =~ ^[0-9]+-[0-9]+$ ]]; then
       local start=${part%-*}
       local end=${part#*-}
-      for ((i=start; i<=end; i++)); do out+=("$i"); done
+      for ((i = start; i <= end; i++)); do out+=("$i"); done
     elif [[ "$part" =~ ^[0-9]+$ ]]; then
       out+=("$part")
     elif [[ -n "$part" ]]; then
-      echo "Invalid vmid token: $part" >&2; exit 2
+      echo "Invalid vmid token: $part" >&2
+      exit 2
     fi
   done
   printf '%s\n' "${out[@]}"
@@ -159,16 +162,17 @@ collect_vmids() {
 }
 
 merge_opts() {
-  local existing="$1"; shift
+  local existing="$1"
+  shift
   local -A keep
-  IFS=',' read -r -a parts <<< "$existing"
+  IFS=',' read -r -a parts <<<"$existing"
   for kv in "${parts[@]}"; do
     [[ -z "$kv" ]] && continue
     if [[ "$kv" == *"="* ]]; then
       local k=${kv%%=*}
       local v=${kv#*=}
       case "$k" in
-        ssd|discard|iothread|cache|aio) ;;
+        ssd | discard | iothread | cache | aio) ;;
         *) keep["$k"]="$v" ;;
       esac
     else

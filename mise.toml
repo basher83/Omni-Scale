@@ -19,6 +19,10 @@ shellcheck = "0.11.0"
 "pipx:rumdl" = "0.2.28"
 uv = "0.11.28"
 python = "3.14.6"
+pre-commit = "4.6.0"
+shfmt = "3.13.1"
+actionlint = "1.7.12"
+omnictl = "1.9.1"
 
 [env]
 _.python.venv = { path = ".venv", create = true }
@@ -93,6 +97,17 @@ run = "pre-commit install -f && infisical scan install --pre-commit-hook"
 
 [tasks.pre-commit-run]
 description = "Run pre-commit hooks"
+run = "pre-commit run --all-files"
+
+[tasks."validate:omni"]
+description = "Validate checked-in Omni cluster templates offline"
+run = [
+  "omnictl cluster template validate -f clusters/talos-prod-01.yaml",
+  "omnictl cluster template validate -f clusters/test/test-cluster.yaml",
+]
+
+[tasks.check]
+description = "Run the complete local and CI quality gate"
 run = "pre-commit run --all-files"
 
 # === Infisical tasks ===

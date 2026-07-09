@@ -52,7 +52,7 @@ with Diagram(
         with Cluster("Management Layer (VMs)"):
             omni_hub = Docker(
                 "Omni Hub\n192.168.10.20\nManagement Plane & UI")
-            
+
             # The Proxmox provider worker agent separated out for clarity
             proxmox_worker = Docker(
                 "Proxmox Worker Agent\n192.168.3.10\nInfrastructure Provider")
@@ -62,7 +62,7 @@ with Diagram(
         with Cluster("Physical Infrastructure: Proxmox VE Cluster (Bare Metal)"):
             # Abstract representation of the Proxmox API endpoint
             pve_api = Server("Proxmox Cluster API\n(Hypervisor Management)")
-            
+
             with Cluster("Physical Hypervisors"):
                 pve_hosts = [
                     Server("PVE Host 1\n(HV)"),
@@ -77,7 +77,7 @@ with Diagram(
         # Using K8s icons from baseline to represent the resulting cluster nodes
         with Cluster("Workload Layer: Talos Kubernetes Cluster (VMs)"):
             talos_cp = APIServer("Talos Control Plane\n(VM Node)")
-            
+
             with Cluster("Worker Node Pool"):
                 talos_workers = [
                     Pod("Talos Worker 1\n(VM Node)"),
@@ -95,18 +95,18 @@ with Diagram(
     # Management & Provisioning Flow
     # 1. Omni Hub instructs the specific provider worker
     omni_hub >> Edge(label="instructs provider", color="blue") >> proxmox_worker
-    
+
     # 2. The worker talks to the Proxmox physical API to create resources
     proxmox_worker >> Edge(
-        label="Provisions VMs via API\n(ISO boot/image clone)", 
-        color="forestgreen", 
+        label="Provisions VMs via API\n(ISO boot/image clone)",
+        color="forestgreen",
         style="bold"
     ) >> pve_api
-    
+
     # 3. The API results in VMs running on physical hardware
     pve_api >> Edge(
-        label="spawns VM processes on", 
-        style="dashed", 
+        label="spawns VM processes on",
+        style="dashed",
         color="gray"
     ) >> pve_hosts[1]
 
@@ -116,8 +116,8 @@ with Diagram(
     # Logical Hosting Relationship
     # Showing that physical hardware hosts the logical Talos VM nodes
     pve_hosts[2] >> Edge(
-        label="physically hosts logical VMs", 
-        style="dotted", 
+        label="physically hosts logical VMs",
+        style="dotted",
         color="gray",
         minlen="2" # Force the arrow to span the layers visually
     ) >> talos_workers[1]

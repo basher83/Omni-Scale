@@ -1,15 +1,7 @@
 default_install_hook_types:
   - pre-commit
-  - post-checkout
-  - post-merge
-  - post-rewrite
 
 repos:
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.21
-    hooks:
-      - id: uv-sync
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -28,23 +20,38 @@ repos:
       - id: check-merge-conflict
       - id: check-symlinks
 
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.11.0
+  - repo: local
     hooks:
       - id: shellcheck
-        args: [--severity=warning]
+        name: shellcheck
+        entry: shellcheck --severity=warning
+        language: system
+        types: [shell]
 
-  - repo: https://github.com/scop/pre-commit-shfmt
-    rev: v3.12.0-2
-    hooks:
       - id: shfmt
-        args: [-i, "2", -ci]
+        name: shfmt check
+        entry: shfmt -d -i 2 -ci
+        language: system
+        types: [shell]
 
-  - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.0.208
-    hooks:
       - id: rumdl
+        name: rumdl check
+        entry: rumdl check
+        language: system
         files: ^(README\.md|clusters/README\.md|machine-classes/README\.md|scripts/README\.md)$
+
+      - id: actionlint
+        name: actionlint
+        entry: actionlint
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+
+      - id: omni-template-validate
+        name: validate Omni cluster templates
+        entry: mise run validate:omni
+        language: system
+        files: ^clusters/.*\.ya?ml$
+        pass_filenames: false
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
     rev: 42.70.2
