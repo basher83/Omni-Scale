@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "omni-talos": {
+      "source": "basher83/lunar-claude",
+      "sourceType": "github",
+      "skillPath": "plugins/homelab/omni-scale/skills/omni-talos/SKILL.md",
+      "computedHash": "3ff9fd59676628b318d47587e97e1c552ad4e6802d504217f5c2a993deb1a585"
+    }
+  }
+}
