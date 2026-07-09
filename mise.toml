@@ -73,14 +73,18 @@ echo "✅ CHANGELOG.md updated for v$VERSION!"
 echo ""
 echo "Next steps:"
 echo "  1. Review CHANGELOG.md"
-echo "  2. Update version in .claude-plugin/marketplace.json and plugin manifests"
-echo "  3. Commit changes:"
-echo "     git add CHANGELOG.md .claude-plugin/ && git commit -m 'chore: release v$VERSION'"
-echo "  4. Create annotated tag:"
+echo "  2. Commit changes:"
+echo "     git add CHANGELOG.md && git commit -m 'chore: release v$VERSION'"
+echo "  3. Create annotated tag:"
 echo "     git tag -a v$VERSION -m 'Release v$VERSION'"
-echo "  5. Push to GitHub:"
+echo "  4. Push to GitHub:"
 echo "     git push && git push --tags"
 """
+
+# === Operations tasks ===
+[tasks.disaster-recovery]
+description = "Destroy and recreate talos-prod-01, then bootstrap GitOps (interactive confirmation required)"
+run = "./scripts/disaster-recovery.sh"
 
 # === Hooks tasks ===
 [tasks.hooks-install]

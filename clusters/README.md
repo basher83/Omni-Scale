@@ -133,22 +133,22 @@ backup tiers, and restore procedures are owned by `../mothership-gitops`.
 
 ```bash
 # Validate template (offline)
-omnictl cluster template validate -f clusters/test-cluster.yaml
+omnictl cluster template validate -f clusters/test/test-cluster.yaml
 
 # Preview changes
-omnictl cluster template diff -f clusters/test-cluster.yaml
+omnictl cluster template diff -f clusters/test/test-cluster.yaml
 
 # Apply template
-omnictl cluster template sync -f clusters/test-cluster.yaml
+omnictl cluster template sync -f clusters/test/test-cluster.yaml
 
 # Check cluster status
-omnictl cluster template status -f clusters/test-cluster.yaml
+omnictl cluster template status -f clusters/test/test-cluster.yaml
 
 # Export existing cluster as template
 omnictl cluster template export <cluster-name>
 
 # Delete cluster resources
-omnictl cluster template delete -f clusters/test-cluster.yaml
+omnictl cluster template delete -f clusters/test/test-cluster.yaml
 ```
 
 ## Example: Production Cluster with GPU Workers

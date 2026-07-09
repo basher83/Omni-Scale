@@ -1,4 +1,4 @@
-# clusters/test-cluster.yaml
+# clusters/test/test-cluster.yaml
 kind: Cluster
 name: test-cluster
 kubernetes:
@@ -8,10 +8,10 @@ talos:
 ---
 kind: ControlPlane
 machineClass:
-  name: test-worker
+  name: matrix-control-plane
   size: 1
 ---
 kind: Workers
 machineClass:
-  name: test-worker
+  name: matrix-worker-hotel
   size: 0

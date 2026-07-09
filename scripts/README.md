@@ -8,6 +8,15 @@ Automated cluster destruction and recreation from declarative specs. Executes th
 
 ### Usage
 
+Run the guarded mise task from the repository root:
+
+```bash
+mise run disaster-recovery
+```
+
+The script prints its resolved inputs and requires typing `yes` before it deletes
+anything. Direct execution remains available for debugging:
+
 ```bash
 ./scripts/disaster-recovery.sh
 ```
@@ -17,7 +26,7 @@ Automated cluster destruction and recreation from declarative specs. Executes th
 - `omnictl` authenticated
 - `kubectl` available
 - `jq` installed
-- SSH access to `omni-provider` via Tailscale
+- Tailscale SSH access as root to Foxtrot, Golf, and Hotel
 - Infisical credentials available (for secret recreation)
 - Cluster template exists at configured path
 
@@ -58,15 +67,19 @@ Total expected runtime: 30-45 minutes.
 
 ### Configuration
 
-Paths and timeouts are configured at the top of the script:
+Paths are resolved from the script's repository location. Deployment-specific
+values can be overridden without editing the script:
 
 ```bash
-CLUSTER_NAME="talos-prod-01"
-CLUSTER_TEMPLATE="${HOME}/dev/infra-as-code/Omni-Scale/clusters/talos-prod-01.yaml"
-GITOPS_BOOTSTRAP="${HOME}/dev/infra-as-code/mothership-gitops/bootstrap/bootstrap.yaml"
+CLUSTER_NAME=talos-prod-01 \
+CLUSTER_TEMPLATE=/path/to/cluster.yaml \
+GITOPS_BOOTSTRAP=/path/to/bootstrap.yaml \
+EXPECTED_MACHINES=6 \
+PROVIDER_CTL=/path/to/provider-ctl.py \
+  mise run disaster-recovery
 ```
 
-Adjust paths if your directory structure differs.
+Timeouts remain configured near the top of the script.
 
 ### Post-Recovery
 
@@ -84,7 +97,7 @@ After script completes:
 | Symptom | Likely Cause | Check |
 |---------|--------------|-------|
 | VMs not destroying | Omni/Provider issue | Check Omni console for errors |
-| VMs not provisioning | Provider disconnected, key expired | `ssh omni-provider "docker logs omni-provider-proxmox-provider-1"` |
+| VMs not provisioning | Provider disconnected, key expired | `.agents/skills/omni-talos/scripts/provider-ctl.py --logs 50` |
 | Nodes not joining | DNS resolution wrong | Verify split-horizon DNS returns LAN IP |
 | Apps not syncing | ESO/Infisical issue | Check ClusterSecretStore health |
 

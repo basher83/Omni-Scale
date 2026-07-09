@@ -7,7 +7,7 @@ proxmox:
 
   # Authentication - API token recommended for production
   # Create token: Datacenter → Permissions → API Tokens
-  # Required privileges: See docs/guides/PROXMOX_PERMISSIONS.md
+  # Required privileges: See .agents/skills/omni-talos/references/proxmox-permissions.md
   tokenID: "terraform@pam!automation"
   tokenSecret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
