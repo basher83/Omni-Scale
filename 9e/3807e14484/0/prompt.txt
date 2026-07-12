@@ -1,0 +1,1 @@
+noted, i fixed that eza issue. ok next round linting is straightforward lets knock that out first
