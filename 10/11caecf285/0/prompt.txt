@@ -1,0 +1,1 @@
+great. CI and pre commit up next then. what do you propose here
