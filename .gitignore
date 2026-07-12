@@ -52,3 +52,6 @@ terraform.rc
 .venv
 .cursorindexingignore
 .claude/.supermemory-claude/
+
+# Agent runtime artifacts
+.pi-subagents/
