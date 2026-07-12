@@ -1,0 +1,1 @@
+correct, so lets patch the canonical in lunar-claude. the sync mechinisim is via npx skills cli. the lockfile is at repo root. lets use bash to check the remote machine and verify container name
