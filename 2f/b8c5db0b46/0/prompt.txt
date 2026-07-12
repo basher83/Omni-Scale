@@ -1,0 +1,1 @@
+For the smells; the bash script what do you reccomend? mise task - lets fix and clear that up. the path drift you noted - is that logged in the docs audit?
