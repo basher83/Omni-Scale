@@ -1,0 +1,1 @@
+the skill itself lives at ~/3I/workshop/lunar-claude/plugins/homelab/omni-scale/skills/omni-talos/scripts/provider-ctl.py
