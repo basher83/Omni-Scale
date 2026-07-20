@@ -313,7 +313,6 @@ DNS was the primary source of friction. The final architecture relies on Split-H
 > Note: Uses v1.4+ flag syntax.
 
 ```bash
-OMNI_IMG_TAG=v1.4.6
 OMNI_ACCOUNT_UUID=[UUID]
 NAME=omni
 EVENT_SINK_PORT=8091
@@ -379,7 +378,7 @@ services:
       - "192.168.10.20:8100:8100"
 
   omni:
-    image: ghcr.io/siderolabs/omni:${OMNI_IMG_TAG}
+    image: ghcr.io/siderolabs/omni:v1.9.3  # renovate-managed, see omni/compose.yml
     container_name: omni
     network_mode: "service:omni-tailscale"
     depends_on:

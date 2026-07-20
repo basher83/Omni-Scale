@@ -231,15 +231,14 @@ upgrade it before bumping cluster templates. Read the "Urgent Upgrade Notes"
 in the [Omni release notes](https://github.com/siderolabs/omni/releases) for
 every minor version you skip.
 
-On the Omni host, from `omni/`:
+The Omni version is pinned directly in `omni/compose.yml` — renovate opens a
+PR for new releases. Merge the PR, sync the compose file to the Omni host,
+then from the deploy directory:
 
 ```bash
-# Set the new version
-$EDITOR omni.env   # OMNI_IMG_TAG=vX.Y.Z
-
-# --env-file is required: compose interpolates ${OMNI_IMG_TAG} at parse
-# time and the env file is not named .env. Never use `down -v` (deletes
-# Tailscale state).
+# --env-file is required: compose interpolates ${TS_AUTHKEY} and volume
+# paths at parse time and the env file is not named .env. Never use
+# `down -v` (deletes Tailscale state).
 docker compose --env-file omni.env pull
 docker compose --env-file omni.env up -d --force-recreate
 ```
