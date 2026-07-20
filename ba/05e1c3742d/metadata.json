@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "ba05e1c3742d",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "docs/DEPLOYMENT.md",
+    "docs/OPERATIONS.md",
+    "omni/compose.yml",
+    "omni/omni.env.example"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ba/05e1c3742d/0/metadata.json",
+      "transcript": "/ba/05e1c3742d/0/full.jsonl",
+      "compact_transcript": "/ba/05e1c3742d/0/transcript.jsonl",
+      "content_hash": "/ba/05e1c3742d/0/content_hash.txt",
+      "prompt": "/ba/05e1c3742d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 20,
+    "cache_creation_tokens": 14088,
+    "cache_read_tokens": 1323296,
+    "output_tokens": 10817,
+    "api_call_count": 11
+  }
+}

@@ -1,0 +1,1 @@
+Step 5 - having it pop as a pr is a good call, just realize that really only flags it to tell us that i have to update it. theres no auto update action or anyhting ... which is what we should actually do tbh
