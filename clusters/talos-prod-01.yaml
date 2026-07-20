@@ -11,7 +11,7 @@ name: talos-prod-01
 labels:
   environment: production
 kubernetes:
-  version: v1.35.0
+  version: v1.36.2
 talos:
   version: v1.13.6
 patches:
