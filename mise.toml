@@ -11,18 +11,17 @@ show_env = false
 truncate = true
 
 [tools]
-eza = "0.23.5"
 fd = "10.4.2"
-rg = "15.1.0"
+rg = "15.2.0"
 git-cliff = "2.13.1"
 shellcheck = "0.11.0"
-"pipx:rumdl" = "0.2.30"
-uv = "0.11.28"
+"pipx:rumdl" = "0.2.37"
+uv = "0.11.29"
 python = "3.14.6"
 pre-commit = "4.6.0"
 shfmt = "3.13.1"
 actionlint = "1.7.12"
-omnictl = "1.9.1"
+omnictl = "1.9.3"
 
 [env]
 _.python.venv = { path = ".venv", create = true }
