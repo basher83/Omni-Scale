@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "8dc031944ec7",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".agents/skills/omni-update-rollout/SKILL.md",
+    ".agents/skills/omni-upgrade/SKILL.md",
+    "AGENTS.md",
+    "docs/OPERATIONS.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/8d/c031944ec7/0/metadata.json",
+      "transcript": "/8d/c031944ec7/0/full.jsonl",
+      "compact_transcript": "/8d/c031944ec7/0/transcript.jsonl",
+      "content_hash": "/8d/c031944ec7/0/content_hash.txt",
+      "prompt": "/8d/c031944ec7/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 170,
+    "cache_creation_tokens": 312828,
+    "cache_read_tokens": 11120806,
+    "output_tokens": 75227,
+    "api_call_count": 91
+  }
+}
