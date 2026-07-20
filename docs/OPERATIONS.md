@@ -227,31 +227,13 @@ omnictl get infraproviders
 ### Upgrade Omni Hub
 
 The Hub version gates which Talos and Kubernetes versions Omni will accept —
-upgrade it before bumping cluster templates. Read the "Urgent Upgrade Notes"
-in the [Omni release notes](https://github.com/siderolabs/omni/releases) for
-every minor version you skip.
+upgrade it before bumping cluster templates. The version is pinned in
+`omni/compose.yml` (renovate opens a PR per release).
 
-The Omni version is pinned directly in `omni/compose.yml` — renovate opens a
-PR for new releases. Merge the PR, sync the compose file to the Omni host,
-then from the deploy directory:
-
-```bash
-# --env-file is required: compose interpolates ${TS_AUTHKEY} and volume
-# paths at parse time and the env file is not named .env. Never use
-# `down -v` (deletes Tailscale state).
-docker compose --env-file omni.env pull
-docker compose --env-file omni.env up -d --force-recreate
-```
-
-Verify:
-
-```bash
-omnictl get sysversion -o jsonpath='{.spec.backendversion}'
-omnictl get talosversions   # new versions should appear
-```
-
-Keep `omni.env.example` and the `omnictl` pin in `mise.toml` in sync with
-the deployed version.
+The executable procedure — release-note gating, deploy commands, verification
+— is owned by the `omni-upgrade` skill (`.agents/skills/omni-upgrade/`).
+Version rollouts across the cluster are owned by the `omni-update-rollout`
+skill (`.agents/skills/omni-update-rollout/`).
 
 ### Upgrade Talos Nodes
 

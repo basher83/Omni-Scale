@@ -12,8 +12,16 @@ Tailscale authentication. It manages Talos Linux Kubernetes clusters through:
 
 ## Skills
 
-- omni-proxmox: guidance for deploying and managing Talos Linux Kubernetes
-  clusters via Sidero Omni with the Proxmox infrastructure provider.
+Skills in `.agents/skills/` are the operational interface for this repo:
+agents execute them, the human approves plans. Docs describe the system;
+skills own the procedures.
+
+- omni-talos: provider lifecycle, machine classes, CEL storage selectors,
+  cluster creation (vendored from lunar-claude via skills-lock.json).
+- omni-update-rollout: renovate triage, compatibility gating, and split
+  Talos-then-Kubernetes cluster version rollouts.
+- omni-upgrade: upgrading the Omni Hub itself (release-note gating, deploy,
+  verification).
 
 ## Desired State
 
