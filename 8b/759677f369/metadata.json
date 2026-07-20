@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "8b759677f369",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "clusters/talos-prod-01.yaml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/8b/759677f369/0/metadata.json",
+      "transcript": "/8b/759677f369/0/full.jsonl",
+      "compact_transcript": "/8b/759677f369/0/transcript.jsonl",
+      "content_hash": "/8b/759677f369/0/content_hash.txt",
+      "prompt": "/8b/759677f369/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 36,
+    "cache_creation_tokens": 23119,
+    "cache_read_tokens": 2675806,
+    "output_tokens": 17021,
+    "api_call_count": 19
+  }
+}

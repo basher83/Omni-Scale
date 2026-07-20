@@ -1,0 +1,29 @@
+~/3I/lab/Virgo-Core/ansible/playbooks/deploy-omni-provider.yml - fair warning this repo is a bit neglected and needs its own refresh but thats the playbook. i'm spinning up a new agent session there to get hands on
+
+---
+
+actually thats the proxmox provider not omni - still relevant
+
+---
+
+oh wait, Omni-Scale/proxmox-provider/* thats the actual docker config for the provider
+
+---
+
+not to mention that playbook is drifted and not valid
+
+---
+
+provider is up : ansible@omni-provider:/opt/omni-provider$ docker logs omni-provider-proxmox-provider-1 --tail 50
+{"level":"info","ts":1784543498.6810002,"caller":"omni-infra-provider-proxmox/main.go:93","msg":"using insecure connection to Proxmox"}
+{"level":"info","ts":1784543498.6811063,"caller":"omni-infra-provider-proxmox/main.go:117","msg":"starting infra provider"}
+{"level":"info","ts":1784543499.22682,"caller":"qruntime/qruntime.go:324","msg":"reconcile succeeded","controller":"matrix-cluster.ProvisionController","namespace":"infra-provider","type":"MachineRequests.omni.sidero.dev","id":"talos-prod-01-control-planes-lfscvs","job":"reconcile","busy":0.13290489}
+{"level":"info","ts":1784543499.358134,"caller":"qruntime/qruntime.go:324","msg":"reconcile succeeded","controller":"matrix-cluster.ProvisionController","namespace":"infra-provider","type":"MachineRequests.omni.sidero.dev","id":"talos-prod-01-control-planes-vfjd2c","job":"reconcile","busy":0.131268189}
+{"level":"info","ts":1784543499.4840682,"caller":"qruntime/qruntime.go:324","msg":"reconcile succeeded","controller":"matrix-cluster.ProvisionController","namespace":"infra-provider","type":"MachineRequests.omni.sidero.dev","id":"talos-prod-01-control-planes-xt25ct","job":"reconcile","busy":0.125774423}
+{"level":"info","ts":1784543499.6158657,"caller":"qruntime/qruntime.go:324","msg":"reconcile succeeded","controller":"matrix-cluster.ProvisionController","namespace":"infra-provider","type":"MachineRequests.omni.sidero.dev","id":"talos-prod-01-worker-foxtrot-5885q5","job":"reconcile","busy":0.131756879}
+{"level":"info","ts":1784543499.7471864,"caller":"qruntime/qruntime.go:324","msg":"reconcile succeeded","controller":"matrix-cluster.ProvisionController","namespace":"infra-provider","type":"MachineRequests.omni.sidero.dev","id":"talos-prod-01-worker-golf-kbdxzr","job":"reconcile","busy":0.131284179}
+{"level":"info","ts":1784543499.8715222,"caller":"qruntime/qruntime.go:324","msg":"reconcile succeeded","controller":"matrix-cluster.ProvisionController","namespace":"infra-provider","type":"MachineRequests.omni.sidero.dev","id":"talos-prod-01-worker-hotel-92f28d","job":"reconcile","busy":0.124256716}
+
+---
+
+yeah we can roll out updates, thats not blocked on key renewals
