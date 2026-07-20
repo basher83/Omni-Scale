@@ -1,0 +1,300 @@
+<task-notification>
+<task-id>b6mebddp5</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-Omni-Scale/24aa0e53-2ab9-45d2-b25d-1e0eaf434369/tasks/b6mebddp5.output</output-file>
+<status>completed</status>
+<summary>Background command "Monitor Kubernetes upgrade until complete or timeout" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>badklgvzp</task-id>
+<tool-use-id>toolu_01TE5rAQzKYrnkPKuAu3uoqT</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-Omni-Scale/24aa0e53-2ab9-45d2-b25d-1e0eaf434369/tasks/badklgvzp.output</output-file>
+<status>failed</status>
+<summary>Background command "Monitor Talos rolling upgrade until complete or timeout" failed with exit code 1</summary>
+</task-notification>
+
+---
+
+Use session-to-skill to turn this into a skill or group of skills for a repeatable loop that can successfully roll out updates as we just have
+
+---
+
+Repo-local, this is a good start. my feedback is to also migrate "Then follow the "Upgrade Omni Hub" runbook in docs/OPERATIONS.md" to another skill; omni-upgrade and so on. What I'm driving at is lifecycle skills for all omni ops. I as the human only approve access and plans. I'm not the one running the cli doing the work. - agents do and thats why a runbook is cool for a human to read but I dont read it its for agents
+
+---
+
+For "and so on" — the rest of the lifecycle family, in the order I'd build them - I agree lets do this; lets create github issues for this. maybe a sprint type pattern? basically the big goal being lifecycle skills and then the smaller sub goals under that
+
+---
+
+Perfect - on that note S3 storage is a topic of concern here too. curently is minio which is not opensource or user friendly. so migration to new S3 is on the roadmap here. I'm already started research on the topic just need to close out the research and bring the decision in here. lets also fan out some subagents in here to enumerate any documented "issues" that need tracking in github vs simply docs in repo. for example i see at minimunm: docs/audits/AUDIT_REPORT_2026-04-28.md and .claude/audit.local.md but have not deconflicted anything or dug further. we need to enumerate first, compile, asses and triage into github tracking
+
+---
+
+<task-notification>
+<task-id>a7972975aa4fdf8bc</task-id>
+<tool-use-id>toolu_01Co45jezddERzXXQpqdWLBW</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-Omni-Scale/24aa0e53-2ab9-45d2-b25d-1e0eaf434369/tasks/a7972975aa4fdf8bc.output</output-file>
+<status>completed</status>
+<summary>Agent "Enumerate inline code markers" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>Sweep complete. Here is the structured deliverable. I searched all in-scope paths with the requested patterns; the vast majority of raw matches are false positives (changelog regex config, handoff-command template field names like "Workaround:"/"blocked", example-file placeholder tokens, and skill-doc references). The genuine inline markers of open work are below.
+
+---
+
+## (a) Trackable open work
+
+- **`proxmox-provider/compose.yml:27-30`** — Provider pinned to a locally-built `omni-infra-provider-proxmox:local-fix` image because upstream injects a `configureHostname` step that conflicts with Omni's hostname management. This is active tech debt: the cluster depends on a hand-patched binary that must be rebuilt on every upstream bump.
+  - **Upstream issue link: none exists in the repo.** The comment points only to `docs/TROUBLESHOOTING.md` "Proxmox Provider Hostname Conflict" (lines 519-575), which documents a *local patch* recipe (clone, delete the step at `internal/pkg/provider/provision.go` lines 193-197, cross-compile, rebuild image) — not a filed upstream issue or PR. The PRs referenced elsewhere (`siderolabs/omni-infra-provider-proxmox` PR #36 advanced VM options, PR #38 node pinning, in `.agents/skills/omni-talos/references/machine-classes.md` and `docs/references/providerdata-fields.md`) are the project author's own unrelated contributions, not the hostname fix. Recommend filing an upstream issue and linking it here.
+  - Cross-references that repeat the same local-fix debt (documentation, not separate work): `.agents/skills/omni-update-rollout/SKILL.md:30`, `.agents/skills/omni-talos/SKILL.md:84`, `.agents/skills/omni-talos/references/provider-setup.md:50-54`.
+
+## (b) Permanent documented constraints
+
+- **`clusters/talos-prod-01.yaml:50, 79, 108`** — Three identical commented-out `node-role.kubernetes.io/worker: ""` node labels, each annotated `# Blocked by NodeRestriction admission` (worker-golf, worker-hotel, and the block ending at 108). This is a genuine Kubernetes constraint — the kubelet is forbidden by the NodeRestriction admission plugin from self-assigning `node-role.*` labels — so leaving it commented with the rationale is correct. Only "trackable" if the team decides to apply the label post-join via a controller/GitOps step; otherwise it is a permanent, well-documented constraint. Mirrored in docs at `clusters/README.md`.
+- **`clusters/talos-prod-01.yaml:3` and `:25`** (`# CNI: Disabled for Cilium installation post-bootstrap` / `disabled: true`) — Intentional: default CNI/kube-proxy disabled so Cilium can be installed after bootstrap. Documented design decision, not open work. Same pattern echoed in the omni-talos skill templates (`.agents/skills/omni-talos/examples/cluster-template.yaml:20`, `references/cluster-templates.md:51,83`).
+
+## (c) Dead weight to delete
+
+- **None found.** No orphaned TODO/FIXME/XXX/HACK/WIP comments, no stubbed or unimplemented shell paths, and no dead commented-out logic in the scope.
+  - `scripts/disaster-recovery.sh` and `scripts/proxmox-vm-optimize.sh` are fully implemented (all functions have real bodies; the `qm not found` and provider-log-fallback `echo`s are legitimate runtime guards, not stubs).
+  - The commented lines in `machine-classes/examples/gpu-worker.yaml:50,57,59` (`# Optional:`, `# Uncomment if…`) are intentional example toggles for an example file, not deferred work.
+  - Placeholder tokens (`XXXX…`, `xxxxxxxx-…`) in `omni/omni.env.example`, `proxmox-provider/.env.example`, `proxmox-provider/config.yaml.example`, and the skill reference docs are legitimate `.example` scaffolding.
+
+### Noted false positives (no action)
+`cliff.toml:59` (`^fix` is a changelog-group regex), `.pre-commit-config.yaml:49-50` / `renovate.json` (config values), and all `.claude/commands/handoff*.md` + `resume-handoff.md` + `spec-analysis.md` hits ("Workaround:", "blocked", "known workaround" are template field labels, not markers in this repo's own work).
+
+Net: one real piece of trackable debt (the un-upstreamed `local-fix` provider patch, with no upstream issue link in the repo), two documented constraints, and no dead weight.</result>
+<usage><subagent_tokens>38484</subagent_tokens><tool_uses>8</tool_uses><duration_ms>93173</duration_ms></usage>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>a81c38cc587539215</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-Omni-Scale/24aa0e53-2ab9-45d2-b25d-1e0eaf434369/tasks/a81c38cc587539215.output</output-file>
+<status>completed</status>
+<summary>Agent "Enumerate docs open items" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>I've read the entire docs corpus. Here is the structured sweep of trackable-work candidates.
+
+# Documented Open Work — Omni-Scale Docs Corpus
+
+Version baseline for freshness calls: cluster is now **Talos v1.13.6 / K8s v1.36.2 / Omni v1.9.3** (2026-07-20). The docs corpus was last touched around 2026-04 and shows consistent version drift below.
+
+## Tier 1 — Clear trackable work (open/unresolved)
+
+**1. Proxmox provider runs a local patched image awaiting upstream fix**
+- Source: `docs/TROUBLESHOOTING.md:519-594` ("Proxmox Provider Hostname Conflict"), reinforced at `docs/ROADMAP.md:34` (Provider lifecycle) and `docs/ROADMAP.md:41` (backlog: "Proxmox provider upstream replacement check"), `README.md:109-116`.
+- Claim: The checked-in compose pins `ghcr.io/...:local-fix` because upstream injects a conflicting `configureHostname` step; this holds "until the upstream hostname behavior is confirmed fixed in a released provider image."
+- Trackable vs docs: This is an explicit *pending* condition (recheck upstream releases), not a permanent gotcha. The whole substrate depends on a hand-built image. Prime issue candidate.
+- Freshness: References `fhs:v1.11.0` / `ca-certificates:v1.11.0` base images and PR #38. No recheck date recorded — worth verifying against current upstream provider releases.
+
+**2. Cilium is installed imperatively; GitOps management is an unfulfilled plan**
+- Source: `docs/guides/CILIUM.md:66-76` — "Cilium on this cluster is installed imperatively, not via GitOps... No ArgoCD Application manages Cilium. GitOps management of Cilium is tracked in `docs/ROADMAP.md`."
+- Trackable vs docs: Named future migration. **Also a doc inconsistency**: CILIUM.md says it's "tracked in ROADMAP" but ROADMAP.md contains no Cilium-GitOps entry — the tracking pointer is dangling.
+- Freshness: DaemonSet noted as v1.18.6, CLI v0.19.2/default v1.19.1 (verified 2026-04-16) — likely stale.
+
+**3. GitOps bootstrap plan still marked "Not started" but appears fully executed**
+- Source: `docs/plans/gitops-bootstrap-hybrid.md` — every phase (1-5) reads `**Status:** Not started`; "mothership-gitops repo | Does not exist"; "ArgoCD | Not deployed".
+- Contradicting reality: `docs/OPERATIONS.md:23-30`, `docs/DEPLOYMENT.md:169-173`, and `scripts/README.md:42` all treat `../mothership-gitops/bootstrap/bootstrap.yaml`, ArgoCD, ESO, Longhorn, Netdata as operational; `disaster-recovery.sh` applies the bootstrap and waits for ArgoCD apps Synced/Healthy.
+- Trackable vs docs: A stale plan doc — the work is done but the plan was never closed/reconciled. Candidate to close or archive. Plan dated 2026-01-04.
+
+**4. Cilium MTU auto-detect path is an unresolved investigation**
+- Source: `docs/guides/CILIUM.md:44-48`, `docs/TROUBLESHOOTING.md:32-36`, `README.md:64-66`.
+- Claim: "The exact selection that resolves to siderolink's 1280 on these Talos nodes is not mapped in upstream sources. The outcome is observed; the selection path is not."
+- Trackable vs docs: This is exactly the "not mapped" open question the task flags as trackable (vs. the *fix*, `--set MTU=1450`, which is a settled permanent gotcha). The mechanism remains uncharacterized.
+
+**5. Pod-MTU regression signal — invariant defined but not implemented**
+- Source: `docs/ROADMAP.md:33` — "Define the substrate invariant: pod `eth0` MTU should be 1450. Implementation may live in `../mothership-gitops` if it becomes a monitored workload."
+- Trackable vs docs: Explicitly unbuilt monitoring/guardrail with an undecided home. Pending decision + implementation.
+
+## Tier 2 — Feature requests / upstream-blocked items
+
+**6. Control-plane node pinning not possible — feature request to upstream**
+- Source: `docs/TROUBLESHOOTING.md:731-763` ("Control Plane Node Distribution Cannot Be Pinned"), `machine-classes/README.md:14-36`, `docs/references/providerdata-fields.md:106`, `docs/ROADMAP.md:51`.
+- Claim: Omni requires exactly one `ControlPlane` section, so CPs can't be pinned; workaround section explicitly lists "Feature request — Omni should support multiple ControlPlane sections or Provider anti-affinity." PR #38 adds `node:` but template format blocks it for CPs.
+- Trackable vs docs: The *constraint* is permanent-docs, but the named feature request (upstream Omni/provider enhancement) is trackable. Borderline — track only if you want to carry the upstream ask.
+
+**7. ROADMAP backlog items (undeveloped)**
+- Source: `docs/ROADMAP.md:39-45`.
+- Items: Omni Hub backup/restore procedure; Machine class validation examples; GPU passthrough workloads; Multi-cluster ("Quantum as dev?" — open question); Proxmox provider upstream replacement check (dup of #1).
+- Trackable vs docs: Genuine backlog. Each is a candidate issue; "Multi-cluster (Quantum as dev?)" carries an unresolved question mark.
+
+## Tier 3 — Freshness / status-reconciliation candidates
+
+**8. ROADMAP "Near Term" doc-refresh items appear already done**
+- Source: `docs/ROADMAP.md:19-24` (4 items: provider docs, Omni docs, cluster template docs, GitOps handoff).
+- Assessment: The docs I read already reference the concrete files these items call for (`omni/compose.yml` pinned to v1.9.3, `clusters/talos-prod-01.yaml`, mothership-gitops handoff-only). These look complete but are still listed as Near Term work. ROADMAP `**Last Updated:** 2026-04-28` — status likely stale rather than open.
+
+**9. Pervasive version drift across docs (single cross-cutting freshness issue)**
+- `docs/DEPLOYMENT.md:3` — "Version Target: Omni v1.4.6+" and `:313` "Uses v1.4+ flag syntax" (now Omni v1.9.3; compose itself at `:381` correctly shows v1.9.3 — the header is stale).
+- `docs/TROUBLESHOOTING.md:196-199` — example template `v1.34.2` / Talos `v1.12.0`.
+- `clusters/README.md:16-17, 60-62, 161-164` — `v1.34.2` / `v1.12.0` examples.
+- `docs/guides/CILIUM.md:36` — "Talos v1.12.1"; `:415` upgrade example pins `--version 1.15.0`.
+- All trail current Talos v1.13.6 / K8s v1.36.2. One consolidated "refresh version examples" issue rather than many.
+
+**10. Conditional future action: set Cilium `cluster.name` explicitly**
+- Source: `docs/TROUBLESHOOTING.md:116-118` — auto-detected cluster name is the Tailscale hostname; "Harmless today. If ClusterMesh or cluster-name-keyed tooling is added, set `cluster.name` explicitly."
+- Trackable vs docs: Low-priority conditional/deferred action, not a live bug.
+
+## Explicitly NOT trackable (permanent documentation — excluded)
+
+For contrast, these read like open issues but are settled gotchas/constraints, correctly filed as docs:
+- `README.md:84-89` / TROUBLESHOOTING `:502-513` — "NEVER `docker compose down -v`" (permanent rule).
+- `docs/TROUBLESHOOTING.md:598-631` — VM migration breaks Talos state: "fundamental constraint, not a bug."
+- `docs/TROUBLESHOOTING.md:665-687` — "only read access" on `machines` resource: "Expected behavior (misleading error message)."
+- `docs/TROUBLESHOOTING.md:690-727` — NodeRestriction label block: "Kubernetes constraint."
+- `docs/TROUBLESHOOTING.md:790-813` — CEL storage type filtering: **Closed/Won't Fix**, workaround in place.
+- `docs/DEPLOYMENT.md:560-575` — manual ISO upload: documented alternative path when not using the provider.
+- The Cilium SSA-conflict / `serverSideApply.force` / timeout notes (`CILIUM.md:419-465`, `TROUBLESHOOTING.md:65-84`) are resolved-with-hypothesis runbook entries — the AAR hypotheses are labeled as unproven but the fix path is documented and working; not open work.
+- `docs/guides/talos-proxmox-research.md` — entirely an external best-practices reference synthesis; no project-specific open work.
+
+**Highest-value issue candidates: #1 (provider upstream replacement), #2 (Cilium GitOps + dangling ROADMAP pointer), #3 (stale completed bootstrap plan), #4 (MTU auto-detect investigation), #5 (pod-MTU monitoring).**</result>
+<usage><subagent_tokens>101996</subagent_tokens><tool_uses>13</tool_uses><duration_ms>106629</duration_ms></usage>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>a3cb39575e8b56ea6</task-id>
+<tool-use-id>toolu_01XD1nw351CGSeVB3B65VEcS</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-Omni-Scale/24aa0e53-2ab9-45d2-b25d-1e0eaf434369/tasks/a3cb39575e8b56ea6.output</output-file>
+<status>completed</status>
+<summary>Agent "Enumerate audit artifact findings" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>I have everything needed. Here is the enumeration.
+
+---
+
+# Formal Audit Artifacts — Findings Enumeration
+
+## File provenance &amp; tracking
+
+| File | Tracked? | Date / provenance | Nature |
+|---|---|---|---|
+| `docs/audits/AUDIT_REPORT_2026-04-28.md` | **git-tracked** (committed in `20bd87b` "docs: add documentation audit report") | Header: "Generated: 2026-04-28 \| Commit: e0d5f5e" | Documentation-drift audit of 13 user-facing markdown docs vs. checked-in repo + sibling `mothership-gitops` |
+| `.claude/audit.local.md` | **local-only / NOT tracked** — gitignored via `.gitignore:22` (`.claude/*.local.md`) | Internal dates say 2026-04-17; audits work from commit `e0d5f5e` (2026-04-06) + uncommitted edits as of 2026-04-17 | "Prior-Agent Claim Audit" — backwards claim-provenance review of the Cilium MTU docs, categorizing 82 claims and assigning dispositions |
+| `.claude/plan.local.md` | local-only / gitignored (same rule) | 2026-01-16 | Not an audit — a "GitOps Bootstrap Phase 6 Completion Plan". Flagged for completeness only; not enumerated below. |
+| `.specstory/history/2025-12-29_...-you-are-auditing-the.md` | tracked (specstory history) | 2025-12-29 | A session transcript, not a formal audit artifact. Not enumerated. |
+
+**Relationship between the two audits:** They are **independent**, not derived from one another. Different dates (audit.local ~2026-04-17 precedes the report's 2026-04-28), different methodology (report = doc-claim-vs-reality drift; audit.local = prior-agent claim provenance with a P/Pa/U/R/K disposition scheme), different category taxonomies. The AUDIT_REPORT explicitly states it "skipped `docs/plans/` and prior audit output" and never references audit.local. They overlap only in the *files* they touch (ROADMAP, TROUBLESHOOTING, CILIUM, README, CLAUDE, longhorn-storage), not in individual findings. Note the AUDIT_REPORT is the polished, committed artifact; audit.local reads as an earlier local working scratchpad.
+
+**Important:** all AUDIT_REPORT line numbers below are as-of-audit; current files have shifted. I verified status against the current working tree (which is clean per `git status --porcelain`).
+
+---
+
+## OPEN / actionable items (most actionable first)
+
+### AL-T13 — Tailscale netstack citation does not support the claim
+- source: `.claude/audit.local.md:224,311`
+- claim: TROUBLESHOOTING.md attributes "Tailscale Ingress proxy pods use gVisor userspace netstack" to the Tailscale `userspace-networking` doc, but that page (verified via WebFetch) covers serverless containers, not the K8s operator / Ingress proxies — it doesn't support the attribution.
+- proposed_fix: Find a proper source (Tailscale operator code) or remove the mechanism claim.
+- apparent_status: **open** — the exact cited sentence is still present at `docs/TROUBLESHOOTING.md:36` in the committed tree; no follow-up commit removed or re-sourced it.
+- overlap: none (audit.local only).
+
+### AL-T14 — Local "ensue" research note cited as corroboration adds no evidence
+- source: `.claude/audit.local.md:232,312`
+- claim: TROUBLESHOOTING.md cites `workshop/ensue-snapshot/.../tailscale-h2c-proxy-mechanism.md` to corroborate the netstack claim, but that file is about h2c/HTTP-2 and only has one unsourced "netstack" mention — it repeats the same unsourced label.
+- proposed_fix: Remove the corroboration citation.
+- apparent_status: **open** — still present at `docs/TROUBLESHOOTING.md:36`.
+- overlap: paired with AL-T13 (same doc line).
+
+### AL-C32/T30 — device-MTU vs route-MTU conflation
+- source: `.claude/audit.local.md:294-298,310`
+- claim: Docs say "Pod veth MTU is set at pod creation and does not change for the pod's lifetime"; Cilium source (`pkg/mtu/endpoint_updater.go`) shows Cilium updates *route* MTU dynamically, not device MTU — the wording conflates the two (operational conclusion still correct).
+- proposed_fix: Rewrite to distinguish device vs route MTU, **or** explicitly accept the simplification.
+- apparent_status: **open** — original wording still at `docs/guides/CILIUM.md:484` (and TROUBLESHOOTING.md); no rewrite committed. Disposition "Pa" means accepting-as-is is a legitimate close.
+- overlap: none.
+
+### AR-CLUSTERS-gpupatch — patch example path does not resolve
+- source: `docs/audits/AUDIT_REPORT_2026-04-28.md:64`
+- claim: `clusters/README.md` example references `patches/gpu-worker.yaml`; the real file lives at `clusters/patches/examples/gpu-worker.yaml`.
+- proposed_fix: Update the example path or add the expected patch file.
+- apparent_status: **open / unclear** — `clusters/README.md:229` still reads `- file: patches/gpu-worker.yaml`, which relative to `clusters/` resolves to a non-existent `clusters/patches/gpu-worker.yaml` (actual files are `clusters/patches/examples/gpu-worker.yaml` and `machine-classes/examples/gpu-worker.yaml`). Not clearly fixed; may be an intentional illustrative snippet.
+- overlap: none.
+
+### AR-SCRIPTS-dr-interactive — DR "no human intervention" overstated
+- source: `docs/audits/AUDIT_REPORT_2026-04-28.md:137`
+- claim: `scripts/README.md` says the DR drill runs with no human intervention after the initial confirmation, but the script has a conditional second prompt when `universal-auth-credentials` is missing.
+- proposed_fix: State it is normally non-interactive after start, except the documented secret-bootstrap prompt.
+- apparent_status: **partial/likely-resolved** — the absolute wording "without human intervention after initial confirmation" still stands at `scripts/README.md:8`, but a new "Secret creation (conditional)" note now exists at `scripts/README.md:52` documenting the prompt. Half-addressed.
+- overlap: none.
+
+### AR-HRQ-* — Human Review Queue (4 open questions)
+- source: `docs/audits/AUDIT_REPORT_2026-04-28.md:180-185`
+- items:
+  - **AR-HRQ-longhorn-live**: confirm live Longhorn state (default StorageClass, PVC inventory, backup target, ESO creds, recurring jobs, restore test) from `mothership-gitops`.
+  - **AR-HRQ-container-name**: confirm the deployed provider container name on the host — compose uses `proxmox-provider`, DR script/scripts README referred to `omni-provider-proxmox-provider-1`.
+  - **AR-HRQ-tsargs**: confirm whether `TS_EXTRA_ARGS=--advertise-tags=tag:omni` is still operationally required.
+  - **AR-HRQ-providerdata**: verify upstream claims in `docs/references/providerdata-fields.md`, esp. PR #36 merge status and field defaults.
+- proposed_fix: live-cluster / upstream verification (as stated per item).
+- apparent_status: **open** (require live/external verification; AR-HRQ-tsargs is effectively moot now that all `TS_EXTRA_ARGS` references were removed — see AR-DEPLOY-tsargs-* below).
+- overlap: AR-HRQ-container-name overlaps AR-SCRIPTS-provider-log and AR-TS-container.
+
+---
+
+## Resolved / superseded items
+
+### AUDIT_REPORT doc-fix findings — all appear RESOLVED
+The bulk of the report's "False Claims" were addressed by the post-audit doc commits `7d547c3` (split substrate/gitops ownership), `f1c9080` (clarify substrate repo ownership), `aee8e77` (verify gitops handoff references), and `d32f088` (lint readmes). Verified in current tree:
+
+| id | source (report line) | claim (summary) | status |
+|---|---|---|---|
+| AR-README-specs | :31 | README lists non-existent `specs/` dir | **likely-resolved** — no `specs/` refs remain |
+| AR-CLAUDE-specs-desired | :37 | CLAUDE.md `specs/*.yaml` desired state | **likely-resolved** |
+| AR-CLAUDE-specs-readme | :38 | CLAUDE.md `@specs/README.md` link | **likely-resolved** |
+| AR-ROADMAP-pending | :44 | ROADMAP `pending/` optimized classes | **likely-resolved** — no `pending/` refs |
+| AR-ROADMAP-storage | :45 | ROADMAP Longhorn-vs-CSI decision belongs in gitops | **likely-resolved** (substrate-split commits) |
+| AR-ROADMAP-specs-omni | :46 | ROADMAP `specs/omni.yaml` | **likely-resolved** |
+| AR-OPS-runbook | :52 | OPS links non-existent `Sidero_Omni_Runbook.md` | **likely-resolved** — now links `DEPLOYMENT.md` (OPERATIONS.md:5) |
+| AR-OPS-mclass-apply | :53 | OPS applies `control-plane.yaml`/`worker.yaml` | **likely-resolved** — now `matrix-control-plane.yaml` (OPERATIONS.md:132) |
+| AR-OPS-mclass-example | :54 | OPS example `control-plane.yaml` | **likely-resolved** — now `matrix-control-plane.yaml` (:147) |
+| AR-OPS-cluster-template | :55 | OPS `cluster-template.yaml` sync | **likely-resolved** — no such refs remain |
+| AR-OPS-my-cluster | :56 | OPS `clusters/my-cluster.yaml` | **likely-resolved** |
+| AR-OPS-provider-logs | :57 | OPS logs `omni-infra-provider-proxmox` | **likely-resolved** — now `proxmox-provider` (:205-206) |
+| AR-CLUSTERS-testpath | :63 | clusters/README `clusters/test-cluster.yaml` | **likely-resolved** — now `clusters/test/test-cluster.yaml` (:136-151) |
+| AR-DEPLOY-tsargs-compose | :70 | DEPLOY claims `TS_EXTRA_ARGS` in compose | **likely-resolved** — no `TS_EXTRA_ARGS` anywhere now |
+| AR-DEPLOY-tsargs-sidecar | :71 | DEPLOY sidecar env `TS_EXTRA_ARGS` | **likely-resolved** |
+| AR-DEPLOY-provider-block | :72 | DEPLOY provider block (old name/`:latest`/inline flags) | **likely-resolved** — now `proxmox-provider`/`:local-fix`/config split (DEPLOYMENT.md:462-481) |
+| AR-TS-sqlite | :78 | TS sqlite path `/_out/omni.db` | **likely-resolved** — now `/_out/etcd/omni.db` (TROUBLESHOOTING.md:380) |
+| AR-TS-tun | :79 | TS `/dev/net/tun` under `volumes` | **likely-resolved** — now `devices:` (:400) |
+| AR-TS-providerkey | :80 | TS `OMNI_INFRA_PROVIDER_KEY` | **likely-resolved** — now `OMNI_SERVICE_ACCOUNT_KEY` (:437) |
+| AR-TS-container | :81 | TS container `omni-provider-proxmox-provider-1` | **likely-resolved** — now `docker logs proxmox-provider` (:534) |
+| AR-TS-pr38 | :82 | TS local-workaround status stale | **likely-resolved** — reworded (:588-590) |
+| AR-LONGHORN-ownership | :84-102 | untracked `longhorn-storage.md` duplicated gitops-owned Longhorn details | **likely-resolved** — file deleted; substrate contract moved to `clusters/README.md` |
+| AR-SCRIPTS-provider-log | :138 | scripts/README log cmd `omni-provider-proxmox-provider-1` | **likely-resolved** — that container name no longer in scripts/README |
+
+Note: the strings `omni-infra-provider-proxmox` still appear in `docs/TROUBLESHOOTING.md` (lines 537, 556-573, 855) and `docs/references/providerdata-fields.md`, but those are **correct upstream references** (the upstream GitHub repo name and the build-from-source recipe), not the stale service-name drift the audit flagged.
+
+### audit.local.md — verification corpus (context, not open items)
+The 82 prior-agent claims (R1-R8, C1-C39, T1-T35, RM1-RM6) were each given a disposition; the report itself states "All 82 prior-agent rows now have a disposition." The vast majority are **P (proven)** or **K (keep as-is / self-caveated)** — verified against the live cluster, git commits, upstream GitHub (PR #4687 merged, issue #14339 closed NOT_PLANNED), and the AAR at `lab-polish/aar/2026-04-06-cilium-mtu-siderolink-fix.md`. These are not open items. The only unresolved edit actions distilled from the corpus are AL-T13, AL-T14, AL-C32/T30 above, plus:
+
+- **AL-T34 (resolved):** `.claude/audit.local.md:278,309` — the non-reproducible `Auto-detected cluster name: talos-prod-operator-...` string flagged for rewrite. **likely-resolved** — that string is no longer present anywhere in `docs/guides/CILIUM.md`.
+- **AL-roadmap-date (resolved):** `.claude/audit.local.md:176` — ROADMAP "Last Updated" not bumped when 2026-04-16 rows were added. **likely-resolved** — now reads `2026-04-28` (ROADMAP.md:5).
+- **AL-versionlag (superseded):** `.claude/audit.local.md:320-330` — K8s 4 patches behind (v1.35.0 vs v1.35.4), Talos 5 behind (v1.12.1 vs v1.12.6), flagged as drift not severity. **superseded** — commits `bd96b04` (K8s → v1.36.2) and `360a09c` (Talos → v1.13.6) have since advanced both to newer minor series.
+
+---
+
+## Cross-file overlap summary
+- `docs/components/longhorn-storage.md`: AUDIT_REPORT treats it as a full "wrong repo ownership" finding (AR-LONGHORN-ownership); audit.local (`:21`) explicitly declares it **out of scope** ("older hanging doc, not prior-agent session output"). Same file, opposite handling.
+- `docs/ROADMAP.md`: report flags `specs/omni.yaml`/`pending/`/storage-decision; audit.local adds the Cilium RM1-RM6 rows + the Last-Updated consistency flag. Disjoint findings on a shared file.
+- `CLAUDE.md`: report flags `specs/` refs; audit.local (`:20`) notes the CLAUDE.md uncommitted deletion is an operator edit, out of scope. Disjoint.
+- No individual finding is duplicated across both artifacts.</result>
+<usage><subagent_tokens>63941</subagent_tokens><tool_uses>9</tool_uses><duration_ms>185827</duration_ms></usage>
+</task-notification>
+
+---
+
+3 and 4 here with an ownership note. gtg on the rest
+
+---
+
+Use session-to-skill; the skill is "The enumeration → compile → assess → triage loop"
+
+---
+
+agree global is the end state but i need to land it local first because i have to migrate it into my global skills repo and thats more time - effort than i have this second. so land here human reminder to myself is migrate asap to global
