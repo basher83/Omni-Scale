@@ -1,0 +1,1 @@
+for the record the cmds are: docker compose --env-file omni.env pull && docker compose --env-file omni.env up -d --force-recreate - omni hub is updated
