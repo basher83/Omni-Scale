@@ -1,0 +1,49 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "c8595930c1a0",
+  "session_id": "24aa0e53-2ab9-45d2-b25d-1e0eaf434369",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-20T11:07:49.923571Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "clusters/talos-prod-01.yaml"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "d440d95cce9d",
+  "checkpoint_transcript_start": 411,
+  "transcript_lines_at_start": 411,
+  "compact_transcript_start": 92,
+  "token_usage": {
+    "input_tokens": 13,
+    "cache_creation_tokens": 5005,
+    "cache_read_tokens": 1122370,
+    "output_tokens": 3883,
+    "api_call_count": 7
+  },
+  "session_metrics": {
+    "turn_count": 12
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-20T11:07:49.890984Z",
+    "agent_lines": 1,
+    "agent_removed": 1,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 2,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}

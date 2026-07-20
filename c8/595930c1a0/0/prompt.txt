@@ -1,0 +1,11 @@
+its done
+
+---
+
+<task-notification>
+<task-id>baax0ogm2</task-id>
+<tool-use-id>toolu_01KM9m8Q8yLGMLuZa3zraQsg</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-basher8383-3I-lab-Omni-Scale/24aa0e53-2ab9-45d2-b25d-1e0eaf434369/tasks/baax0ogm2.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for Longhorn replica rebuild to complete" completed (exit code 0)</summary>
+</task-notification>
