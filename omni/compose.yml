@@ -30,7 +30,7 @@ services:
       - "${HOST_IP:-192.168.10.20}:8100:8100"       # Kubernetes Proxy
 
   omni:
-    image: ghcr.io/siderolabs/omni:v1.9.3
+    image: ghcr.io/siderolabs/omni:v1.9.3@sha256:d6450b57b5bbcf8d4d3192cf51dc2b08d6d4c31abe23539e3446f2596608b1cf
     container_name: omni
     env_file: omni.env
     network_mode: "service:omni-tailscale"
