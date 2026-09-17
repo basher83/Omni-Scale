@@ -27,8 +27,11 @@ truth. Never merge a version bump the running control plane would reject.
 - Split rollouts: Talos and Kubernetes bumps are separate commits and separate
   syncs, with a health gate between. Never apply both halves in one sync.
 - Never migrate Talos VMs. A stuck node is destroy/recreate, per doctrine.
-- The provider image `omni-infra-provider-proxmox:local-fix` is a locally
-  patched fork — exempt from all version automation.
+- Establish provider image provenance and review its Omni API dependencies
+  before a rollout. Record the deployed digest, its upstream build revision,
+  and the API requirements of the proposed provider/Omni combination. The
+  historical `local-fix` workaround is not a permanent exemption from lifecycle
+  review.
 
 ## Workflow
 

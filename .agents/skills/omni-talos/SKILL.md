@@ -81,7 +81,7 @@ See `references/machine-classes.md` for full field reference.
 |------------|---------|
 | L2 adjacency | Provider MUST be on same L2 as Talos VMs (Foxtrot LXC) |
 | CEL `type` reserved | Use `name` only for storage selectors |
-| Hostname bug | Use `:local-fix` tag, not `:latest` |
+| Provider provenance | Verify the deployed digest and upstream fix ancestry; `references/provider-setup.md` explains the retired hostname workaround. Tags alone do not establish contents or compatibility. |
 | No CP pinning | Omni allows only 1 ControlPlane section per template |
 | No VM migration | Destroys node state — destroy/recreate instead |
 | Split-horizon DNS | `omni.spaceships.work` → 192.168.10.20 (LAN) |

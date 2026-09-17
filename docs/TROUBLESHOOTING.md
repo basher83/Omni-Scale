@@ -534,7 +534,15 @@ omnictl machine-logs <machine-id> --tail 100 | grep -i hostname
 docker logs proxmox-provider --tail 100 | grep -i hostname
 ```
 
-**Root Cause:** The upstream `omni-infra-provider-proxmox` injects a `configureHostname` step that sets `machine.network.hostname` to the Omni request ID. This conflicts with Omni's hostname management.
+**Historical incident, not current deployment guidance:** The workaround below
+describes the earlier provider implementation. Upstream
+[commit 559954c](https://github.com/siderolabs/omni-infra-provider-proxmox/commit/559954c759bd5b2cf319bcc0ac8c974bdb6621bb)
+removed this step and moved hostname delivery to NoCloud metadata. Use the
+[provider provenance procedure](../.agents/skills/omni-talos/references/provider-setup.md#provider-image)
+to determine whether a deployed build includes that change; do not rebuild or
+deploy the old workaround solely because this historical section exists.
+
+**Historical root cause:** The earlier upstream `omni-infra-provider-proxmox` injected a `configureHostname` step that set `machine.network.hostname` to the Omni request ID. This conflicted with Omni's hostname management.
 
 **Location:** `internal/pkg/provider/provision.go` lines 193-197
 
@@ -585,9 +593,12 @@ services:
     image: ghcr.io/siderolabs/omni-infra-provider-proxmox:local-fix
 ```
 
-**Status:** Local hostname workaround. The checked-in provider compose uses the
-patched `:local-fix` image until the upstream hostname behavior is confirmed
-fixed in a released provider image.
+**Disposition (September 17, 2026):** Upstream fix ancestry and deployed artifact
+provenance were verified in the
+[Lab Operations postmortem](https://github.com/basher83/lab-operations/blob/main/incidents/2026-09-16-omni-connectivity.md#provider-provenance-follow-up).
+The checked-in Compose still retains the historical `:local-fix` reference;
+reconciliation is separate from this historical workaround and from deploying
+a newer release. Refresh evidence using the procedure above for future changes.
 
 **Related:** PR #38 (node pinning) submitted by project author: https://github.com/siderolabs/omni-infra-provider-proxmox/pull/38
 
