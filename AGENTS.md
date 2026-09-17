@@ -23,6 +23,12 @@ skills own the procedures.
 - omni-upgrade: upgrading the Omni Hub itself (release-note gating, deploy,
   verification).
 
+Keep local pointers to a skill's supporting instructions, references, and scripts
+within that skill's own directory. Do not reach into a sibling skill's resource
+tree or assume a harness-specific plugin root. The broader review of skill
+responsibilities, composition, and cross-harness loading is queued separately;
+this rule does not declare existing skills audited or portable.
+
 ## Desired State
 
 Desired substrate state is represented by checked-in Omni artifacts:
