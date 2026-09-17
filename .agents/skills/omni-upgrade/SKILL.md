@@ -30,7 +30,8 @@ upgrade request.
 
 ## Preconditions
 
-1. Read the "Urgent Upgrade Notes" for **every minor version being skipped**:
+1. Read the [official upgrade policy](https://docs.siderolabs.com/omni/self-hosted/upgrading-omni)
+   and the "Urgent Upgrade Notes" for **every minor version being traversed**:
 
    ```bash
    gh api repos/siderolabs/omni/releases/tags/vX.Y.0 --jq .body
@@ -40,11 +41,12 @@ upgrade request.
    both deployed and checked-in commands. Include target patch notes. Match the
    client to the target backend; Omni 1.11 changes the API version and requires
    upgrading `omnictl` with the backend.
-2. Upgrading from older than v1.4.0 requires stepping through v1.4.x first
-   (storage migrations). From v1.4.x onward, direct upgrades are supported.
+2. Follow the upstream-supported sequence: one minor version at a time, with
+   target patch notes and health checks at each step. Do not infer support for
+   skipping minors from a downloaded target image or a previous successful jump.
 3. State migrations are not guaranteed reversible. Treat rollback as
    unavailable; the plan is roll-forward. Present this in the plan for
-   approval on multi-minor jumps.
+   approval on upgrades spanning multiple minor releases.
 4. Refresh container IDs, image IDs, mounts, network attachment, and current
    health. Compare rendered deployed Compose with the repository in memory,
    emitting only relevant non-secret differences. Do not overwrite deployment
