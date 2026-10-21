@@ -1,7 +1,7 @@
 services:
   # Tailscale sidecar - provides network connectivity to Omni
   worker-tailscale:
-    image: tailscale/tailscale:latest@sha256:d54b2e6a9c09f0e5ec52e82b9ad4af3d446b54a7c08075e92f11c39dd410105f
+    image: tailscale/tailscale:latest@sha256:b11583ad2e93e4671128538c88cf11f460444a5d7e449311dd1933a400ab849d
     container_name: worker-tailscale
     hostname: proxmox-worker-matrix
     environment:
