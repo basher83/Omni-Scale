@@ -1,0 +1,30 @@
+check the repo, is argocd cli documented here as to its set up?
+
+---
+
+it's managed by homebrew. but noted, mothership-gitops is the proper repo for it
+
+---
+
+no its fine I'll handle it. but while im here lets fix: mise WARN  deprecated [setting.task_run_auto_install]: Use task.run_auto_install instead. This will be removed in mise 2027.2.0.
+
+---
+
+min_version
+A plain string is a hard minimum. Older mise releases stop with an error and print upgrade instructions:
+
+1
+min_version = "2026.1.0"
+
+
+Add a soft minimum to warn without failing:
+
+1
+min_version = { hard = "2025.6.0", soft = "2026.1.0" }
+
+
+Set hard to the oldest release that understands this file and soft to the release you want teammates on. { soft = "2026.1.0" } on its own is also valid.
+
+---
+
+commit and push
