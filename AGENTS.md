@@ -43,6 +43,12 @@ files first, then update the relevant docs so commands and paths stay aligned.
 
 Post-bootstrap platform state belongs in `../mothership-gitops`, not this repo.
 
+## Deployed Topology
+
+- Omni Hub runs on the `omni-host` VM. Reach it with `ssh ansible@omni-host` over Tailscale; its stack lives in `~/docker/omni`.
+- The Proxmox provider runs in the `omni-provider` LXC (CT 200) on Foxtrot, not on omni-host. Reach it with `tailscale ssh root@foxtrot`, then `pct exec 200 -- …`. The omni-talos skill's `provider-ctl.py` wraps this route.
+- The deployed provider stack does not match `proxmox-provider/compose.yml`. The checked-in file names `:local-fix` and container `proxmox-provider`; the live stack runs upstream `:latest` under Compose project `omni-provider` (verified 2026-11-06). Reconcile the checked-in file to a pinned upstream release before redeploying from it. Unused historical images (`local-fix`, `84a37c0-dirty`, `fix-node`) remain in CT 200.
+
 ## Templates
 
 Templates in `.claude/templates/` define output structures for consistent formatting:
