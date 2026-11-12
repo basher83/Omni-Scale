@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:5b6b5406c9229d03be99be2c0803ecd7245f463d8c8a9459255aec2f1693fbc5",
+  "claims": [
+    {
+      "id": "claim_f68d4516f6e74dc38471ee64e9711df0",
+      "statement": "The inspected CI runs the same static pre-commit gate as mise run check on pull requests and main pushes; it has no infrastructure deployment or recovery steps, uses read-only contents permission, Ubuntu, a ten-minute timeout and workflow/ref concurrency cancellation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml",
+          "version": "repo-file-v1:sha256:3aba5e4e00acc847d7726a9dd5acbb8cc1279ee842b8a510d3656f9404a07899"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e1f40a18cea2f9da59205b7c38b29392e3426931055365c91ec7f93f7e9a523b"
+        }
+      ]
+    },
+    {
+      "id": "claim_30d777c3b2084fe99665d0505e0b8773",
+      "statement": "mise enables automatic tool installation and .venv creation; the full local gate is not strictly read-only because whitespace/EOF hooks can rewrite source, while markdown-fix formats Markdown and hooks-install installs pre-commit and Infisical hooks separately.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e1f40a18cea2f9da59205b7c38b29392e3426931055365c91ec7f93f7e9a523b"
+        }
+      ]
+    },
+    {
+      "id": "claim_44a45a482e5545a886022b2431a76fce",
+      "statement": "The Omni hook triggers for cluster YAML, passes no filenames and runs an explicit task validating production and test templates offline; it neither automatically validates additional templates nor triggers on machine-class-only edits.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml#L49-L54",
+          "version": "repo-lines-v1:sha256:09e404f85280beb3d02b3da54b9f2fbba697cdfaac8d9c5d00ce21b75ef5209c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDNkNGM1Y2Y3ODI5MDk4YjllZDVmYTU0MDkxOTBmYjNhNGQ0NzMzN2UxYTdhOGY2N2ZhOTc5N2IwOTcwYzM2MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE3ODZiZDNkNDliYTkzYjI2YzQ0NjgzNTJkNWViMDc5YjVmY2U0ZmRmZDYzNjgzODY0MjFkZWZjMjY3MDRlMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjQ5ZTNlMzkwMjJlZjA1MWNjMWU5ZTBhOGE2M2VkZDhkYWJkOWYyOTI5OWEzZDJiZjIwMjk0MzllYWExNmRkNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDkxY2Y1OWQ4NmRjMTVlYjc4YzFmZTlhMWFjMzE2ZTE1ZDgyMzkxMDUxYmY5YzA4YTJlY2NhZTUxMTA0MzJhZSJ9"
+        },
+        {
+          "resource": "repo://mise.toml#L102-L108",
+          "version": "repo-lines-v1:sha256:8bd5fc23882a46877dd1a798106899a532fc4716e65c9b89d213c3807e36aeb9:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGJmZjdiMWE3ZjYxZGY4YWEyMTFiNGNlMGQ4ZjZkODUwOWNhOTE1ZjhiZTA1YjBiZDNiNGZhYzdmMDY3ZmU1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzE2YzdkNWI4ZjE3N2MyYTMyY2ZjZjFmMDUwMjYxNzBmZmFjYWQ4MDZmZWJkNzhlZjdmMjEyNzM4OWIzMjhjMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b06590daf2f46758eabfc1e1d83352c",
+      "statement": "YAML checking allows multiple documents but does not separately validate the providerdata scalar as a provider document; offline cluster validation cannot establish live DNS, permissions, resource allocation, provider compatibility or bootstrap readiness.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        },
+        {
+          "resource": "repo://machine-classes/test/test-matrix-worker-hotel.yaml",
+          "version": "repo-file-v1:sha256:d7cf7cfe81d9631a014bc057a1574e331040754d97abab88741964193831c567"
+        },
+        {
+          "resource": "repo://mise.toml#L102-L108",
+          "version": "repo-lines-v1:sha256:8bd5fc23882a46877dd1a798106899a532fc4716e65c9b89d213c3807e36aeb9:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGJmZjdiMWE3ZjYxZGY4YWEyMTFiNGNlMGQ4ZjZkODUwOWNhOTE1ZjhiZTA1YjBiZDNiNGZhYzdmMDY3ZmU1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzE2YzdkNWI4ZjE3N2MyYTMyY2ZjZjFmMDUwMjYxNzBmZmFjYWQ4MDZmZWJkNzhlZjdmMjEyNzM4OWIzMjhjMiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh",
+          "version": "repo-file-v1:sha256:bc5c32662df4cc3fca60a0c8990e3b0da1e9692e62524525f777449a9935a0e6"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3041f5eb9814426ba0fbab1de9ee4ad",
+      "statement": "The gate runs warning-or-higher ShellCheck and diff-only shfmt with two-space/case indentation on shell files, Python AST parsing rather than execution tests, and actionlint only on workflow YAML.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        }
+      ]
+    },
+    {
+      "id": "claim_26101c5f13aa49db81aac883ceb70921",
+      "statement": "The configured gate includes general hygiene and credential-pattern checks, strictly validates Renovate through hook revision 42.70.2, and limits rumdl to four named README files; the separate markdown-lint task checks the broader tree.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e1f40a18cea2f9da59205b7c38b29392e3426931055365c91ec7f93f7e9a523b"
+        }
+      ]
+    },
+    {
+      "id": "claim_e517020a6b314cf79453925565dfb991",
+      "statement": "The test cluster YAML is a real provisionable template with one matrix-control-plane machine and zero matrix-worker-hotel workers, Talos v1.12.0 and Kubernetes v1.35.0, whose comment requires Talos 1.12.0+.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/test/test-cluster.yaml",
+          "version": "repo-file-v1:sha256:830eb8ce2dbaf4319bbea999512ffcb1e2e3bccd5a7f7aebbf03fb98fb51f1a9"
+        }
+      ]
+    },
+    {
+      "id": "claim_764486a1d4c94e95a9a4a93e6984c7ed",
+      "statement": "The test machine-class file declares the actual matrix-worker-hotel identity for matrix-cluster with hotel placement, 8 cores, 16384 MB RAM, 100 GB disk, vmbr0 and vm_ssd storage selection, rather than defining an isolated mock resource.",
+      "evidence": [
+        {
+          "resource": "repo://machine-classes/test/test-matrix-worker-hotel.yaml",
+          "version": "repo-file-v1:sha256:d7cf7cfe81d9631a014bc057a1574e331040754d97abab88741964193831c567"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6a0e10f64e141ad974de258ce7bdc9c",
+      "statement": "Both Compose stacks share their Tailscale sidecar's network namespace and depend on sidecar health; provider Compose explicitly warns to reconcile its historical local-fix image reference with the verified deployed digest before redeployment.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_581567adfc654374b6889adb0f17b69e",
+      "statement": "Renovate custom regex managers target nested Talos and Kubernetes versions in cluster YAML using GitHub releases; configuration validation alone does not exercise extraction on edited layouts or runtime version compatibility.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        },
+        {
+          "resource": "repo://renovate.json",
+          "version": "repo-file-v1:sha256:5d7dcea5fe0065b125fd22d663cf095214211abd8c956ce0a0dd055d5236e055"
+        }
+      ]
+    },
+    {
+      "id": "claim_09f83d45dd1b4a9e9d2e83daafc84ec6",
+      "statement": "The provider helper uses Tailscale SSH and pct exec to manage the provider container, supports status/log reads and a mutating restart, and discovers the container through its Compose service label unless overridden.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py",
+          "version": "repo-file-v1:sha256:a46503c07ee74582daa8ce4f3518aba93f54152c720418704b555784e7627980"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed71e19bc4934079880e4401d1922c43",
+      "statement": "The VM optimization script requires qm, defaults to dry-run, uses --apply for changes and skips running VMs unless --include-running is selected; dry-run does not establish that settings were successfully applied.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/proxmox-vm-optimize.sh",
+          "version": "repo-file-v1:sha256:413b1b0a4f6167bad09907ef1669619f6a8caa6dee8fe5e193951acdefbf6f03"
+        }
+      ]
+    },
+    {
+      "id": "claim_3e338bb246bd4074a4ff89105df42fed",
+      "statement": "The disaster recovery task is destructive, not CI coverage: its script confirms yes, deletes and resyncs a cluster, waits for machines and Ready nodes, merges kubeconfig and switches context, applies an external GitOps bootstrap, may require manual Infisical secret creation, and excludes argocd-ha from application health requirements.",
+      "evidence": [
+        {
+          "resource": "repo://mise.toml#L88-L90",
+          "version": "repo-lines-v1:sha256:a1e102f508bdb96a2ba8862063daf2ca435ae2a1d3d618d19de37c3aa65076e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGQ2MDgxZmZlYWY3NDA5ZDkwNGRjNzA1NTM5NmJiOGVkZDE4ZTI4NDA2ODI3YzhmZjc3NTFmMTU3YjNkYjExOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTBjNzJkNGRjNjUzY2MwNzVmZTM5MzdhZmY3NjFjMzllMzdkNmU2MzcyNGVkOTA4MjBhN2QwMGJlNjFlN2ZjMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmE1MjNkODVjZWVmZmI4ODQyODYzMTBhYWE0Mjg0NDFlNTRiYjg1ZDI3ZjNiYjEzODU3ZGE5NzcyMDdmNjFhZSJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh",
+          "version": "repo-file-v1:sha256:bc5c32662df4cc3fca60a0c8990e3b0da1e9692e62524525f777449a9935a0e6"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

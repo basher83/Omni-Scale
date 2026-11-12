@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:c5e8e91f5f0a08b7d7ff67f2ae922e0391f2bdee8fcb16134b007f92d2dc1afd",
+  "claims": [
+    {
+      "id": "claim_f2b1e539b080415dbeb437bafd708493",
+      "statement": "The deployment order gates Hub login before provider service-account creation, live provider readiness before machine classes, and machine classes before cluster creation and GitOps handoff.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L77-L95",
+          "version": "repo-lines-v1:sha256:0e60ed5b2a985dd9f6b80b180de1856c9d7e839cd98c8f7fcecb4867d205ed47:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyYzI2NGZlMTcxYjkxNzQ0NGMzZDM3MmY4MmQwZDc0YzExNzQ3NjJlNTlmYmM3OWIzOWEyMjFkNmFjZWY4MTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L118-L194",
+          "version": "repo-lines-v1:sha256:5f0852fd40e13f3c1ef0da6b83d47fe56c516afc1b3dac1a21691816fda6a8bc:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjOGIzOGZmYzY3MjZlYWM2N2I5MmNiY2E4NzJjZDNkY2VhYTQ0MTk4NWRiMDZlNGRlZWFkMTBkZTcwMTc0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3NDI2MGUxNTg1MjRjM2YyMmJiMDJiYzc0NzU1MTFiNWI0OWQxNWMxNzJiNzU5NjQwNDE5ZGQ4ZmE1ZWQ5MjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRkY2QwYzFmYjJmZmY1YTQ0ZTU3NDY4OGQ0ZWViZjRjZGJjM2VkZWQwYzMzYjk3MjNmMjJiZDI1OGZhNWIwN2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cdf5a6747dea4db7aedf8c3c4d1f8d0d",
+      "statement": "The deployment uses split-horizon DNS so fresh Talos VMs reach the Hub over LAN while administrators and the worker can reach it through Tailscale; Proxmox node resolver configuration is part of that boot path.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L292-L340",
+          "version": "repo-lines-v1:sha256:e52b075ff3e4c44993741ab599f206ee1c02a3d569298f0f0003c7e7e322f821:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjMDcyZDM5NDQ5MjM3ZmNlMGY1NjBkMWQ5ZGQ5ZWYwYjIyYWEyNWFkMjVmMGZiYjViMTE2OWMzMGE3MTdhYmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwZTVmYjgwMzU5YjlkMWJmMjZjNzQ3YTQzN2JiODhjZjU3NWU3ZGZhZWYxYWE0NzYzZTFkYTBjNDAxY2MyMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlNzIxMmM1Y2FiOGZlMDg0NTc0MjQ1NjE4ZDk3MzhiYzI4MThlYzA5ODE4MmJjYjUwNzIxOWEyNTQyZDg2NTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5NDBkODBmODE0NDUwMTNjMjlhOGNkY2NjOGQ3NTVjMWU1MDNiMGE5ZWM5YzA1N2RlYTRmMzU0NzZiYjY2YzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ec3474c281b4a9f8152a596171a550b",
+      "statement": "Bootstrap prerequisites include separate Hub/worker Tailscale keys, Auth0 SPA settings, an installation UUID, TLS material and a GPG secret key; the Auth0 domain flag must omit the protocol.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L11-L118",
+          "version": "repo-lines-v1:sha256:d98a686ba68a4ed47a5423bbbf47c0674e9df9944c66943dda23ba16dba9094a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxOWRlZjNkYmVmNzQ5MWE2NTk3YWYyMTYyZmZkYjc5Y2UzNjZlNWZlYTYyMWI5ZDE2NzVlMmZkMTg2YmVjN2U1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3OWQwMDg0NWYyY2I0MzZhYWQxN2IzYmM2YWNlZjgyMTE0MjI1YWQxZThkYzJlYWI3NDNkMzdmNzk5OGM2OTdlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxMzNmMzIzMTk2MjRhZTcyYTlmY2VjY2MzOTJkNWVlODYxODRjY2E4MDUyNmE4MDc1ZGEwNmNjZDQxZjg1ZTE3In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_20e8f1f6c0c1488b92b5c2ad078aa9ad",
+      "statement": "Hub Compose requires parse-time interpolation of environment values for mounts, ports and command flags; invocations must explicitly use --env-file omni.env rather than relying on service env_file to supply those values.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://omni/omni.env.example",
+          "version": "repo-file-v1:sha256:ac53955aae6c05b9ed1579f8a5c6c89d5d9fab8d4ca32baf5076224193b2154a"
+        }
+      ]
+    },
+    {
+      "id": "claim_caaa4ed2b4064c0ab43c4b3d8cd892f8",
+      "statement": "The Hub shares its Tailscale sidecar network namespace and starts after sidecar health, publishing LAN TCP 443/8090/8100 and UDP 50180 through that sidecar with TUN access and network capabilities.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml#L1-L45",
+          "version": "repo-lines-v1:sha256:51f7576ec635518419a4250afb72157b0293f5be4b5ea25da46250eec9cedbab:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhNzNmY2NkYzk5ZWE4MzU5NjdjN2RlZTdlZmJlZDFmM2NhODcyNjBkOTI5MzE4NTBmZGQ2NmRhOGNiMTJmMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjOTg5M2M1MTQ1MDAzZDBjYjYwZWE3OTdjNGI3NGEyNTRjMDIyNDdkZGFjZmVmYWRjODllNDkyZDg2Njc0NWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4M2I4MDUwY2UwY2ZmY2VmN2ZlOGM3ZGMxZDEyNjlhN2ZmZTM5MDBjMzQ2YWYzNTI3MDA1MzE3MzI1MGYyNzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4cb6fb1007cc45728da38bada53556d2",
+      "statement": "Hub Compose persists SQLite under the configured storage mount and mounts the encryption key and TLS files read-only, supplying explicit certificates to both main and machine APIs.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml#L46-L69",
+          "version": "repo-lines-v1:sha256:e1dec18b10c37951168ecc2cbaf4d8e07f55ab26842e367c8ec7674ead2b2c3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxM2Y0ZDk2NjFlOWQyYzNlMWEyODllNTgzMjI5OWJlYTE0Y2RiNjRiZjg4NjYxZGY3MTdiMTJmYTAyZDAxMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiZWI1NWJjMWQ0NzFhZTExMGQ3MDE2NWM0MjE3MTc2ZGI0YTljNTU2YmY2OTQwZTFiNzM2YjE3OGVkYzg1MjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMzg3NmU0Y2M0MzE5YTc3ZDBhNTE0Nzc2YTI5ZjIxNjIwZThlOGE3ZWUzNDJjMDcxN2ExMGQ3ZjE4NzBiNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://omni/omni.env.example#L20-L31",
+          "version": "repo-lines-v1:sha256:eaf4eb03babc9ab373f0c4ef99814d288a7c20f0e2ac4420d75c11bd85cffc46:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmNGE2MjI3ZTBiMTg1ZmMyZTU1YTJkMTkwMzEwOGViM2I5MGI3ODRjMzE3NGExMDA1NTlmMmZhZTIxNGNjZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwYmYwY2ZhMjA5ZTBjY2Q3YWQ1ZGZkZWMzYjg2ZGI1OGFjNzM4NjZjM2Y1Nzk5NzRiMjhiNjE4YTZiODgyZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhYzA3YTM4NDNmMDNkOTJjNDhlZDk2OTY5YTNkODY2YzFmZGI0YWRjM2ZlMzE0YmZhNWZjMGY5ODdmMTEzOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyYzg3MWE3MDYyYTY0ZTQ5ZjY2N2NjYjhkNDc4MGY2YWEzZGE2MDNiY2Q1OWM4ZDQ5NzQxZTRlYjAxNDI2ZmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8cbccf87a43f421db02714b56f021427",
+      "statement": "Provider Omni authentication uses a service-account key saved at creation in local .env, while Proxmox API URL and token credentials belong in config.yaml mounted read-only; provider ID must match the identity used for provisioning.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L198-L215",
+          "version": "repo-lines-v1:sha256:45ce084ed412c06a30fa747fd808a5c606b9d7b93b6044fead7d8e71f4e1bc80:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhODc3YWI2MzIyZjdkMjE2M2JjMWUyOTUyM2Y5MGJlYjgxODU5MDNmYjViNzIyYmY0YjJhN2FjMDJkZmQxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyMWFhYWYzYjJjYWFhMWViMTg3MzVkODgzMjQ4NzUyNGM5MWJjYzY5OTA4ZTQzM2M3ODNkOGNiOWQyNDQxM2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkY2QwYzFmYjJmZmY1YTQ0ZTU3NDY4OGQ0ZWViZjRjZGJjM2VkZWQwYzMzYjk3MjNmMjJiZDI1OGZhNWIwN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU3NTU5Mzc2MjQwY2VjN2E5N2Y5ZmRmZTM1MzllODhiZjdmNDhlZmYxNzkzYTU3MTUyMDI1OTZhYjM0ZWFiMjgifQ"
+        },
+        {
+          "resource": "repo://proxmox-provider/.env.example",
+          "version": "repo-file-v1:sha256:ed56a5d59f34be2df1cc6e8a8d03d5cdfcd7df8472a9769b2401a5a00ac43110"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml#L30-L45",
+          "version": "repo-lines-v1:sha256:901f675831a1efa2f4f1e4163492b8b1e6b54dbbad5afc6e9e3df426fc0cf783:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4NDQ4MDZhMWM5YzZkODg4ZTJhZDg1M2Y1ZmI3NmYwYmQxNTdiMTQzZDk4YTkyYzI0N2E0Yzk1NDlhMDkwMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzOGNjNGEwMGVmNjI2M2U3ZjViZjhiZDQ1YWJmMDlkYzc2NmE0NWUxMDQ3NGNhZjhkOWZkZWZhZTUwM2JlOTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmYWNlOThjZjdmMzk2YTJmOGE1MGI4MTU3YzY1ZTMyZDc1MmYxYzhiODNlNTg5NzFkYzBjZGRmYTQ5MGRjZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://proxmox-provider/config.yaml.example",
+          "version": "repo-file-v1:sha256:701c5c238a616c8595f376e3410b0063e04c4c6aa48db88523996c0b0caf16b0"
+        }
+      ]
+    },
+    {
+      "id": "claim_8ef0bb54a9654061b1dcd5e6ef043301",
+      "statement": "The provider permission reference recommends a dedicated Proxmox user/API token with VM allocation/configuration/power and datastore allocation/audit privileges, and token secrets must be saved on creation; insecureSkipVerify in the example disables certificate verification.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/proxmox-permissions.md",
+          "version": "repo-file-v1:sha256:50ffbb4c6312dc2464d381856e8f4100b06fc1a8117d48848f26994e22b85665"
+        },
+        {
+          "resource": "repo://proxmox-provider/config.yaml.example",
+          "version": "repo-file-v1:sha256:701c5c238a616c8595f376e3410b0063e04c4c6aa48db88523996c0b0caf16b0"
+        }
+      ]
+    },
+    {
+      "id": "claim_e06ad8208fe0436e92f6770454274c0c",
+      "statement": "The worker's unprivileged LXC requires nesting and TUN access; its sidecar uses kernel networking with TS_USERSPACE=false and the provider shares that network namespace after sidecar health.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L458-L479",
+          "version": "repo-lines-v1:sha256:5b8051222cbeff603ed3f485905635fce22d277524f6830c360e6bc44fed538d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDZmY2JkNjY4OTRmMDFmOTY4NTUyNDliMDU1NDZkYjBiMjExNzFiNjRhNjkzMzU1OTMyZWIwY2E5OTE1ZWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzOWJmNmI1NDk5NjcwNDFlZDI4NGZkMDMzY2YxNDQ0ZGUyMGIwYTc2Y2ExNjg4YjE1MTA4Zjc1ZTE3MGNiODIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkYjUzZDQ0YmRkMDNmMDUwZDI0YjFkOTYzYTUwMTEwODZlNDgzNDgwNGYyMDE4MjViMDM4Nzk1MTYyODc3MzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYzYwMmI4ZDk4ZmYwMGUzMTEwOTZkOWViZDM1ZTJmZGEzZWIwMWY1MDgzZmIwZjdmZDZmNDE0NTg2YzMyMjgifQ"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_615160e52bab436588fe5ed757eb9fba",
+      "statement": "The checked-in provider local-fix image is historical desired-state debt after an upstream NoCloud hostname change, not a mandatory patched image or safe blind redeployment target; image changes require digest/provenance and Omni compatibility reconciliation.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L44-L75",
+          "version": "repo-lines-v1:sha256:84459fb5ff9c22396c9eeb1f80fc21168dfbc6d7c269adc05af67c6d30c7bfb3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4YzEzZjcyNWQzYWM4ZDAyZTU3NGM2YjRlZDU4Y2QwYWYyYWEzZTk2MzYzMDc5OTM5ZjNkN2Q2YzFjYTZlYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYTNhYjE1M2VlMmY4ZGQyNmExZGU3MTVmNmJiNTFkOThhZmI5YzAzM2RiYWI2N2FjNDc1ZjczYzJiOGI2MzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhZjFhOGRhZmMyYTc3MzQ1M2YyYTkzNzg3ZTJjMjg5OTNkYTczMWVkMGU4NDg1NGViMDQwN2NlNDRlZDQ3ZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyODk4YmYwNzc4YjMzOWM0OTJmYzNmMWY5MGFhMTE1NmZiMjc3NGU4NWNlOGI1MDlkMDRhYzJiM2VlNmI4MjAifQ"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml#L26-L31",
+          "version": "repo-lines-v1:sha256:c2efd75bf9ef30e54620f670ef1655671a5a2ff3d9e17547fbd786aa2d66ad21:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU2MmY3NTI4OGEwZWQwM2E0YWRjM2IxOTU2OWFjOWI4NGEyNDRlNTI1M2RjMDhiN2ZlNzc0OTZhNDRiYTMyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODBjMmM1NTM2ZWIwM2Q1YmViMjU3NmVkNTQ0MzFmMTczNjBlNjhlMzFkNjYyNDlkZmRkOWM5NTk3MzlmODQ3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2Y2Y2EyNjYzMDRkOWY2ZDM2NmVhMDM4Y2JiM2M4M2EzZGY4MjZmMmRiMTM0YWMxZTQ3Y2NhMjQ1NmQzOWNkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGU4OWY2MzU5NDUyMmFmNGUxYzUyNTU1YTI1NTQ2NDU0YTQ4ZTc4ZGQ5YmY0MjAyY2FjNGIxYmJiMDIxY2ZiOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c80c73f1e3da44199987952d326b09f0",
+      "statement": "Provider registration alone is insufficient: live infraprovidercombinedstatus and infraproviderhealthstatus checks, provider status and logs are required to establish readiness.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L77-L95",
+          "version": "repo-lines-v1:sha256:0e60ed5b2a985dd9f6b80b180de1856c9d7e839cd98c8f7fcecb4867d205ed47:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyYzI2NGZlMTcxYjkxNzQ0NGMzZDM3MmY4MmQwZDc0YzExNzQ3NjJlNTlmYmM3OWIzOWEyMjFkNmFjZWY4MTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L254-L271",
+          "version": "repo-lines-v1:sha256:d36bbdf644b23b82df594ce43b6477218619274fa668ac6d2062b1f3955dc1f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1NzJjYjhjMWFjODYzOTYxOTFkOTM1ZmE0MDM5ODUzNmUwODA2NWUxZGRmNWYzZGI2MWExOGE2ZWJjMmM5ZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiYTI2Y2VjODgzZThmYTJkNmZhOGIzMmM5MGY0MWVhYzY4NDFmYjc1ZWVjZWZiNDZiYmI0MzJmZGI5MjEzNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ZjhiZTFiNzYxMDIxNTNiMjg2NDIxYWM2YWI3MzRkODMxNjk2ZGZjODU0MTk5NTM2NTIwZTdlNzg5MGY3YTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_52b1a928ba564862835f738572571cde",
+      "statement": "The provider-ctl helper defaults to Tailscale SSH to root@foxtrot and pct exec 200, supports environment overrides and Compose-label container discovery, rejects ambiguous matches, and its status checks container state rather than Omni live health.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L175-L212",
+          "version": "repo-lines-v1:sha256:8057469987ac2d71df2bafa8fcdf6b6315d74af0c5d369656be00269378a44bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1OWNmYmU3NzFmNWYzNWI1YTkwZTRlOWNkNzE2MjI0N2Y2MjJkMjU5OWY0YjI4ZjI2OTliYTRkNjc2ZjU1MWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMTE1ZDM0NWMxOTEzMzU0Njk4OGNkYTY3Njc2Nzg4NWZiZmZlYThkOTg2NGFlNDNmNTljZTRjNTk4ZTBmMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0YTdiOTJiZWEwODRmNzEyOTEzYjI4NmM0Y2ZjZGZkZGM5MGQ4NTdjZmFmMjZkNTljOTg2ZWQwYzU2MmE2ZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxNGQyNjA2NThmMmQ1Y2RlMjhkZjk2OTE1NzYxZmZmZmZmOTMxNDk4ZjNkYTA2YjgzOGU1Mjk5NTNlZTMxM2UifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L35-L96",
+          "version": "repo-lines-v1:sha256:ee6c260803a06b2f7c6563d3f667443af4e1ff7b06fb957e97818428125f0eb7:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlM2ZmMzE2YjFkNWUwMTM5OWZkOGMzZTdhMTA0NTVkNGZmZGQ5OGFjNzZmMmEwMTQyYTFjYWE4Zjc5ZDdkZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyZmI0YWNlN2RjZWMxY2E2OTA1NDBjMzJiZjY4MzNhNTNjMmFiZTVlMTUyMjc2MmVmOGMxMmI1NmEwNWEyZDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI2OTA2MjUwZmJjMmRhYTg3YjhmMmE2NTQ2OWUyODIwNjkzNGI4MzlkNTM0ZTMxYzBkMWIwMTQ0Yzg0NThjMWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_35bc39fd69c14f3cb7ccacb15ceba6c4",
+      "statement": "Machine classes connect provisioning to autoprovision.providerid and provider-specific VM settings; the checked-in control-plane class selects matrix-cluster, vmbr0 and local-lvm.",
+      "evidence": [
+        {
+          "resource": "repo://docs/OPERATIONS.md#L125-L211",
+          "version": "repo-lines-v1:sha256:c5be25a8502f05d22fab595826168efc67565f393360d71e22fdd8c00faac879:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzNTlmOWYzOGFhZWU0OGY5ODljY2MxY2IyOWRkYzEwYmNkYjMxZTc0MDZiZmRhY2FkNjY3MjgyNDE3YmEwM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmNWFkYmIxYmZiNWIzOWJiOGMxN2Q2NDBiYzk2M2JhMzhjOTlhNGVkMWI2OTVmOGIyMzNiMTMwMDViODYwODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4MjZmODExZjMwMzVkM2ZmODA1MDU3YzQxN2E1OTYzMTk4Y2JiZWI3YTAwMGU1NjU1NGExOWE0ZGFlMzM0MDgifQ"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-control-plane.yaml",
+          "version": "repo-file-v1:sha256:2e78436781323e1a2cce7e539b63d6bb2b4c1121fa22a677098970c50f97e576"
+        }
+      ]
+    },
+    {
+      "id": "claim_776eb6de85a6497f88302acbadf3638a",
+      "statement": "Cluster template sync initiates provisioning and should be verified through VM boot, SideroLink registration, node join and cluster health; the Proxmox provider route does not require manual ISO provisioning.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L233-L271",
+          "version": "repo-lines-v1:sha256:a483803ed1a301793741d9282662a76dea98c05eb197340cc3bdb7116463a9ac:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiYTI2Y2VjODgzZThmYTJkNmZhOGIzMmM5MGY0MWVhYzY4NDFmYjc1ZWVjZWZiNDZiYmI0MzJmZGI5MjEzNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxYzUzNTY5MDBiMjlkNmNhZTQ4Zjc3MjJmZTlhYzZlMGFiYmFlMTg0YWViNTgyYzhjZjg2ZjBiMjczZDRkOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ZjhiZTFiNzYxMDIxNTNiMjg2NDIxYWM2YWI3MzRkODMxNjk2ZGZjODU0MTk5NTM2NTIwZTdlNzg5MGY3YTcifQ"
+        },
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L552-L565",
+          "version": "repo-lines-v1:sha256:7a1c267f30ee424b41f915a49c8ddcbc82601c5261d2e6bcc7cfc27d24234d29:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3MWI4YWM3MDBiNjM3ZjRmNjEyZjg0MDFjMWVkNmEwNDZiYzcyZWJiYzdmODQ3MjQ0YmY4N2MwN2UzYWE4NDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZjJjZWQ3M2FiYmY2NDA2M2NjMDY3ZWIxOWFiZTU5OGJhODYwNzM0MjdkZTU2ODk5ZTg2OTQ2MDBmMTkxN2YifQ"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L169-L211",
+          "version": "repo-lines-v1:sha256:2925f26d766c074c1d74732a45de804d5bd31bfb4bf49edd505e6daced9ecfcf:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmNWFkYmIxYmZiNWIzOWJiOGMxN2Q2NDBiYzk2M2JhMzhjOTlhNGVkMWI2OTVmOGIyMzNiMTMwMDViODYwODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyOTdhYjBiNTc3ZTExMTUwZDEyMWM0N2NjNmVjYzcxMDViODg3YTg2ZDBjNGQ3NDI1M2YzMTBmM2E3MmNkNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4MjZmODExZjMwMzVkM2ZmODA1MDU3YzQxN2E1OTYzMTk4Y2JiZWI3YTAwMGU1NjU1NGExOWE0ZGFlMzM0MDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d9142639f9134d90ab909a370beb8457",
+      "statement": "After cluster creation and bootstrap handoff, platform reconciliation and workloads belong to mothership-gitops rather than Omni-Scale.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L188-L194",
+          "version": "repo-lines-v1:sha256:1650d3fcf22afa52d8c70bf037fe0f14325d44449448e5ea4857820d4bb59575:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjU0NWVmYzA5NjA5MGFlZWVmMjA1MWI0NGVkYTkwZWFiNmRhYjIyYWRlZmRhY2ZhOWI4YTUxNDNkMzc3NzcyZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM4YjM4ZmZjNjcyNmVhYzY3YjkyY2JjYTg3MmNkM2RjZWFhNDQxOTg1ZGIwNmU0ZGVlYWQxMGRlNzAxNzRjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDkyN2ZjMzcxNWQxYTQ2ZDQ5YmZjNWQ0Zjk3OWI3NmM2YzllM2NiOTdiMjI0MzMxOGQyOGUwN2UzOWNhOWE0OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGRjZDBjMWZiMmZmZjVhNDRlNTc0Njg4ZDRlZWJmNGNkYmMzZWRlZDBjMzNiOTcyM2YyMmJkMjU4ZmE1YjA3ZCJ9"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L9-L34",
+          "version": "repo-lines-v1:sha256:3ebc9478468d09162f00480af43808c619bfe5ac41cdde4fa38a91f15fbee28b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDcxOTRjODJhYzA3Y2NlNzVlZjlkY2NjNDYyMmIwZWVmYjQ5NmM5MmQ4YTBmODAzNDJhM2QzY2IwNzcxYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZjk5NmMxNjEzMTk1ZjNlNDdkZGUxYTU1YzAzMzY1ZjM3ZGU3YmMwMDAxZTY4OGMxM2JkMmYxMDMyOTA0ZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwM2I4MTAzOGY5NTUyYjE5ZmFkYWE4NDc2NzIyZDRjN2M0ZTM1YTMxMTU5MGE2ZjBkYmI3YjM3ZTZjZDI4YjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_50cd8e2a44544cc7b3e2e694f7bec17a",
+      "statement": "Wiping Omni management storage while provisioned VMs remain can leave the provider reporting resources that the new Hub state does not recognize.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md#L514-L521",
+          "version": "repo-lines-v1:sha256:86d11575bd5dbb6bd03ee0a09f68d88b52bc112013b4f810a2ff190aecca6945:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTNkOGYxMWZkOTZlNGZlMmMzZjk1NTJkOWU3OTZmMzZkMWNkZDM2MGNlYTZjM2Q0MGNhNGQ2OWZhNDU5YTc3ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODcyOGU4OTZmYTcxYzdlNTY1Yzg1YTZmN2U3MDliYmQ3ZThmM2M5ZDIyNzVkNTNlMDg5ZTBhODlkMDdjZjYwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWFjN2ZlYjU4MjFmMGNmMGVhNTg5NzkxYTY3MTg4NzAzNjQyZTZlMmUxYzgyZTE2ZjhiYmQ4ZmI0ZjhmZTFhNyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

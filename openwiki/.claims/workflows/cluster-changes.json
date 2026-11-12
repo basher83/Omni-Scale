@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:393f1fc493d9bc227ec55376b13815fac9af59d68ceeb8e3be632342cef611a9",
+  "claims": [
+    {
+      "id": "claim_c71be7a73ca546f68ffbe1132734fafb",
+      "statement": "Cluster templates separate cluster-wide versions and patches, one ControlPlane set, and multiple uniquely named Workers sets; machineClass and explicit machines are alternative membership mechanisms.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md",
+          "version": "repo-file-v1:sha256:563425bb1476b74b7f93c8c2613fd229c0aa5d92533b4b5903b028d04270070e"
+        },
+        {
+          "resource": "repo://machine-classes/README.md",
+          "version": "repo-file-v1:sha256:5374220bd8f6b45064a4827c9d114e805ae6e949b21cfb92c11009a3536d4ac8"
+        }
+      ]
+    },
+    {
+      "id": "claim_732eb6043125445bb41fc50472add48f",
+      "statement": "Current machine classes are default-namespace MachineClasses resources with autoprovision providerid matrix-cluster and providerdata embedded as a YAML string; the provider Compose default ID is matrix-cluster.",
+      "evidence": [
+        {
+          "resource": "repo://machine-classes/matrix-control-plane.yaml",
+          "version": "repo-file-v1:sha256:2e78436781323e1a2cce7e539b63d6bb2b4c1121fa22a677098970c50f97e576"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-golf.yaml",
+          "version": "repo-file-v1:sha256:d55be33f6668d1ae495af33eefab32810665cc1e3a62e715b9f37dec790455ae"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_232a31ccaff64d7ba2044678a8339ce2",
+      "statement": "The provider provisions Proxmox Talos VMs that register with Omni through SideroLink; the deployment documents same-L2 provider/VM placement and LAN DNS reachability for booting VMs.",
+      "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:479e46320aa71f0108ab08cbe657b3d9149e0717eb6101fecc9fc235c27ffbcb"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md",
+          "version": "repo-file-v1:sha256:9fb9a658f0f2cfbfb2d785cd28c48b545f2566424981d4ca9788d3074e059c24"
+        }
+      ]
+    },
+    {
+      "id": "claim_3e55a27caead4c1bb28afb1951cb2d13",
+      "statement": "Production pins Kubernetes v1.36.2 and Talos v1.13.6, three control planes and three named one-machine worker sets; it disables default CNI and kube-proxy.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        }
+      ]
+    },
+    {
+      "id": "claim_c929d482896042728a9312650d0dd310",
+      "statement": "The checked-in test configuration is a provisioning fixture with Kubernetes v1.35.0, Talos v1.12.0, one matrix-control-plane machine and zero matrix-worker-hotel workers, without production patches or extensions.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/test/test-cluster.yaml",
+          "version": "repo-file-v1:sha256:830eb8ce2dbaf4319bbea999512ffcb1e2e3bccd5a7f7aebbf03fb98fb51f1a9"
+        }
+      ]
+    },
+    {
+      "id": "claim_18ac6e2aed6f4aa69922c11ae153d286",
+      "statement": "Production control planes use 4 cores, 8192 MB RAM and 40 GB local-lvm disks without node pins; workers use 8 cores, 16384 MB RAM and 100 GB vm_ssd disks pinned respectively to foxtrot, golf and hotel.",
+      "evidence": [
+        {
+          "resource": "repo://machine-classes/matrix-control-plane.yaml",
+          "version": "repo-file-v1:sha256:2e78436781323e1a2cce7e539b63d6bb2b4c1121fa22a677098970c50f97e576"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-foxtrot.yaml",
+          "version": "repo-file-v1:sha256:387f7f11b0be12c621f450bbd50dd8449a836bdd20e2b1afe347cad2e4f89d2f"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-golf.yaml",
+          "version": "repo-file-v1:sha256:d55be33f6668d1ae495af33eefab32810665cc1e3a62e715b9f37dec790455ae"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-hotel.yaml",
+          "version": "repo-file-v1:sha256:1bad918d4ad284af79b5db3b0e697d1c11e55f487e5cb34315573853b037c883"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e445257c37e4ef69e6e7aa9738948dd",
+      "statement": "Current classes use vmbr0, host CPU, q35, disabled ballooning, SSD/discard, no disk cache, IO threads and io_uring; class comments distinguish local NVMe control-plane storage from Ceph RBD worker storage.",
+      "evidence": [
+        {
+          "resource": "repo://machine-classes/matrix-control-plane.yaml",
+          "version": "repo-file-v1:sha256:2e78436781323e1a2cce7e539b63d6bb2b4c1121fa22a677098970c50f97e576"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-foxtrot.yaml",
+          "version": "repo-file-v1:sha256:387f7f11b0be12c621f450bbd50dd8449a836bdd20e2b1afe347cad2e4f89d2f"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-golf.yaml",
+          "version": "repo-file-v1:sha256:d55be33f6668d1ae495af33eefab32810665cc1e3a62e715b9f37dec790455ae"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-hotel.yaml",
+          "version": "repo-file-v1:sha256:1bad918d4ad284af79b5db3b0e697d1c11e55f487e5cb34315573853b037c883"
+        }
+      ]
+    },
+    {
+      "id": "claim_415740a826274ba1a3f8b165f2a21a9d",
+      "statement": "The one-ControlPlane template limitation prevents separate per-host control-plane sets; the repository records all control planes landing on one node under provider-selected placement, not assured host diversity.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        },
+        {
+          "resource": "repo://machine-classes/README.md",
+          "version": "repo-file-v1:sha256:5374220bd8f6b45064a4827c9d114e805ae6e949b21cfb92c11009a3536d4ac8"
+        }
+      ]
+    },
+    {
+      "id": "claim_65045700ae7d4c059f71cdb247394017",
+      "statement": "Scaling is performed by changing template machine counts and syncing; production worker sets reference host-pinned classes, so increasing a set preserves that class's host pin rather than requesting cross-host balance.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md",
+          "version": "repo-file-v1:sha256:9fb9a658f0f2cfbfb2d785cd28c48b545f2566424981d4ca9788d3074e059c24"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-golf.yaml",
+          "version": "repo-file-v1:sha256:d55be33f6668d1ae495af33eefab32810665cc1e3a62e715b9f37dec790455ae"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a4825b5862b426a9993fe5d94061da8",
+      "statement": "storage_selector is a string CEL expression; the repository instructs name-only matching, warns against type matching, and diagnoses nonexistent storage pools by checking pvesh get /storage.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md",
+          "version": "repo-file-v1:sha256:e15e7b45182135dc6dcd550f028f4735c2066e1963decddaff5fc3dbe8eaca0b"
+        },
+        {
+          "resource": "repo://docs/references/providerdata-fields.md",
+          "version": "repo-file-v1:sha256:c994872696fd4360e30defae9ae3debf3e505ff73c5fff68a04622b53d0cd077"
+        }
+      ]
+    },
+    {
+      "id": "claim_158b5682125c4f66be80baae644ef72d",
+      "statement": "Provider-data extension points include additional disks and NICs, VLANs, PCI resource mappings and advanced compute options; reference examples do not configure the current production classes.",
+      "evidence": [
+        {
+          "resource": "repo://docs/references/providerdata-fields.md",
+          "version": "repo-file-v1:sha256:c994872696fd4360e30defae9ae3debf3e505ff73c5fff68a04622b53d0cd077"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-golf.yaml",
+          "version": "repo-file-v1:sha256:d55be33f6668d1ae495af33eefab32810665cc1e3a62e715b9f37dec790455ae"
+        }
+      ]
+    },
+    {
+      "id": "claim_78d6d23358da42ae8ffbdf0a438ae901",
+      "statement": "Production declares iscsi-tools, nfsd and util-linux-tools on all sets and host-specific topology zone labels on workers, while commenting out the worker role label because of NodeRestriction.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b1d87a8a16649c1ba1452b8df60cd07",
+      "statement": "Production's worker-only Longhorn substrate contract bind-mounts /var/local/longhorn into /var/lib/longhorn with bind, rshared and rw; Longhorn releases, StorageClasses, backups and restores belong to mothership-gitops.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md",
+          "version": "repo-file-v1:sha256:563425bb1476b74b7f93c8c2613fd229c0aa5d92533b4b5903b028d04270070e"
+        },
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        }
+      ]
+    },
+    {
+      "id": "claim_7095324c44154935bfbf83a97f660847",
+      "statement": "The GPU patch is an example with network addresses and GPU labels and is not referenced by either checked-in cluster template.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/patches/examples/gpu-worker.yaml",
+          "version": "repo-file-v1:sha256:05d1233bfafd551864becf1a452621d197d1eff8ac8c11bc425738ab47dd3ba4"
+        },
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        },
+        {
+          "resource": "repo://clusters/test/test-cluster.yaml",
+          "version": "repo-file-v1:sha256:830eb8ce2dbaf4319bbea999512ffcb1e2e3bccd5a7f7aebbf03fb98fb51f1a9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e3103161aee4fafa8df15438bd1f431",
+      "statement": "The validate:omni task runs offline template validation against both checked-in cluster templates; diff and status inspect Omni state, apply writes machine classes, sync reconciles templates, and template delete deletes cluster resources.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md",
+          "version": "repo-file-v1:sha256:563425bb1476b74b7f93c8c2613fd229c0aa5d92533b4b5903b028d04270070e"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md",
+          "version": "repo-file-v1:sha256:9fb9a658f0f2cfbfb2d785cd28c48b545f2566424981d4ca9788d3074e059c24"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e1f40a18cea2f9da59205b7c38b29392e3426931055365c91ec7f93f7e9a523b"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a5f359cc7084efa9fe964c7d72187d5",
+      "statement": "Operational entrypoints include Omni context selection and OIDC authentication, class application and verification, machine watches, infrastructure-provider inspection and provider logs for provisioning failures.",
+      "evidence": [
+        {
+          "resource": "repo://docs/OPERATIONS.md",
+          "version": "repo-file-v1:sha256:9fb9a658f0f2cfbfb2d785cd28c48b545f2566424981d4ca9788d3074e059c24"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5f587d386c5414e88ad5bfe6f61c262",
+      "statement": "The recorded upgrade procedure treats the live Hub's talosversions and target talosversion Kubernetes support as compatibility authority, with Hub upgrade required if targets are absent and omnictl matched to Hub.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-update-rollout/SKILL.md",
+          "version": "repo-file-v1:sha256:27a410159e22d938a69ecbe89d159d0ff4f85dbd75e58161fa2172d0ac526278"
+        }
+      ]
+    },
+    {
+      "id": "claim_0bf95691dec74aaa847e39ee6dd30e3c",
+      "statement": "Upgrade preflight requires release-note and extension checks, acknowledgment of empty etcd backup status before control-plane changes, healthy RUNNING Ready machines, and provider digest/revision/API provenance review.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-update-rollout/SKILL.md",
+          "version": "repo-file-v1:sha256:27a410159e22d938a69ecbe89d159d0ff4f85dbd75e58161fa2172d0ac526278"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_b604045f3fa14958a2919277c6fce2d9",
+      "statement": "The rollout procedure requires separate Talos and Kubernetes commits and syncs, with desired state pushed to main before each sync and per-machine version verification rather than relying only on aggregate Ready status.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-update-rollout/SKILL.md",
+          "version": "repo-file-v1:sha256:27a410159e22d938a69ecbe89d159d0ff4f85dbd75e58161fa2172d0ac526278"
+        }
+      ]
+    },
+    {
+      "id": "claim_ecfc7fb62a4548da8bef3091be8a0269",
+      "statement": "Between upgrade halves and after completion, health gates require Ready nodes, Cilium MTU 1450 and full DaemonSet readiness, and zero degraded Longhorn volumes; failed gates stop the rollout.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-update-rollout/SKILL.md",
+          "version": "repo-file-v1:sha256:27a410159e22d938a69ecbe89d159d0ff4f85dbd75e58161fa2172d0ac526278"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ca7e54cdbb14ef2b0cf0079dae4234a",
+      "statement": "The recorded Kubernetes rollout stages control-plane components then kubelets without node reboots, and completes when every node reports the target version.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-update-rollout/SKILL.md",
+          "version": "repo-file-v1:sha256:27a410159e22d938a69ecbe89d159d0ff4f85dbd75e58161fa2172d0ac526278"
+        }
+      ]
+    },
+    {
+      "id": "claim_c6437221356d4d06ae4097caaf0451c6",
+      "statement": "Local rollout doctrine prohibits migrating Talos VMs or hand-patching wedged nodes and instead calls for investigation and destroy/recreate from spec; unsupported-version sync rejection requires rechecking compatibility rather than retrying.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-update-rollout/SKILL.md",
+          "version": "repo-file-v1:sha256:27a410159e22d938a69ecbe89d159d0ff4f85dbd75e58161fa2172d0ac526278"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

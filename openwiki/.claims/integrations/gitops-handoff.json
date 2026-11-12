@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:38f97d45618f71573b0d883824eebf3ee3ebcedc264b9dd251a61daf553312d3",
+  "claims": [
+    {
+      "id": "claim_fa36088d0b6d49569ad6b4aeb370689d",
+      "statement": "Omni-Scale owns the Omni/Talos/Proxmox substrate and handoff, while ArgoCD, ESO, Tailscale Operator, monitoring, workloads and Longhorn application configuration and operations belong to mothership-gitops.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L7-L18",
+          "version": "repo-lines-v1:sha256:f3b00a8da65c103182d332ebc29ad31867a3f8387a968068b7a4e2bcf648889e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkYTlkY2YwMDg3MWNlYjNkNGRiNjVkYmU3ODZkNDdkZWFjYTUxZjE0Yjg1YmQ0MjAxZDY1Mjc1N2VmYmZhMDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNTZmYmI2NGQ5YmM1NjZkYTUyYTM4ZjkxYjUyZWExZjc4YTJiZmZkNThhZjM5OTE1MTFiM2UzNmE0YmVhM2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZTQyODE5MTkzMjQ0OWE0ZGIyNTdhZjE5NTRlNWIzNmM4M2RmNmY4ZmZkMjZkOTM2NGJhOTA1MzYzZTZjZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM2YjQ1YmNmMTBiODUyMDU5ODlmYWVhMGY2Njg0MTAxM2ViMzMxM2RlMGRiZjUwYmQ3ZDQzZWY1NzA0NGU5OWIifQ"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L9-L33",
+          "version": "repo-lines-v1:sha256:12d12a02846088516417bb88cf099776d380e7d1286f6e88a3b2a132b0566435:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDcxOTRjODJhYzA3Y2NlNzVlZjlkY2NjNDYyMmIwZWVmYjQ5NmM5MmQ4YTBmODAzNDJhM2QzY2IwNzcxYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkYzk4ZmFiZWNmYTg1Mzk4YWEyY2MyNzY5YWU2ZGZjZGFkOGUzNjc0NGViMWJiZDRjNDE4ZDMxMGZjMmU2YmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d4e7c3ef1054416791836411ce12c464",
+      "statement": "The production cluster disables default CNI and kube-proxy; the Cilium guide requires this before creation and requires kubeconfig and the Cilium CLI for subsequent installation.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml#L17-L25",
+          "version": "repo-lines-v1:sha256:5f6d5e158960e4d59a77bc4ffc6111c2d70c7a60cdfa6b2f8e15edd4cc966b01:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDk3ZmNmOWQzZTRlYmU0ZmJhYjFhNzUxZjA5NWUxN2RmNGMyMGNiZjIwNDVhYjIwZTExYTQyYmIyM2M3M2E1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzViZTcyZmM2ZTMzYWE0NjI5MGI1YjFkYTI0OTI5MTNiNWEwOTA5ZTBkYWI5ZWZkMjI4NzllMjExZGZiNWI1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDY4MjE5M2Q0ZjIzZGE2NDMzNDZiMjVhNTBmMWQzNThkYWJhNjA4NTk3YjA0ODk3OWVjOGIwNWNkN2I1NzJhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGI0YWZjMzcxYzc0YTA5NzM2NDNjNDFjMThhMWQ0MmUxYWJiOTNjYmVkNjJiNzM5NjJmOTA0MGJhMzM2MDZkNiJ9"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L14-L20",
+          "version": "repo-lines-v1:sha256:a4d04ecea3bf391994a11e60a23110af6a1f10564d3a271ce0e9e58653eb00d1:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWQ4ZmVmZGY0MjlkMDg5NzkzNGYzMDZlMmJhYjM5ZDFiNmJlMjdjYWEzNmY4MzRhYjNhYWQ2YzNlY2U5OTc2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODUyM2IyZDBlZDgzN2I0ZDNjMDIzMmUwOWQ2MTNmZmVjYWIxY2FmZTg4MWZjMGNmZGIyZDFmMWUzNDU2NjBmZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDUzZTlmNmJkZWY1YzhmYzVhNmI5NTg5YWU1MWY1MDE3OTJlMTcyYWUzNThlOThhZjIyNzA2NTc3OThkMTJlZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDI1YTk3NTY1MGZkM2FjZGIzNDgzZTIyMGMyYmEyNzQ0ZWFlNTFlOWM1ODU3NTRjYzA5M2Q2ZWY0ODk3ZGMyMyJ9"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L80-L100",
+          "version": "repo-lines-v1:sha256:612c3352d7b4890d2d34c8338a4cf4dc5b68f438688be462b3d417dcaefd4cbf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3OTM2YjExYjE1YTVjY2M0MDM5Zjg4N2VmOGQxMjU2ZTM0NzVkMzBlMDE4MWExN2FkYzYzZmJhNDUzOWI0ZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkYzVjZDAyYjE5YTllMjhjM2RiMzA5OGM3ZTcwM2MxNTcxOWFhNDYzNmFjODZmMDk1MGI2YzAxNGZmMzNkYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzNzc3ZmVhYzAwMmUyZmRjYWRhOTNkYTMzN2FkNGEwNTgyZGIzYmNhOTQ2OWMwOTkzZjZiMzYzNTEyZTI0ZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b88cc06303043068d1886fcf6f1f5c4",
+      "statement": "Cilium is currently installed imperatively through CLI/Helm rather than managed by an ArgoCD Application; the guide treats GitOps management as roadmap work, while the current roadmap focuses on MTU durability and a future pod-MTU regression signal.",
+      "evidence": [
+        {
+          "resource": "repo://docs/ROADMAP.md#L27-L35",
+          "version": "repo-lines-v1:sha256:77a24fcfd9a62d265f60bc46bc375b517dab2b22529dc1fe50b03ccc9601d4ef:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTllYmUxZGY1NjRhOWQ5NjQxMGMxNmU5MzdkMzVjZTNlNzcyYjZkMzdjYTcxN2I2MGVjY2FiN2QzNmRkMzE4ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc1YmE0ZjVhN2IyOTU3MTNlMDFkMmIwOGE2NTQ1YmJmYzMwYThlMzFkYjJmMTRhNGNmZWI1M2QyMzhiYmUzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSJ9"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L64-L78",
+          "version": "repo-lines-v1:sha256:d4f366959dd4c4c46f4e31669268cfaaee7b1603b50866f7fc7f524d943b7aa6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MTEzMzdhZTJiNzBhZmM2ZGFmNjgzYjViMDUyZmU0ODk2NDVhNjdkM2E5ZDZhN2Q1MzYxYjFkNTQ0MzVlZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNDIyOTNkN2RhMDdjMTk5YmZkOTUxYWQ5MjI1YzFiZjA0ODc5MThhMDQzN2QyOTk4MWQ3YmY2YmQ2NDU4YzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmYWI1ZWRiNWM2YzM3MTkxOWU5ODY4OWEwYjFiYTAwNDIwMjM1Mjk3MWZlNmQ0NmE1MWE5MzVjOTA4NzljZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyNDliNDY0YjE4NzI4NTI1M2JkMWZmYWZkY2VkM2E2OGViZTI2Y2FhNDI2MTBkNTVlYzI3OGZlOTVkZDFhYzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_45e463d10f0a4eddaa7d489d13fe04ee",
+      "statement": "Talos-compatible Cilium bootstrap uses Kubernetes IPAM, kube-proxy replacement, explicit capabilities, disabled cgroup automount with /sys/fs/cgroup, and API endpoint localhost:7445; Gateway API variants require CRDs before enabling their options.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L133-L220",
+          "version": "repo-lines-v1:sha256:c9b585ba475bd8e6b589487d478113e4d1ba487194717aed2ceb3fbc244708db:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZmQ2Njc1YTA5Yjk5ZjgyNjc1NWNmYmY0MGQ0MjE1MWFhY2MxOGYwNTJkNWIwNDhkYTUxOTYzMDI1YzQzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzZTA2M2Y0ZjU2ZWNhNmMwYTYwNTU2ZGNlYjY2NWFlMmM3ZWViYTE4Yjk2MDdmYWQ3NTQ4ZGNiZGVkNTQ3NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMDBjNGRkZjFhMjAwNDdlMmY1YjIyZTM2Mzc2OTI5M2RjYzJhZmUzMzM0MjNhODI2MTExOWM4ZDc0NjJjYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_abe10ce5733e43e78c53e93affbf668c",
+      "statement": "Cilium install and upgrade commands must preserve MTU=1450 for the documented 1500-byte NIC and VXLAN overhead; a ConfigMap-only patch is overwritten by future installation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L413-L422",
+          "version": "repo-lines-v1:sha256:acdab13b63eeb381a9321a404cf89375eb734e0018e919d3a2944787342272a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNWFhODIzYWI4YWQ5YmUwZjIzNmM1MDI0ZjU3ZmM3ODVlZGYzZTY4ZTRiOThmMDAxYWY1MTU1YTZlZmYyNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NGM2ZjM3ZThjMjI3ZjdiNDljZTI1N2M2Y2U5MGQ0MWQ5ZGUyYzg1ZjBiYTUxYTU5MjBjMzE3ZmZhNzgxZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRkMzk1Y2NlOWE4YTRlMjFhYzI1MzAzMmI4NWUxMjJjYmI3ZjQwNzRmNzJlM2RiZjlhMjljNjhmZjhlNTY1NjAifQ"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L49-L62",
+          "version": "repo-lines-v1:sha256:6f3ca745cee36afc478b43b16b3f330c571b48bf80e39e7b44ba2cec9b2305f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiZWY2NzM3NGYzOGNmMDUwMzVhZDEyMTdmNjE2YWVmNWMyNDcxMDZlMzA5MjUzNThjY2YxZTk0YmJkZTBhNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2NmY5ZGM5MTI3ZDQwMTc2YWYzN2MzMmQzZWVjMzIzNzgxMjNlYTZkNTgzYzIyMDcxOTFiMzZhMTgxYjhmZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5MjI1MTEzNjAzZjQ5NTc1MDljMzRkMTQzN2Y1YmIyNGMyYjBlNDFlMjZmMGM2ZGEyYTY3ZGE2YmM3MGVjOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiMWExMzBmMWQwZmNmZjkwYzYwODM0ZjI5MmU4Yzg3MzVjNTJjN2ZmNWI5NjI3MjRjNmJhNTViNDA5MTBhYWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_741c1a9dc22748358b895fe65c9871c0",
+      "statement": "The repository records siderolink WireGuard MTU 1280 and pod MTU 1280 without the override with degraded Tailscale Ingress throughput, but explicitly leaves the exact Cilium detection path unmapped and describes default-route-device rather than lowest-interface MTU detection.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L22-L47",
+          "version": "repo-lines-v1:sha256:bf2711756c723dc696c2f1fc339bf27e8b6b91cd2e63182c1ddc8a1e07357978:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhYWM2YjI1ZTFkNDA2YjhkNTM3OTJhYTE2MWQ3OTE5YjVhYjI1N2NjY2I2MzRkZTlmOWM0NGMyODBkNjI3MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3YjA3NDA1N2NkYWNhN2NmYTQzNjBkY2QzNzBmNGE3ZGNhZjBlYzUxYzdmODY3YjkwYzIyMDQ2Yjc0YjI2ZTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5OWNmOTM3OTExY2RjMmQ3NjY2MDY1OTQxNDViOWE5OTVmNmU1OTZhMTU2MTAxOWQ3NGFiMTdkY2RjNGVkODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2MmZhMzI4MTE3NGNlN2QwZGYxNGNlNzRjODExMTY4MmNiZmJmY2IyY2QyNGMwMTdhYWQzOWRkZGU2OGIxYWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_43c21e9f7c0b4680a71b5f14919afebc",
+      "statement": "Cilium verification includes status, node readiness, Cilium pods, connectivity testing and direct ConfigMap MTU readback because a documented upgrade succeeded without changing the ConfigMap.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L239-L263",
+          "version": "repo-lines-v1:sha256:db79bdeb059ab85d63e518bcc5d2b8b534fb88c5a4d6ec2dea7bea241ccf8812:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxMzBjYzU4MzRlZjNhOTc4NjQ4ZTU4MGI3OGEzZmM4OTM5NDkxZDcyZmYyMDQ1NzQ4OTkzM2RiZjNhMGRhYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZTJiNTE5NDRmZmY0ZDEyNjMzNDVlYTMyMWI3MDUyOGE2NzZhZDhhMDgwZDdkN2RkNDBhMGY1ODI5Mzc3ZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlM2M3YzU3NDdhNzAxNDk3ZDZjZWI1YmM0ZDNhNTVmZmI4MWI5M2Y5NGM2OGI1ODg0ZDIxMDQzODNkOWM5MGEifQ"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L424-L451",
+          "version": "repo-lines-v1:sha256:3d3533eeb591c9dcf07c8fe342aaf68300044217740ba6e83ad983d19b0afea6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5MGVhZjM5OWI1NzVkMjg2NTNhYjkxOWY4NDEyNDY3YjE0M2VmM2UzZjU3MmU0NTk1YjAzMzU0NzlhYjhmYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzOTI5ZjJmNjc5NjJiNjcwZDBkODA0OTdhODMwNzk3MjI4MGQ3MjYxNDUyYTJiYTgzNzViZjhjNWQxOWMyMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNmM2MTE3MTJmOTQzM2Q5MDdjZjM0NmM1ZmYyZmM0ODY5NzlhZTc4MGZhYTM0YTMzOGVjYmQ2ZDQ3NzkwNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExZjhmZjlhYmJmYjBlNzNhYTk5M2JiZTM3ZjExMDAyNGZiMDZkOTcwMDkwOTAwNDE1ZDg5NTIwMzk3YTI1ZTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d915d688f9224c10b7357bd1eb4515a6",
+      "statement": "Live MTU repair requires pod networking recreation: the guide restarts Cilium DaemonSets and Tailscale proxy StatefulSets because pod veth MTU is fixed at creation.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L472-L493",
+          "version": "repo-lines-v1:sha256:57ec77299f5a91b4ca385085ca54d9ae9fb5eac1c36c61983714fa5f1b06e590:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZTJmNTMyOGVlNmU4MDUwZThhYWZkOGRjODY5YTA2OWNkOTU4NGVkYWFmNTRmZTU4OWQ3M2MzYjdkY2Q3OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4ODUzZGQ0NWY3ZTZkMjUxYjlhZDNlMWEwMzc5MDYyNmRmNjdmMmViZjVlYTMyMzNlNDM0ZGY1NzNlM2YxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOWNmNmI3M2ViYWE3YTIyMjEzZDg4ZjlhOThjNDVmZTYxMzAwZWEwN2UyMDc0ZTZiOWUwOWI5ZDAyNWQxMDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f3705132392f42b7b654a634ec636237",
+      "statement": "The production template installs iscsi-tools, nfsd and util-linux-tools on control planes and all workers, and only workers receive the bind,rshared,rw kubelet mount from /var/local/longhorn to /var/lib/longhorn.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md#L124-L137",
+          "version": "repo-lines-v1:sha256:d545128cdd7f3756730ea00a16a34c576879a7f27e77e5508e92d8892ff48064:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjZDIzNjE2MTY2YjA4YzQxMzFhNGZjN2E3ZWUwZmI2ZjIyNTQ1MDcyMzM1NDhkNGU4N2NjY2VkNjBlNjExZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVjNzg0MTQ2OTU4MGNmM2FkOTA4Zjc1YWExOTU5NTgzMjJhNzc2NjMyZDY3ZDRmODM2MmU2NjEwMjJlMWQxZjQifQ"
+        },
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml#L27-L121",
+          "version": "repo-lines-v1:sha256:82838f121cbb11d9851d0d11b91902db6fc9cdf961b67331d16dc6342dca2dcc:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlNzczYjkzMGNjZmJiYjJlNWM2Y2JhZTdhNDhkMTAyYWEzMzkxMWMzNjEzNDY3ZTYwNzE4MGMwNmNhMWMwZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjZTY1NDZjMWEyNmMxY2Q2MTY3NGU1MWE0OWRkMWUzNzIyNGFiZmNhODY4NzE1MTA1MWE4NmMxYTM5Mzg0ZGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMjY3YjNkYzgxZDk5YzUxMjg4ODYwZGM4ODIxMzJiMjBiNjdhMWIwYzJiM2IzMGM4M2Q2NDYxYmJkNTdjYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_44d4e20fc78947dc897bfe14fbdb3a63",
+      "statement": "Production has three single-worker sets pinned by machine classes to Foxtrot, Golf and Hotel with matching zone labels; the worker-role label is commented out for NodeRestriction, and control planes are provider-distributed.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-foxtrot.yaml#L9-L23",
+          "version": "repo-lines-v1:sha256:25ca7e00c582c08934b9896c85229f4c74895ffffc92667c6be91380f256bc97:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ZDBlMjc1NjEzZDQyOTJiYTVlNjNiZTVlOTRmZjVhM2RhZDQzN2Y1Zjk2NGFjYjJjYTk0NDA2MmMxMzg3YzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyZTRiMzBmZDlhMzJiMzY5YzVlNjE3YjAyZjMwMDg0YzIwYjQyN2RlYzkxNGIzODdmYzE0M2MyY2VlZDJjNTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzZTI3MGFiMjhmNjQ5YjE0MTM4MGEyNjcyNTk4NTlkNmRjMWZkMDExODFmYmUxZTJjZjQxYjlkNDVlY2E4YjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkZGUzMmZhNGZiNjkyNTI1MTM1NTZlMTQ2Y2EwYmE4NDVkMDRmNmNhYjYzZTc5NWIyZjhiYjJkYTkyMzIzNjAifQ"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-golf.yaml#L8-L22",
+          "version": "repo-lines-v1:sha256:7aeb7553c868c82dbde93502f45ab75236dc5364e8cfb9ff19d225e59bd312b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0NDQ4NGZjMDU3YWZiNDY1OTNjOWMyOTZhZGFmOWU1NDYzYmVmYTM3ZDU2MDMwMTI4NWFkODc4MWZlMDdmYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1ZWZjODY1NGY0ZDdlNGZiMDc3MmExNzgwM2Y1N2MxM2UyMjBiMzYwZWNjMjM0N2UyMTUzM2RlMzMyZTI5YWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzZTI3MGFiMjhmNjQ5YjE0MTM4MGEyNjcyNTk4NTlkNmRjMWZkMDExODFmYmUxZTJjZjQxYjlkNDVlY2E4YjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkZGUzMmZhNGZiNjkyNTI1MTM1NTZlMTQ2Y2EwYmE4NDVkMDRmNmNhYjYzZTc5NWIyZjhiYjJkYTkyMzIzNjAifQ"
+        },
+        {
+          "resource": "repo://machine-classes/matrix-worker-hotel.yaml#L8-L22",
+          "version": "repo-lines-v1:sha256:85f8af8666787d9b6240eea081a2176cd5180273f319f92787963981c133dfe5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1Y2U0NWFkZGQ3MzA5ODE2MzU3YjgzMGQxMjRjMjI3YThkZmM0NmRjZDlkMjQ0NGYxNjljZjRlNzFjYjNjYjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjRiOWU5ZDQzNDM5ZjQ4NGVjZWM4ODYxNDE5MTBjM2IwMDdjMzgwZTE0YTA4ZTMxZTQ3YjcxOTlkNmQ4MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzZTI3MGFiMjhmNjQ5YjE0MTM4MGEyNjcyNTk4NTlkNmRjMWZkMDExODFmYmUxZTJjZjQxYjlkNDVlY2E4YjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkZGUzMmZhNGZiNjkyNTI1MTM1NTZlMTQ2Y2EwYmE4NDVkMDRmNmNhYjYzZTc5NWIyZjhiYjJkYTkyMzIzNjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_204b68defd8a4c0db2a9e2672fe6876e",
+      "statement": "The destructive recovery script recreates the cluster, obtains kubeconfig and gates on all nodes Ready before GitOps bootstrap but contains no Cilium installation, leaving an explicit networking bootstrap gap with the CNI-disabled production template.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml#L17-L25",
+          "version": "repo-lines-v1:sha256:5f6d5e158960e4d59a77bc4ffc6111c2d70c7a60cdfa6b2f8e15edd4cc966b01:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDk3ZmNmOWQzZTRlYmU0ZmJhYjFhNzUxZjA5NWUxN2RmNGMyMGNiZjIwNDVhYjIwZTExYTQyYmIyM2M3M2E1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzViZTcyZmM2ZTMzYWE0NjI5MGI1YjFkYTI0OTI5MTNiNWEwOTA5ZTBkYWI5ZWZkMjI4NzllMjExZGZiNWI1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDY4MjE5M2Q0ZjIzZGE2NDMzNDZiMjVhNTBmMWQzNThkYWJhNjA4NTk3YjA0ODk3OWVjOGIwNWNkN2I1NzJhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGI0YWZjMzcxYzc0YTA5NzM2NDNjNDFjMThhMWQ0MmUxYWJiOTNjYmVkNjJiNzM5NjJmOTA0MGJhMzM2MDZkNiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L190-L225",
+          "version": "repo-lines-v1:sha256:77a6d8641f4381c52d5fa10cb814504e198419e9aebc702ffce15eabfeb562e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4ODYwYjUyNjJlNDE5ZGJlYzI3NWFkODQ5NmViYjY5NzI5YWFjNGE4OWYwMWQxMzY3MzJlNGY4ZmRmZTE3ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyNGYyZGY4Yjk1YzJlZGQ2MjlmYjI5NmYxNGJhOWRmY2JkNzgzNThjYjJjODNmZjQ5ZGYwMWIxZWMxYjA3M2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmNjc5NTNmNTc4YzE0MDJhMTUwMDdhMzgwMTk0OTJmMjc3ZjZiZGViNjA4OWVkZTMyZWM4OGVhZDNhMDBiMDcifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L298-L342",
+          "version": "repo-lines-v1:sha256:99e9ded40222d44011fa90ceffdfd882eaad5d728e69e3336a4f44cf5bb5fc43:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwMjIyZTU4MzZlZmJjOTg5NDM4MmM4YjFmNmE5MzY3NDhiYWVmZmIyNjMxNGJjYmE1YWRmZDE1NmJkY2E1NTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwY2I5NGU4NzcwYmNlOGEwZGRkZTNjMmY5NzRkNjdkNzgxZWJlODE1NGMwZmUwY2RhMzQyMDYyMGJiNGNjMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3e261e75450742cd99f6f74e79d5ca9c",
+      "statement": "GITOPS_BOOTSTRAP defaults to the repository-parent sibling mothership-gitops/bootstrap/bootstrap.yaml and is overridable; the recovery script requires the artifact to exist before destructive phases.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L20-L30",
+          "version": "repo-lines-v1:sha256:4efafbe8cb589e0b2daad42092418809b36f5bc62e3601bd141cee4c188a99b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3OTc0MzQ0ZDM3YjRjNzc0Yjg4MDJhZjc3ZGQ3MWU5MTM0NDcxY2QzMDliMzRlNzBiNzFkMzEwMDZkMmY2MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlN2I0NDk3ZTAxZmU4ZTQ1YjE4MTcxMWQxMjNmMzliNzQyY2NiZGM0MWNmMzhhNjY4MjgwNjFhMmNhNGY4OWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YTgwNzlmMDc0M2RiZWE4YjRhOWZmYThhNmM1MTQ0OGM4MTBjMWI4ZWRkMjA0NTM4NmRiOGRhZWIzMjA3MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1NTYyNGIyYjg5YWNmYzEyOGY4Y2YwZjIxNTMzZTNiYjAzNmJlMTBhMTU1MTYxNDE3YTZhYjc5MWQ0ZDBlODMifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L328-L333",
+          "version": "repo-lines-v1:sha256:0efe2f233cfe7e4c46e6869e8b16ac607e9b63a31dc3b2815c0140726c4310bf:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmYzkwZmY4YTQ0MTRjNTQ0MWQwZjY3N2M1Y2JmZGEzOGI0NzRlNTFiZmQ1NTlhNTU1OWRlMGY4NzcwNTUyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2E1MTI5ODdiZWRlMDcwYTkyYzhmZmI2YjE1YzYxMDFhOGVjNTRlODdkZDJkOGQwNDVhOTRhYzE1MWFmYTFiNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGUwMzY0YTEyZGJhMjQ4NjVmMzdhNGE0YzdjY2Y3YWUyY2UxNjQ0YjdhMDQ0NWE2N2I3NTNlNjg0NDYwYmQ4MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTJmODFjMDBjNGU5NWNmYmJmY2E2ZTg1YWE4NWI1MDIxOTVjYTg3ZDk0NDE1OTdjMTg4MWI3Nzc5MDc1YmU2ZiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L93-L119",
+          "version": "repo-lines-v1:sha256:2a5aba90c32bea22e51730e0548e6a48ea755c2092b52234b6a424ae74e8f721:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZTJkMmY4ZjI0OGI0NWQzYTIzMDJjYjJlYzQ4ZjdhNTM2ZDhiZTJhOGFkZWIwNWQ0YjYxMDMzN2E4MGYyMTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1OTE4ZjAzNzk0YTNmYWEwMGQzZmQ2MWI5NjVkNDAzMzhiOTYzMDQ2NDliNGIyM2E3NjhhMjRhYjE4NDQyZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc4ZDM2ZmNiYzc5Njc1MmUwNmI2N2EzNDliMWU1YWE1ODdmODczMTE1NmU5YzdhMmU1MjZjZjJlNGFhNjdhYjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_881ab0756a154b819e645b81b7931110",
+      "statement": "Before applying the external bootstrap artifact the recovery script creates external-secrets if missing and requires universal-auth-credentials, prompting for an Infisical clientId/clientSecret Secret and aborting if it remains absent; existing credentials are checked for existence, not validity or key contents.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L227-L258",
+          "version": "repo-lines-v1:sha256:3de518af34de70700b2b22cc1b8db1a51a18c359c42e9f4c6f24eaa3428b12ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhZjkzNTZhZTFmNGRjMDNhNGFkZmQ4NjBkNjRlYjkwZjU0NGRiZGVlZGQwYWYzZTg0YjNhMzQ3YjE5MDNiNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyZmFhMjY5MmM5MTM3MWYzODk4NGE0NDRlM2Y4Y2I5ZGRkZTg5NWUwZDIyZDJhMjkxZDk3NjU0YTFhNDE2YWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1d81acbcac2c4db79af52c5334b3e0a6",
+      "statement": "Recovery script readiness gates expect exactly EXPECTED_MACHINES nodes (default six) Ready within 600 seconds, available argocd-server replicas within 300 seconds, and a nonempty list of Synced/Healthy Applications within 1200 seconds except argocd-ha; the summary reserves HA for manual sync.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L216-L222",
+          "version": "repo-lines-v1:sha256:0365caef49057a9586ab721e5ac96420c3cd5018263396ae9ab8526a09549195:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQzYzRmZDY3MzJjODNiZjI5MzY3N2Y2YmIxM2I4OGRlMDM3OTJhMjZjOGNlN2JhMzcwYmM3NDg3OWMzZGZkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBhNTU0ODQ4MzUzMDEyZTcxM2YwMTE4N2FhMTFjZGVmYzVmZWVjYmE5OTUxMDIxNzY4YTA2NmEyZDk3MWIwYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTdlYjM3NDRlMmY3YjhmYjA1ZTk4NGQ0OWIxMmI2ZTc5NWVjMWQzNDJlMDE0OTM3OTBiOTFiMzBhYjkyODk1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWIyYzk2YmY2OGUxZDg2ODRmYWE2ZTFhOWE3YTJhOTI1MzhkMTU0YmMyZTllZWRlMTFmZGUyYjJiYzZjMmZkNCJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L26-L38",
+          "version": "repo-lines-v1:sha256:9df2d12ccfa6342cdbfd29e8b7be54b6f6fd4341b670268fd9d45b77e059a1ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYTJlNGMxNjRmY2JjMWM3Y2M2OWUzNTYyYzU2MGU0NDg4MDI3YWMxMjJlNTNjNWI5MWUwNjEzOWZkZTAxZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzYTBlMDMwMmY0MGZlNDIxYzA5MWJjNDJhMzQ2MGFlMzc1NmNiNWQzMzQwMDdhYTVhZTExODEwNGUwYmY5MTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxZmExNDgwYjkxOTIxZDBmZjk0ODVkMDU2ZGRmZDhlODRlYzQ5ODY4YWMwNTQxMjAwMGJhMWYwODJkYzdlMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhNmIzM2ZmMWUxMTYwMTBhYjg1ZmZhOTAzYjgzMmYwMzcyMTA4MDRjZDBlY2VhMWQ3MGNlMGEzMTE4NDYyYmYifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L260-L294",
+          "version": "repo-lines-v1:sha256:e76f46e50bd0e5c2bb23eb7424e5e86933bfa68f2252cd1f722b22f9973eaa70:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4Yzc4YjQ5Y2MzMTAwMjg1OTNjOWEwYWI2MzcwYjEzZTk2NDYyNmFjM2YyMmE1MTZhYjlkZjc2MzMyNDA1OGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzNTdlZDFjYWVmNTFkZWVlZjBiYzBjNDEwYWNiM2I5Y2I1OWE0YzA5NmViNjJhZjAyNzUwNjJkNGUzYWU3ZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4MmYwZjhkMWI4NTU4MTg3ZTU4MTI1MGEyZGUyYmIzZTY1YzlhNWY0NjAwNGYyNzVkYjIwODQzMDg1ZGNjYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwY2I5NGU4NzcwYmNlOGEwZGRkZTNjMmY5NzRkNjdkNzgxZWJlODE1NGMwZmUwY2RhMzQyMDYyMGJiNGNjMTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0c86d04f25774c39964cef2ea7805ff2",
+      "statement": "Recovery polling prints diagnostics and returns failure on timeout, with strict shell error handling preventing normal progression after a failed gate.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L1-L2",
+          "version": "repo-lines-v1:sha256:7269fdd881f2a8fff804aed9d18e4487c2978912720204045ead0a0c5472b25f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ5NWZjMDRhODBjOTUyZjQ5Y2U0MTg4NjI3YzUzYjBmYmU4YzQ0MDQxYjk1MmQ1OTJhY2QxZGU5OTg2MTQ2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODhmYzYzMzY2N2QwMzAwNzMxYmRkODQ0NzJkYzQyNGUxZjljNjQxNzVlYTJiYWRiNjY2NDcyZDkxYWViNGVmYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Q2MmJhOTE3MmJjZGMxNDY3NTZhMDM1MDk4Mjg3M2MwOGQ0ZGQxZWE0ZTk2OTExMzRkM2ZhZGY3ZTFlNmI0NiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L61-L90",
+          "version": "repo-lines-v1:sha256:d01822d72053bd1cd319b5410d593b717d348d5f564f28bc983b404d39eeb7bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmODRiNTIyMzQxNTlhYjY4MjI2NWQ1NDMyN2YzZmFjZTY0MTc1YmY5MjI2YjI3ZTllYTZlZTk2ZjgzMzFiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZWZmMjg0YTA0NzgyNjBiOWY3NmY5YjNmNjlmYzlhOWVkMTUwMzJmNDBkZjM5OTE2MTI2ZWE2ZDI2NmI4M2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyODI0NDU2MjY0NGE0YTAwOTY3YjUwYTM2ZTY5YWQ0N2M3NWI5YzcwMTQzYzNjMjQxMjkyZmMwNzNjMWRlZTIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:731f563fca656cbbdd4832ea1b48e6f6e89bc20131bd689833f93e5bb724d69e",
+  "claims": [
+    {
+      "id": "claim_6978679fbed74cdfbe82280e34528baf",
+      "statement": "This repository owns Omni/Talos/provider and cluster capacity operations; application/platform incidents and configuration belong in mothership-gitops.",
+      "evidence": [
+        {
+          "resource": "repo://docs/OPERATIONS.md#L9-L34",
+          "version": "repo-lines-v1:sha256:3ebc9478468d09162f00480af43808c619bfe5ac41cdde4fa38a91f15fbee28b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDcxOTRjODJhYzA3Y2NlNzVlZjlkY2NjNDYyMmIwZWVmYjQ5NmM5MmQ4YTBmODAzNDJhM2QzY2IwNzcxYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZjk5NmMxNjEzMTk1ZjNlNDdkZGUxYTU1YzAzMzY1ZjM3ZGU3YmMwMDAxZTY4OGMxM2JkMmYxMDMyOTA0ZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwM2I4MTAzOGY5NTUyYjE5ZmFkYWE4NDc2NzIyZDRjN2M0ZTM1YTMxMTU5MGE2ZjBkYmI3YjM3ZTZjZDI4YjEifQ"
+        },
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L764-L786",
+          "version": "repo-lines-v1:sha256:b5d6a1d811d63244a3b97964c0092a3673d81317615caeb46324332a4e203f3f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwYWRlODNmMGEwMzIzNTk0YTZlYmE1NzQ1ZDU2NDQzYzQzN2E1YjdhOWFlM2M5ZGM3ZTNjNmRjZWQ2MzQ3YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlODAwOWJjMTRjZTI1YmFiYzM0MmRlYzIxYjQyMTllODI4YzdmYmI0MmZhNDM3Mjk3MDRlZjQ4MGZiNGE1MTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2MzUxNTJhZGUyYjUwOWNkMjlhOTBlN2FjNTUyY2VjZGMxYjBhNTdmZjcyMGQ3ZWYwMGU3NGFkZDk3ZGYwODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4MWY1OGRmZDBmNDM0YzlmYzE4ODE0NjRiNjczYTlmODJmN2VhNzA1NzI4ZDYxNGNhYWUxNjcyOGEwNjRkZWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_097f6f8ec2ce4ef5959f9c815f85d5b2",
+      "statement": "provider-ctl runs workstation tailscale ssh to root@foxtrot by default, then pct exec CT 200 to execute shell commands in the provider LXC; host, CT, Compose service and explicit container can be overridden by OMNI_PROVIDER_* environment variables.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L34-L65",
+          "version": "repo-lines-v1:sha256:c028a727d5b3eb417bd4717f953bfa2fff63af74b119c9f5dc5ae96e6989d6ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0NDdhZjg2NDY3ZmFiNWZiOTIwMmZiMWY3Y2M3MGFhNmU5ODU2ZWQxY2FmMzJhYTExZWY1ZTk3OThhNzJjMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViMTUxMTFkNjUwNjRjYjE0YjQwMTAyYTRhNGRmOTBlYjQ4ZGIxODI1ZGRlMTZkZTRkMjRkMzdhZGEyOTQzMWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMDExNWRjYjk0MmI0MTUzNWJmZDM1YjA3MjIwMDFiZjgyNDJmNzhmYWY5NGFmMTE3ZjMzZjI5OTViYTM5NGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9881defbe68f44c486a0d660420ef182",
+      "statement": "Provider container discovery includes stopped containers and filters only by Compose service label; no match or multiple matches fails, while an explicit container override bypasses discovery.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L68-L99",
+          "version": "repo-lines-v1:sha256:a75235eb0e6a866882305cc32c8c144c33a3a6a7a1f675874acec80a05dea73b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmNjQ3YzMxY2UxYzJlZWE2NGVkZGVjNGI1YzJkZjViZjI3YzZkN2ZiNzBmNDBmOTAzZGYzZDE4M2E0MzlkNWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0ZjBmNjc2MDgzMTA2YzllYmU1YjNkNGVhZmJhNDNkZTE2ZTQ5MTIxNjQ5OWQ4MmMyNTllNjRiZTA0NTZhMTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyNWVkYzljYWJmMGZkYzc3MjhlZTAyZmI5NGY0OGMxNWRlNWY5Y2EyNjllN2FkN2EwZmM0MDM0ODY2ZGVlMDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_78d22bd87a2744b9a3be18fb2714f9bb",
+      "statement": "provider-ctl status reports Docker inspect state and fails for stopped containers or nonhealthy reported health, but a running container without health status succeeds and does not establish Omni connectivity.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L78-L95",
+          "version": "repo-lines-v1:sha256:48fe02d31e94e56baeb6a53ce6838fec4d33762880b5cd9315b74f1817566937:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2N2EwODQ3MjUyZTNkMWNiYTkxYzU4MzIwNGQxYzk5MWQwZDYyYzM3OGIxMDYyOGQzNTRkYWEzMmY5OWYxMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkOWJkMzgyYTNkYzg0MDVkOWZjMGVkZjBhNzUzNmUyODNkMjY5MTkzNDE2YTBhYTI5ZjQ5NjhiMzkzYmE5YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L172-L210",
+          "version": "repo-lines-v1:sha256:b740040e8edc8288886601824d3f0c94e09c44e3f279b0fa6efc6ffeb045c02c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZDA5ZDBjZDQ5YWUyNDBlODk4YWJjZjEyYzUyMDRhYjVkNmYzZTVkZjA1ZTU1NmI2NGM0NWI4YTQ0OGRhNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzYzQyZjI3Nzg4ZGJkNDg2MWFkMjBlMzFmOWQ0ZDc3NjE3NjljYTJjNjc2YjBmODM5NzUxY2NhYjYyM2RjYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NzdjMGE4NTIwNzI4ZGU4OTc5YTIzYzY1NThhY2RiMDc0MWU5MWEyOWMzNGVhOTllYjI1NzYwYzhmNjEyMzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzMzlhYmYwMjQzZTEyMWFlOWM2NzMzNTU4OTQ0ZWU3ZTk2YzkwZTA4MzZmZjhhZWY4MTRmNzE5MzFhMzAzNjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_17d3d7fd0e604a558d726c2566854363",
+      "statement": "provider-ctl logs defaults to 25 lines capped at 100, condenses JSON fields unless --raw is selected, and passes non-JSON lines through; --raw requires logs and actions are mutually exclusive.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L213-L351",
+          "version": "repo-lines-v1:sha256:3bd518d187e2bf65845735c1f854c08b3e86861d2d15fcae830fc508c911f2f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiOTdjNzEyNDdhZjNjZDFlZGY1NTVhN2QxMDc1OTMxNTdmNmRjMmEyMmFmMGRlODJlNzc3NGFiZjEwZjhhZGUxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5NjM3MjZiMDVkMzg5ZWIwOTczOTUwYTA5NDljM2UwOGIwOWFjZmY0YjY4ODcxMWMwNWMyMjIzMjA4NGIyYzRlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmN2Y4MjllOWMzNTdmOGY1MmNhNDMzOWVmNGEwYzI2ZmZiODdhY2JiMGQ4OTZlMTg5Yjg0MWNhYTlmNjdlZDY0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_a7c00ea97eba44829baee2deb7dd5639",
+      "statement": "provider-ctl applies per-command 10-second status/log and 30-second restart timeouts; transport returns internal 124 on timeout and 127 if tailscale is missing, while action failures normally return 1.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L102-L127",
+          "version": "repo-lines-v1:sha256:7f443791fb77981373e9fcbd754ecd72f88e829215f36a87ca937f55c3eccaf9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMDg2NmUxYmNjNWFiNzZlM2VmNTkwMTJkMGFkMzlhNjg3YWJlMDAyM2I0MzhhY2IxMTMwYTE4ODI1ZTgxOTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMGUwY2ViY2NiY2IwOTRiYTEzYTE0NzZmNzUzZWFkMzFjZmY3ZGE4ZjNmZmM4MzllZTA5NzVkNDE3NzQ5MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhODQzNThlNjczOGU5YTE2MjUyMDY3MjdiOTZjNTU3ZGM5OWRmYWU4ZTY0NjNmZDljYTRkZTlhOWZkOTAwZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMzFjNTFjNTA1MDBkYmY4NTRkZDMyY2FkOWNjMjM0YTY3NTAxNTA2MjQ4NzYxNThiZTAzOWY2YTcyODMzY2IifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L142-L168",
+          "version": "repo-lines-v1:sha256:79943586d7c1b8c7274039873317dd0a156c626d1fc80cc4aa9ba5bdf48b37bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjOWMyNmFiYWM4OWM3OWU1ZDZhZDEyZDcyOTRjMDdiOTVjY2MxN2MzZmVhODE3YTFhNDMzZWRhNjg2ZDIyZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxYmE2MmFmNjBjZjdhNTg4Y2I0Nzc4MDM4YWY0NzgzNDdhZTQ2ZGRhNzk0Njg4NGRjYzg5MTI3N2I0MzYxZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyZTA3MzU1ODA4NWRmYWVmYjAyNDU5MTU0Y2JhZmFlZThiYjYyYWI3OGNjYWQ2YWUxNTA0NTkzY2ExN2FlZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2NzdjMGE4NTIwNzI4ZGU4OTc5YTIzYzY1NThhY2RiMDc0MWU5MWEyOWMzNGVhOTllYjI1NzYwYzhmNjEyMzUifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L250-L274",
+          "version": "repo-lines-v1:sha256:3cf942d7ab6eeac7104dbb1eb69f64d1def3cfd19d7a01738d8b38a87150618f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjYjljNDllNDgzNzYyY2Y3NDhjMmQ5MzFlYTEzYjY2ZjNlNjU1YzM2MzcxYmE2YjljNjZkYzg1MjM3NTMwMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NjljYjA5MjgwZWUwNzgxOTQ1ZTQ4ZDQwNDFiZDJkZmFhZTY5MWFkMmVhYmY1ZDNjYmEwODQ2YzcyMTZjYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM2ZTkwODM1NGQxOGI5OTJkZjc4YTEzNDNiMGU5NjAxOGI1Nzg5MzM4OTAyN2NkZmJjNDViNDQ2MDA3MDljZWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwYTk5ZTI5OGI5YTJjZGUwMGZkM2MwNTBhMDVlZTVjZTU3Yzc5NGViNTEzZWI0NTQyM2E2MzZjNzI0ZGQwOWYifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L39-L65",
+          "version": "repo-lines-v1:sha256:9765069ae03278dca730d1e4dd0dd161a3d0762d9ae59dcc07f29853e5bf23a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMzRhNDI5NjkyMGU1NTNlYjlmNTMzZTJmOGIxNjc5NDQxM2U4NmUxMDI0ZjMxODU4NzZhMDgxOGM0MWQ2NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0NDdhZjg2NDY3ZmFiNWZiOTIwMmZiMWY3Y2M3MGFhNmU5ODU2ZWQxY2FmMzJhYTExZWY1ZTk3OThhNzJjMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMzc1M2Y3MmYxNTA2YTM0ZWVhYWNkY2M0YzUyM2Q1MWIxNmQxNGNiZmJjMDI1MjdiYjRkOTk4NzllNmQwMmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMDExNWRjYjk0MmI0MTUzNWJmZDM1YjA3MjIwMDFiZjgyNDJmNzhmYWY5NGFmMTE3ZjMzZjI5OTViYTM5NGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c46764028b814de09006389cc01bb214",
+      "statement": "provider-ctl restart performs docker restart and checks Docker running state, not Compose recreation, configuration updates, or Omni provider health.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L102-L127",
+          "version": "repo-lines-v1:sha256:7f443791fb77981373e9fcbd754ecd72f88e829215f36a87ca937f55c3eccaf9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMDg2NmUxYmNjNWFiNzZlM2VmNTkwMTJkMGFkMzlhNjg3YWJlMDAyM2I0MzhhY2IxMTMwYTE4ODI1ZTgxOTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMGUwY2ViY2NiY2IwOTRiYTEzYTE0NzZmNzUzZWFkMzFjZmY3ZGE4ZjNmZmM4MzllZTA5NzVkNDE3NzQ5MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhODQzNThlNjczOGU5YTE2MjUyMDY3MjdiOTZjNTU3ZGM5OWRmYWU4ZTY0NjNmZDljYTRkZTlhOWZkOTAwZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMzFjNTFjNTA1MDBkYmY4NTRkZDMyY2FkOWNjMjM0YTY3NTAxNTA2MjQ4NzYxNThiZTAzOWY2YTcyODMzY2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5aedba8e68fd42a8a810aeaccf42450e",
+      "statement": "Provider Compose shares worker-tailscale's network namespace, gates startup on its tailscale status healthcheck, mounts config.yaml read-only, and defaults endpoint to https://omni.spaceships.work/ and provider ID to matrix-cluster using OMNI_SERVICE_ACCOUNT_KEY.",
+      "evidence": [
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e86a870a82a4886b5fb9c49fc2ea911",
+      "statement": "Live provider verification uses infraprovidercombinedstatus and infraproviderhealthstatus; provider registration alone is insufficient.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L76-L95",
+          "version": "repo-lines-v1:sha256:a2e747312706dff33bdebe0c4c6ca24f335292ecc6bb849ad83e2ccc6e4d4b00:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ZTE5Nzk3ZGNhMmJiNzcyODczNjVmMjBhZGZhZDdhYzM2ZGZmMmU5ZWJiZGY3ZGZkZDVmODg4YmZkNmUwNjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjZTBiNDcwMjBkMWE1ZDY2NzhlZjQyZWIwMmI3ZjM5NGNiOGQ2NjBlYzllZWRlY2JmNTgwODA1ODI4NjkyOGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b020bc5701f340658a0e031dc1d09fcc",
+      "statement": "Provider connectivity diagnosis includes Omni endpoint/key validity, Tailscale connectivity, and Proxmox API credentials, connectivity and token permissions.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/debugging.md#L21-L63",
+          "version": "repo-lines-v1:sha256:7f49735de0e53e8d6f314564a34a1f44c06935a124396a05d03047195c1b93bf:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyMWNhZmZjYzg2YzZkZTRmMDM0YWY2NzVkNWZkNmQwOTlkN2ZiNzVkZjVjMDAwYjRkMTM0MjhiZGJkODZkYjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxYjBmODY3ZjNmNzBkMzY5YTIyOTg4ZmU3NWMwYTVkOGE1MzE0YzUwOWEyYWY5YzE2MGY2NDI5ZDlkMTFjMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhYTQ0MWJlODg4ZWFhNjM1ZjUwZTEyZGIwMzMxZDc4OTgwY2M2NTJlYTdkMDRhMzc4N2ZkYWFlYTVjNzlmYTYifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L29-L47",
+          "version": "repo-lines-v1:sha256:98181ddb30a12e87591de2fb5cef4fb4a6895213316e97ec086e578e978002a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNWRiOTg4NzcyNWY5MjM4YjJkNGNiODQzMjcyN2FlNzZiNzYwYWY5M2Y5ODU2NzE3ZTA3NDY0N2VjZTE1MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2OTdlNDZjYjQxZDliNTk5ZDg2MzBjZDY0ZDc0MThmMjhhYzZhNzMyMDU1ZDlkOTU3ZGE2ODIxMWY2NGUyYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5YThkYmIzNjJjOGJkMDBhY2FjYzliMzlhNjRmZjA3MWI0MGJlZjkxOTRhNTFiODRhYzIyNGY1YjMyYWM5YmQifQ"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L207-L229",
+          "version": "repo-lines-v1:sha256:6edba70873cb5ab0bba03d91caeedcc0d11f7a4219abc3fbc8b87bc58d6218bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmODBlYTQxMzRmNDZkZjJkNzAxMDA2OGM4YWNhODlmZjMyNGU5YmFlZDc2OTRkN2QzZDhlYjVmNjAwMWNkZDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljYjg2OTE2YzZhYTJhYzlmODdmNDIzZTQyYjA2ZTU2NWQ4ZTE0MjgxMGEyYTcyMjM3M2VmZGIwZGIwNzE4MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjNWFjNzgwM2M3OTJiMDc3OWU1ZjM3MWJmMWYwY2YwZDcyNDk1YWE0ZjJkM2Y2NjQ2YjdmMjYzYzMyMDQ3ZGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_51263f0a0c85416a82163e978c283d5a",
+      "statement": "The recorded bootstrap DNS incident resolved the Hub hostname to an unreachable Tailscale address for fresh VMs; local split DNS and Proxmox resolver configuration restored the LAN bootstrap path.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L135-L161",
+          "version": "repo-lines-v1:sha256:3a18a62de15234a913b3f733f23f5af4190cf1fcce11fd10d03bccd7a3c770ac:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhMDc0ZDZiMGMwZDJkOWU4ZWZjYjcyMjY0ZmVkY2Q2Mzc5YWRmYWM3ZGU2ZjBmYTY2NDA5ODI5YTE0YTRhYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1ZWNhMTkxOGEyOGMxNjNhNDg5MDdlZTcyYjQ3Y2RkZjRmZjk2YzBkYWExNWEyZjFhMzEzMmQzM2QwOWNjZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0Mzc5MDdkMDY1MWI4ODZhZTA0NDNkM2U3ZTM0MTk1ZTMwNDViYTViODdkY2EzMTU4OGNhYzRkOTFlN2Y3YjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkZTliZDg0YjY5MTc2ODU1YWEwYTUxMGI2ZGE5OTY1ZDA5YTExYjAyYmIyODBmOGFmYmRhMDJhOWFlNTNiY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a18689748dd44aabbf636a776dbcbc3b",
+      "statement": "Hub Compose shares omni-tailscale's namespace and publishes LAN ports 443, 8090, 8100 and UDP 50180 through HOST_IP defaulting to 192.168.10.20; DNS pointing to LAN is insufficient without listeners.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L165-L184",
+          "version": "repo-lines-v1:sha256:66f0ddeda128ed0272e3d2fe98791707641f7c5a6b3148acf0f23ed42cdfb5e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzYmMwZjgyZjIxYWI0NTc3ODc2ZDRmOTRmOGY5YmUwMzBiY2RjZjViM2M1NWU1MjEwZTkxNWRmYWVkYzY2ZjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkZDNiYjA2MmZkNjdlYzA4ZGY2ZWE0OTcxNTc0MWY5MzRhNzA2OGNjNGQ0Y2NjMDBkY2JkYWYwNmY2N2MzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkZTliZDg0YjY5MTc2ODU1YWEwYTUxMGI2ZGE5OTY1ZDA5YTExYjAyYmIyODBmOGFmYmRhMDJhOWFlNTNiY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiMmU4MjIwZmU5MWJlMGNhOGE1YjhjOGRkYjM2ZDJmMWM4NzU2MTQzOGE4YzhlMTc5ZDVkYjVjYmE5N2Y0NGEifQ"
+        },
+        {
+          "resource": "repo://omni/compose.yml#L25-L40",
+          "version": "repo-lines-v1:sha256:ba4a5db91320e98cdafe6bc1bab6551f1aa9ebc614caf58b613ed95a6a49e7cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlOGM1MzUxZTk0ZGY0MzczZmUyNzQ2NjdmYjBlNmY2NDMwYzhkOTZmMzc1NDE4ZGZhMGExMDJhNGFhNWFlN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyZTYxNmRkNDBkZGIyNjg1NjM5OGY2Yzk1NThiODIyNjJkMjhjMzk0YzkwNTQwMGU2OWQ5OTMxODYzOGVlZTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0ZWI3NWE1NmE0ZWIyMDg0YTYwYWNmMTA2MTZjMmIwZGYyYTY4ODExM2I1NzM5OTRlOGM5ZWQ4ODkzY2JmMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhODY1ZTVkMWQ4NDliODY2N2FlNDhhOWY0ZGJhY2FjMWFmMGU1Y2Y3Mjk3NDE2NDlhNWVjOWM3ZTI1MWQ4NDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ba09868a592b48e882891983ce1366f0",
+      "statement": "The historical mandatory configureHostname patch is superseded by documented upstream commit 559954c moving hostname delivery to NoCloud metadata; neither latest nor local-fix establishes image provenance or compatibility.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L49-L74",
+          "version": "repo-lines-v1:sha256:51f3805db39a520ce19c0bbc655325a74cfbf900f81c5e124fca04e0ca09b268:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZmZhYWEyMzgzOTA0NmNhMmE0NzA2NDg0MTk5ZTk3NzMwODEwYzM2ZDNlN2UxZGJmNjc1NTY3MzVlMWJkOTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNhNWM4NWJjMDcwMDQxZTY3ZGQxOWU4NDBjYzVlYjgwYWRkMTE1ZWE3ZWQ1NTA2ZmQ1YzA4ZTQ0ZDEzYmM2ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkOWJkMzgyYTNkYzg0MDVkOWZjMGVkZjBhNzUzNmUyODNkMjY5MTkzNDE2YTBhYTI5ZjQ5NjhiMzkzYmE5YzQifQ"
+        },
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L507-L604",
+          "version": "repo-lines-v1:sha256:408463c0ce2e3b39c8d2fe08a0d52ba005da05abb76183a468ef3c78a8effca7:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4YjRiMjVhMDQwNWJkMmVlZDU2ZmViMGZjYTUyODZmNWJhNmZiNTE0OTcxNGEyYzEyMzdlYTVmMzc0NmNhMGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlYmVhZGMzYjM3Yjg5YTU5OTBmYjQ5ZmFhMjA3NTU5ZmQ2ZDNhYjcyMjczMTQ3NjJmNjgxNTYwMWM1NmVlMWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d48944281fc4654ad7b32a56b831515",
+      "statement": "Provider provenance requires running image ID/digests and build revision comparison with registry platform artifacts and upstream build logs, with executable comparison when metadata is missing; Compose's historical local-fix reference requires reconciliation rather than blind redeployment.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/provider-setup.md#L57-L74",
+          "version": "repo-lines-v1:sha256:d79da218c4e1573bd4e2a23009e9606a05571dcc3ba0480a70a623eaa2613804:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4ZGVhMmIyODlhN2ZkOWNlNjYzNTE4ZmYxYzE1YTBjZmFmOGE2MTMxZjQyN2M2ZTk5NWM3M2ZkZGExMDNiZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZmZhYWEyMzgzOTA0NmNhMmE0NzA2NDg0MTk5ZTk3NzMwODEwYzM2ZDNlN2UxZGJmNjc1NTY3MzVlMWJkOTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwNDlmODFhMDRkMmUxNGFhZDUwZDkwZmQxOGU2YmU4MzY4MTExMzNlOWY4ZWE3N2ZlNTZiNzViOGU5ZWY1OTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkOWJkMzgyYTNkYzg0MDVkOWZjMGVkZjBhNzUzNmUyODNkMjY5MTkzNDE2YTBhYTI5ZjQ5NjhiMzkzYmE5YzQifQ"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml#L26-L31",
+          "version": "repo-lines-v1:sha256:c2efd75bf9ef30e54620f670ef1655671a5a2ff3d9e17547fbd786aa2d66ad21:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU2MmY3NTI4OGEwZWQwM2E0YWRjM2IxOTU2OWFjOWI4NGEyNDRlNTI1M2RjMDhiN2ZlNzc0OTZhNDRiYTMyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODBjMmM1NTM2ZWIwM2Q1YmViMjU3NmVkNTQ0MzFmMTczNjBlNjhlMzFkNjYyNDlkZmRkOWM5NTk3MzlmODQ3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2Y2Y2EyNjYzMDRkOWY2ZDM2NmVhMDM4Y2JiM2M4M2EzZGY4MjZmMmRiMTM0YWMxZTQ3Y2NhMjQ1NmQzOWNkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGU4OWY2MzU5NDUyMmFmNGUxYzUyNTU1YTI1NTQ2NDU0YTQ4ZTc4ZGQ5YmY0MjAyY2FjNGIxYmJiMDIxY2ZiOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_372d8367487b402b81b5521ef71433c9",
+      "statement": "Hub Compose passes OMNI_SQLITE_PATH, uses TUN devices/capabilities, and currently healthchecks tailscale status rather than the DNS-probing troubleshooting example.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L371-L425",
+          "version": "repo-lines-v1:sha256:229c2b6f8fbcc4a9fb9589c9846aa828d4b6da001db1d339a626575b3a52b89d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNjkyOTc1MzcxYmU2OWY0NjU2OTI2YmYwYjljNGYxMTFjZDU0Y2IwM2E4ZDM3NDFlODVjNDM1NWI3YmUyOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzOWY4ZTIxMDYxM2RhOTUzOWQwMTliNGUyYzM0NjVlOGNhODI5YTQ3OGYwMjBmNWExMTE0Mzg5YmE2NjQ4NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyNjdlNTI0NzZjMjg0NDU1MWI5N2I5YTIyMjlkNGQzMmMxOTUwOGNkNTIwMDM4NmFlYjNiMjZjNDBkZmJhZjkifQ"
+        },
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        }
+      ]
+    },
+    {
+      "id": "claim_072013aa1265492d84907054a6709596",
+      "statement": "Historical missing shared network namespace recovery restarts the whole Compose stack; deleting Tailscale state with down -v can cause hostname collisions, and tsidp troubleshooting is explicitly historical after Auth0 migration.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L306-L310",
+          "version": "repo-lines-v1:sha256:f611445a55b9cabeabbccfa9d1c0fd86be60a0c2dd032c0a121bbf4f723bc5c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTkxM2YzMmJmNGIwMWJlYWIyZmJiYmY2MGE3NzZkNzcwYWRhYTI2NzVkNmNlZTZkODRlYmRjNGJmYmEwNzhhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmJkN2YyN2RiMTkyNWE4MjcyOWNkYTA3YTg2NDA3NmMxNjY4N2IwMzYwNzZjNTQ1NzJiMWNiM2YwZTcwOTYwZSJ9"
+        },
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L481-L503",
+          "version": "repo-lines-v1:sha256:85ada4c1843c2364105a10171d527cf0eb4af380e2b4129beca8dcee1b784b67:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyOGM3YWFjNDYzODUxYzZjZDJiZGQ5NGNmNmQ1MGZmNTI1Mzg5YTZmNzc4YzQxMjdhNWVkZTY4OGJjZDhhYzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4YjRiMjVhMDQwNWJkMmVlZDU2ZmViMGZjYTUyODZmNWJhNmZiNTE0OTcxNGEyYzEyMzdlYTVmMzc0NmNhMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_467b9791e5d24ed28d5b0ff16c59f09b",
+      "statement": "omnictl authentication supports browser OIDC retry and context inspection; destructive Omni data clearing is distinct from ordinary authentication recovery.",
+      "evidence": [
+        {
+          "resource": "repo://docs/OPERATIONS.md#L83-L127",
+          "version": "repo-lines-v1:sha256:37a9284b79891cca4558525f68d1d6f81bba0aeb09ba78a390c04ee8f85d01d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3NGVmMzIyOTMwNmQ2ZmQ1YzgyYjZhOGJmMDc5ODExMzMwMjk1YzkxZmIzOGU3ZjNhNThkMjgwODZlYzg1MzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3YjljYmZmODAxOWFkNWRmMDE2ZGRhMmUzZTczODNkZDAwNTY2ZDIxZWJjMTljMTUwOGFlNmE1NzU5MjBiYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5YWM3YTE3MjQ1ZGNmNWQyODBiYzc0NmY3MTExOWNiNWM4OGQ5MGIxNDYyOTNkMjBhODRiNTE0NDM3OGQ5YWYifQ"
+        },
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L263-L302",
+          "version": "repo-lines-v1:sha256:9d7dd76173ce2ca3575f56268d3cf2d8f21be6e495fc2a20985c79bc534cad92:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjZjI2YTMzMjcyMzVjN2ZhMzQxZTE0YTQ3MTEyOWY2NWFkNDdjNTkzYmU4ZDIwZmE5OTc1NzUwNzMzZmU4YzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4NDIzY2JlMjAxNmYxMDk0NTlhYzMwOGU3NDNkZWY3NWVkNWU1N2JiZTJiMDg2MmJlYjI5ZGRlNzEzNWI5ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5MTNmMzJiZjRiMDFiZWFiMmZiYmJmNjBhNzc2ZDc3MGFkYWEyNjc1ZDZjZWU2ZDg0ZWJkYzRiZmJhMDc4YTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8ca6423ba0094c66962c9405650d5e89",
+      "statement": "Storage name mismatches can stall scaling and documented selectors use name rather than failing type expressions; cluster templates require separate YAML documents and exactly one ControlPlane section.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L190-L258",
+          "version": "repo-lines-v1:sha256:c333761628fba33ebb1dabb5f6937e3595004aae6dda2dbece4011a89f4a57f7:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyY2E0MTE4YjYzYzZmZTQ4ZDZlNWIwODM5ZGY2NGQ2OWQxZGM1MGQzMzEwMjg1YTJlMTlkNTlmNDIzOTYxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxNmI4OGUzYmY5ZTg2ODhmNWQ1NmU0YjZmYjdkMmE5MTMxNzlmYWM5MzZlNWY2ZTc2ZTdmMWZlYTc3NDA1OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1MTA1NjEzYmI2Y2Y4OTRlNzJhNzg5YzdlNTIzYjhlM2VlNzFiM2Q4MGRlN2Q0ZTJlMTM2YWE4ZDRlN2ZkYzYifQ"
+        },
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L727-L761",
+          "version": "repo-lines-v1:sha256:88df705cdb0260117e2275a4155e4471cd8783eeae469cb52af5c7f1dbf854f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZmJjYjZiN2FjNDcxNTlhODRhNDliYmI0NzMyZjk2OGJlOTAwNzc1NTBmNjY1YjliMjEwZDIzNjI2YTMyZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5NmIzNTVjZGRjYzVkZTMwZThhYjBhMDQ1ZDY2Y2E5MDRmZjE0ZTg3ZjIwOTY0YmI4MDkxMGZjNzQzZTlmMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MjZjZmU5YmE0NWNhZjFlMDkzNjVmODllMjA4MzM1NzljZWU4OTc4ZjczYmI3NGY0ZGFkZDg1MGIzMDU2OTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2N2NiMTliYTNmYTk2NzI5M2MwYjk1M2M2MTM1YTdkMzBhNDJkMjNjMWI0ZDQ0NTFhODZlMjQyNTk4OTdmNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_913e29012a76435690c05cbf6a1aff8b",
+      "statement": "NodeRestriction can prevent kubelets setting protected node-role labels from machine.nodeLabels and cause a reboot loop; documented repair removes the protected label or uses a custom namespace.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/recovery-procedures.md#L11-L28",
+          "version": "repo-lines-v1:sha256:53582030cb36e8f52475273ea22ea8d9acacbedb20f97a1603b0a44e4e46804d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMGM1NjI2OTFmMzU2MzJmNmVlYjEzYWQ3NmRhNDBlMzRmOGI3MTE2MWIxMWVlMmJmYjA5NDllM2MwZGQ5NzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3MjJmZTU0ODg4MmM1NTJhMzUxOGE3ODFmYTkyYjNiNzc2NGE3NmQwZDU0OWQzYTQyZWFjZTIyODcwZjgwZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a1662965313c4c0b832f48e07709ef23",
+      "statement": "The MTU runbook prescribes explicit Cilium MTU=1450 and read-only comparison of ConfigMap, pod and siderolink MTU, but explicitly leaves the auto-detection and ingress performance causal mechanisms incompletely proven.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L10-L132",
+          "version": "repo-lines-v1:sha256:64f221b3c818f5496a4d448d34f24975460b9c3a675f5634b3e08f3b5e55f862:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhNjNjNmFkZjAwYmI2OTUwZWJlZTFhYWMyODJmMTE3MTA0NTIyZDg1NzgyYmVjYTIyZGMzYjhiMWY1YjhhOTBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiN2IyN2EyZmM3OGI3N2JhNGQxZGZhNzA4NzE5NjBiMTA2NTA3YjhlMzcxNWU1ZDkwNzQ5MmNjOGRlN2QyNGYzIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzNThkMTE4OGQ0ZjYxOTVmYmU0ODdiOGZmYThmOWYwYTBkNjFlMTQ3NTkzZmI5ZTVhNzcxY2I4Y2U4OGQ5MDk5In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_33dea39ee5374df0b20517cf16f170c2",
+      "statement": "Out-of-band VM deletion can leave finalizer-protected Omni resources; machine resources are read-only, and documented state-drift recovery deletes the clustermachine and checks MachineClass health rather than directly deleting machine or manually stripping finalizers.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/recovery-procedures.md#L32-L98",
+          "version": "repo-lines-v1:sha256:49ae40922bf6d08699d3e565d31192f331fbf4c73fbbc452d3e324c2902afe8e:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzMGI5YTdjYWM1NmJiZGM1NDFiNmFhNDQ1MGJjOGVmMjkzYjg0NDZiZWJlZTZmYjZiNTQ3N2E0MGFkNTcwZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZWI0YWQyMzJhZGQyYmQ2ODJiYWM5MTJmNTM4MTg2ODRjZjJiZTMwNGRiMmMyMTQ1ZmE0ODEyNGRmNGYwZTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9a715358c7d4a6e842f123f77a86e6a",
+      "statement": "Cluster delete/recreate is destructive recovery with data-loss risk, and documented guidance favors Omni-managed lifecycle over direct Proxmox VM modifications.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/recovery-procedures.md#L86-L120",
+          "version": "repo-lines-v1:sha256:b7b48794f536b2e5def3efc54e527e2771ffb565526612d59a01ced88d89d7a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhNmU3NGU3ODc0NzBmN2Q4NDg0MTY3NGJmN2M1Njc1MjEyODI3YmNlYjFjMjczMzYwM2RmZTEzM2QzZTY5OTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzZjU5N2FlN2Q3ODM1OGNlNjFkYTFjNTcyMzljM2M3ZjlmM2U0YTQ2NzM1ZDA2NDg0ZTE3M2U1NDYwNjk1OTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e52ce7b3f9b4d28a27f3d9c82facade",
+      "statement": "proxmox-vm-optimize is a post-install tool requiring qm on a Proxmox node, defaults to dry-run, scopes by VM IDs or name substring, and skips running VMs unless include-running is set.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/proxmox-vm-optimize.sh#L1-L86",
+          "version": "repo-lines-v1:sha256:549e005a6054d53020370272f5ee4357f7461d2e40ed35eb28b9f215ae5bf714:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjMjA4ZDUyMjE4NTBkNTFlOGVjNmY4ZWU0MzM0MGQyMTczNWNkYWU2MjE4NDRjNWVlMmEzZjU5MzNhZGEyNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiODU0MjJlNWYwMWNiYTI2ZTdhN2YzMDBlY2U4NmYyZmEwMjdkMDQyNjc2NTEzZjg3MWRhMTMxMjQ3ZmZmOWUifQ"
+        },
+        {
+          "resource": "repo://scripts/proxmox-vm-optimize.sh#L151-L169",
+          "version": "repo-lines-v1:sha256:bdee99b65681fe6160a9e31a7f7b696601eb60d6c272bd2db90e1d4bce3a7896:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MDZiNzAxNTNjNzllMGJhYWJhNDFiY2ViMjVlZTQ4OWI4NjQ0OTBhZTRkNjgwY2M5MDcwOWUxZWJjZjBkYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhYzFmOTQ4M2UzNTM3MTEyYTEyYTU4ODgwZmVjMjUyM2ZiNDJhYWFkYTdmYTQxMGRhZWVmOGZhNGExYjhkMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1ZWZmZDRiODMyNjQ5YzhkZWIzOWE1YTk5ZTY0NjMzMGY4Yzk5MjViYmViOTk4NzU4Yjk2MzEzYmQzMmQ2OGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjZWMxYThiNDQxNWYxNjM4OTRhM2Y1NWIyZGFiM2QzM2UyYmJmYzRmOGRhN2EyMzE0OTg0NTZlZDQ5MWFmN2QifQ"
+        },
+        {
+          "resource": "repo://scripts/proxmox-vm-optimize.sh#L300-L365",
+          "version": "repo-lines-v1:sha256:efaada6dfca5954b231a8d9efca8bbf71c9151b229426ffaed4642296a36b731:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiZjJiNmMxYWFhYTI0OGUzODdjMWJjY2FjYWM5NTU5NGY5ZTU0NDBlNWFjYTdhYmUwM2YyOGY5YzQ2YjM0NTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkOGNiNDA1Y2E4NmNkNzc0NGE1Nzc3YjA1NWQyZWM4YjRmY2M2ZjIxYjc2NTgxNjU4NmMwYWRhMDYxMjdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliZjIwMTYyOWFmNmY3ODVlMjllZTBhNmY4ZjQyOWVmYTkyMTNkYjliNjEwNDg3NmE1NmMxOTUxMmViM2RkZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5f92e1077d64f6f9d45175a5cd5cec2",
+      "statement": "VM optimization intends SCSI option changes, optional GPU CPU/chipset/NUMA/hugepage/balloon/QEMU-argument changes and optional net1 creation; existing net1 is skipped and some optional-setting failures only warn, so final configuration must be inspected rather than trusting a completion banner.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/proxmox-vm-optimize.sh#L172-L298",
+          "version": "repo-lines-v1:sha256:14d957199dce920736de65161030e2db5a6e39143e81b86e17cfc7bd44ae6fe1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmYjEwNmM1YzE3NDVmNTdiMWJlMGJjZTE3NDEyY2YxZWQzMTg0Nzk0YzYyOGM3M2MxNmRkYTc3ZGQyYmRhMGI0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1YWIzNTRhOTFjNzU1MzhlYzgxZjQ1NjE1NThkOWMyYmE0OTNmNmNlNTE5NThhNmQyZDUwZDBmZDRlYzMxMGMwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5ZjNiZDIxNTM0NGRlMjA5MDMyZTRjN2ZhMjQ3MmYwZGZiOTg2OWJkMWQ5YWU2NjE3YmFmOWYyYjVkMjA4ZWVmIn0"
+        },
+        {
+          "resource": "repo://scripts/proxmox-vm-optimize.sh#L330-L365",
+          "version": "repo-lines-v1:sha256:e7e6f485d29dd6e34d3736b654e35c292add027c0f52f6c10d63a74d7484f6d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0NDE5MTU4Y2UzNWJlNzU1MDAzMzlkYjU4MTllZjRlY2NlZjYyZjFjNmIzM2UxYjZmZDMxM2JmZjNhMmIyZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkOGNiNDA1Y2E4NmNkNzc0NGE1Nzc3YjA1NWQyZWM4YjRmY2M2ZjIxYjc2NTgxNjU4NmMwYWRhMDYxMjdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjODA0ZTYwOWZhOTJkM2Y2OGRjZGJhOTRkNGU5NTc1NWE1NGUxNzZmNGFkZTlkMTJmNjA3YmYzNWRlZjUzYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fc1b723af4294d71912606b93e1b99cd",
+      "statement": "The April 28, 2026 audit is a dated documentation-drift report against a specific commit and explicitly leaves live/external facts for review, not a current deployed-state inventory.",
+      "evidence": [
+        {
+          "resource": "repo://docs/audits/AUDIT_REPORT_2026-04-28.md#L1-L20",
+          "version": "repo-lines-v1:sha256:2630d5f312f50f91e55fc214719cc1724ae71afe37885fe3dad0ccc8b6f17277:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4YzEzYmRiNzNiMTgzMzcwNTA5NzFhMDI3MDU3ZjczM2NiMzQ1NmEyZDZmNzFjNmM0ZjgyYjFiNTI2YjMwYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMDIzM2QzNGY1Yjc2OWRkNzI0Y2E2M2I2OGI4Njg0YmNmZTcwYjhmZDRjYzA2NjdhNmZlMDQxZTEwNGExYjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4MjE5YmFiYTg0MGExNzkyMGJhZTc5MWE2YzNkNDg2Nzg4Y2Q1NzEwOTI3ZmQ3MzIzNDBhZTQ4ODliZGU4NWIifQ"
+        },
+        {
+          "resource": "repo://docs/audits/AUDIT_REPORT_2026-04-28.md#L178-L194",
+          "version": "repo-lines-v1:sha256:8d2aa3d1cf05edce6f45db50bdbf10d4df37dff639e96e9fbaaa22094da5f151:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiZmE2MGM1MDlkNzEyOWNhOGNiYTY4OTBkOWUwMmY1NGJkZGMyZmE4MGUyMWY0Zjg5YTNhMGRkMDkxNGVkZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyYjRlMDIxMGExZjlkODM2MDIzNmQxOGY3ZWIyNjY1ZTkwYWVkNDdlNjU2MzVhNTlhNGI4MWMyMzg0ZTk5MTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5YmM3MWIyM2QyZDM2MTlhNjQ3OTRiOWI1MDU0MDQzMDdlNmEzNzFjZDdhNWYxNDE0YzE3NmMxN2ZiOTE1MDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

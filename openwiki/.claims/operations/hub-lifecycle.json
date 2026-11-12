@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:699ab31fbf035dee7c307174840c9498f59a304105a2ee0fd7963cd269a2e4bb",
+  "claims": [
+    {
+      "id": "claim_afcad48e6fb2450f899495e78800a03b",
+      "statement": "The omni-upgrade skill owns the executable Hub procedure; Hub versions gate accepted Talos/Kubernetes versions, but a Hub upgrade does not authorize cluster upgrades.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L10-L15",
+          "version": "repo-lines-v1:sha256:318819db6004506ab5d0e9c4da58ef00b8b6eeafd943bf503ac4388fa2394dad:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFlYmU0ODU1Y2EyYTFmMTI5YmI1YmNkODE3NWU4NTBkZTRmYTA2NWM2OGM4MTI3ODQ4NDY0NjEyMGU5OTg4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ2NGVlOTk4YTM0OWUxZDU1M2ZlNTRkOTY3ODNmZDcxYWI0NzVjMjAzOTQyOWUxYTgyY2EwZTljOGRlYjE0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmFjYWMwMzRjN2RiMzk0ODJmNGVkYzc3MGNmNzFmNWFkYTFiNzZjYWQ1NDA1ZjRhNWM1MDIwNDc2ODk3ODNiZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA5MmQxMTY0YmU1NGI2ZThiMTk3MDE5N2UxYjEzY2UyYWM5Y2JlYWJlMjg3ZmQ2ZWJjZTg5ZWZiZWEwY2FmNSJ9"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L232-L241",
+          "version": "repo-lines-v1:sha256:2b43b9287e21352c7542fc467731aa0f0ae3959b4573acb8db4448e61a895f57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MzU0MWViOGM1NjM5NWU4YWE2OGIwZDBiNWE0MDczMDUwOWIxOGMwNjljNWJhZGZlYmQwYWJmNzkxOThmNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdlYzE4ZDNhN2VhOGI5OWExNDgyOTczMTI3OTg3ZDhjZWM0ODM5N2I2NDQyYTQ1YjkzMjU3NWU3ZjM2ZWQ1YzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5ZDM0ZDA3MmZiZmUyMWFlMzdhMDRlNTc0YTZiZTRjN2I4Nzk3ODhhMGVhMTU5OTI5YmVlNTI4YTViNjQ1Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2c102c56131946ea9c99b76f8b015895",
+      "statement": "Hub Compose operations run on the omni-host VM via root SSH in /home/ansible/docker/omni using deployed compose.yaml; this is not Holly or a Git clone, while omnictl runs on the workstation.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L19-L24",
+          "version": "repo-lines-v1:sha256:7e0b9e19629e0eccb46a772c12a7814dc6ba756b85eb49b2c09088e78b0789d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkyYTlhMDVkMTVjMjFlZmEzMjllOWUzYTI4YWUzODFlMzEwZTk3YWRiZjA4MWJkYmEzMTUzZWM1NWU1ZWVlYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDA5MmQxMTY0YmU1NGI2ZThiMTk3MDE5N2UxYjEzY2UyYWM5Y2JlYWJlMjg3ZmQ2ZWJjZTg5ZWZiZWEwY2FmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2RmM2VkOGVlNTA4YjBiMmE2OGJkNjgyYjQ2NDJmYjc4ZDVlNWIxMTAyZmU0YTYwZTcyNWY2MTllZjljZDQ0YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_171f4a48aaf0433aa7c2f88a3db3e016",
+      "statement": "Deployment changes require reconciling rendered repository/deployed configuration and concurrent work before transfer, refreshing IDs, mounts, networking and health, and emitting only non-secret differences.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L44-L47",
+          "version": "repo-lines-v1:sha256:8f9792287ce32ecd1201c61037c498d76a7c5956ea762238008f5ec2f9e57acc:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDkzYzY2MmQ3MDlmZDk4NWNiZDI2OWNlZWRkYWRkNzU5YTkwMzZjODMzM2ZlMTBhNGNlM2U3Yzg0Y2QxOTdmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM3M2FmODJjOWZiYzNkZjUyNjliNWQ1ODBhMjcxNTFmMWNjNTNiMDc5YzQ5NjgwMTEwN2FlYzExOWE1YjE1NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzczNWU4NWQyNDAzNjUxYzAwZjc5MWVmZDM3ODA5NjA0MTI4NmFkYzlkYmFhYWE0MWIzMDdiODJjOTliMDViOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjk5ZjU0YWNkMjI1NmEwMDU1ZWFmMDE5YjY4MzAwNTEwYmQwMmIyZjlmMjg4M2EyOWU1ZTFlY2VjOGUxM2VkNSJ9"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L74-L76",
+          "version": "repo-lines-v1:sha256:f65471df6c4fd3de0ad3b63fbf95ab27189c9b10c85b28454add3bc118f2bee9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzViMTRkNjQzOGIzNTAyZjQ2YTlkOTczZDkxM2EyNDUxMWFmMmVmZDdmMzQ3OGIxNzU0NTMxMWRmZjEwNzQyMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTUwM2EyN2U0NDYwMzZlMjVmN2Q0NDA0NjZmN2MyNzQ1OWJkYjRjMzM4ZDE1ZGI2MTFiOTRiZWY1YmJkOGNlMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2UzZGVkOGMwZWYwODI4ZWQzYjNhZDYzNDM1NmFlNGYxM2NlMWYwZmE3ZDhlMGI5MGFhMjFjMDBhMzBkZDAyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2MyYTI3N2JkYzQ4ZmM4YjY3OWI0ZDVlNmQwMjE1ZjMwNjZjMjQ2OGQ3MWIxYzgyMmZlMGJmYjViZjg1MzhlZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6ab34344b504b91ab95c6381564bca3",
+      "statement": "Repository desired state pins Omni v1.9.3 and omnictl 1.9.3 while Tailscale uses floating stable; resolved image IDs/digests must be recorded before and after changes rather than inferring deployed contents from tags.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L17-L18",
+          "version": "repo-lines-v1:sha256:bc88a422d268cddcdf29c9726422ca18ceb975190ac54a12b8ec422d6da39c9f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk0NTc1YWYyZDczZDlmODgyZDBmZTk1NGUwZGIzYTU5YWUyOTg0OGU3MzkyYmRlZmM5NTFjODhlYjkxNDFmZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTU5MzMwNzYxMTg1ZDgyYWFhYjA4Mzc3Y2EyOWU4ZjY3NDcwNGI5OTE1NDhjMWM0M2EzODlhODE0ZjRkMGVjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmJlZTZhNzIwYTEyZjAxMWRhMzk0ZDE3YjM5YWM2OTM3M2Y1ZjgyZmJiY2IyNGM3NjJlZmQyZjViYThmMjNmNiJ9"
+        },
+        {
+          "resource": "repo://mise.toml#L26-L26",
+          "version": "repo-lines-v1:sha256:5585073448929cb59377588d92bc934ebed31c4a8e8ed5e140b13b393bf88d33:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU4NTA3MzQ0ODkyOWNiNTkzNzc1ODhkOTJiYzkzNGViZWQzMWM0YThlOGVkNWUxNDBiMTNiMzkzYmY4OGQzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU4NTA3MzQ0ODkyOWNiNTkzNzc1ODhkOTJiYzkzNGViZWQzMWM0YThlOGVkNWUxNDBiMTNiMzkzYmY4OGQzMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjE1ZWY2ZjVhNzBjZDM5OWVmZWJhNjdlNWJhMjNiZDY1YTI3ODlkN2ViYjY0NTc0NGQzN2NiZjY2NWFhZDkzNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTM2OGRkZjY0MDBmMDg4MmM1MTI5MmJmOGIzMWJmMDlmN2E1NWU3NTdlMWRiMzU2MDZjODQ2NzZiNTQ2ZmM1MCJ9"
+        },
+        {
+          "resource": "repo://omni/compose.yml#L1-L4",
+          "version": "repo-lines-v1:sha256:bccf64f9b101118ee50167dd9ab74a3e69eb98b126bf4570047932e337aa8550:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE3M2ZjY2RjOTllYTgzNTk2N2M3ZGVlN2VmYmVkMWYzY2E4NzI2MGQ5MjkzMTg1MGZkZDY2ZGE4Y2IxMmYxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDc5MDdhNGNmOGJkMmUwZWU4ZjViNmM3YzNkZjA3YjEwMmU3YjJiMDU0M2MzMjllNGI2NDRjMTMzZGY3MmZmNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjdkZTQ1NmMxYjQ3MWU3NTdmYTBiMzM0NDRiOGU3ZDQyYzAyNDVmNTVjNGFkZjZkOTQ4YmIwYTNlMGY4NWIxNiJ9"
+        },
+        {
+          "resource": "repo://omni/compose.yml#L33-L35",
+          "version": "repo-lines-v1:sha256:9e5dac9b70a77601ec7b1f60b0c982ffded8d5ff64880199845ff004962981b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODZlOTMxMmFiZmZlZGYzMTVjZDcyODcyMzZlZGNmZGQyOWM4MGMxNjgwMTBlOWYwOGQ2Y2ZiOWEwNGFhNDE0ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmOGM5MTIzYmE2NzRhNjhlNzY2YjVlN2EwMzg5ZmMzOTIxZDRkNzI0YzAwYTQ0ZmEwNThhNzA4MTNjNjcyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmY5YWY5ZDY2MzY0NjUzZDNlMjI5NjUyZWIzN2I0NjQxYzI5Njk4MDQyZTRkNmFjYmFkYzBjZjczYzE4MDI3NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQ1MmFiZTc3OWYwOTA3NjVhMTllZGUwYTdjMmY0YjA5NWU1MDYxNDU2ZDJkYjJjOTE4ZmI0ODQwYTRhMDJhZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_32567b45cda34f67a6d3217c2f43fa17",
+      "statement": "Compose operations require --env-file omni.env for parse-time interpolation of credentials and volume paths even though services also specify env_file.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L77-L79",
+          "version": "repo-lines-v1:sha256:3c2a277bdc48fc8b679b4d5e6d0215f3066c2468d71b1c822fe0bfb5bf8538ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDFiNDg0NTZhZTA1ZGQ1Njg4MjlkMmZmMzRiZTQxYTliMGI3NWZjODgzODdhM2MyZTVkMjExYTFmODE2ODQyYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjY1NDcxZGY2YzRmZDNkZTBhZDNiNjNmYmY5NWFiMjcxODljOWIxMGM4NWIyODQ1NGFkZDNiYzExOGYyYmVlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTJlYWI0OGZmZTQxYzBhZjQzNjZmNDQ5M2QxZjcxOTMyOGE2NjM0ZDc1MDBmNGJmYzEyNzBkMzY2ZmM1MTIyNSJ9"
+        },
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        }
+      ]
+    },
+    {
+      "id": "claim_3eabb3fe9c1b4cd69a64819d1b4011cd",
+      "statement": "Image pulls only stage approved references; restarts neither pull nor apply changed environment, and recovery without upgrade requires verifying the local reference against the recorded running image before --pull never --no-build.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L79-L83",
+          "version": "repo-lines-v1:sha256:2b6c7b532f2d811ea1a09b893e65c842f6f5896173281767b0cc0d58888a4d6e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDFiNDg0NTZhZTA1ZGQ1Njg4MjlkMmZmMzRiZTQxYTliMGI3NWZjODgzODdhM2MyZTVkMjExYTFmODE2ODQyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDRkNDUyZWIxN2Y3MTgzMWVmNDQwMTExMTNiOWJhOTg3MWNiYTdjNGI1NDY5NDcwYTBmMmZiYzJlYjJkOTljYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTFiZTAzN2E0YmUwZTgxNWUzMjQ1YzIyNTE2NjFlNDRiYTcwZjFmNmIwYzYyZDZjZDI3YTlkODc3NzA5N2I5NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGFmZTZlYzgzMWI0NDJkZjBlNTQzNjRiYjQ2MDg1MjE4YWY3Njc5ZjQxMGJmNWNjYmQxNTkxNGExN2Y3YzRkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cb37be2ccb8f4fc184517a281f8e2f18",
+      "statement": "Supported upgrades proceed one minor at a time with urgent notes for every traversed minor, target patch notes, removed-flag checks against deployed and repository commands, and health checks per step.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L29-L40",
+          "version": "repo-lines-v1:sha256:03fa7eb7c57d8ee01f2aee69c3c90e02eb0ec7997b323a6968c20fce06f32a10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkYzNkNmIwODA5ZWVkMTBiMGZlNTI2ZjVjNzkwMjU3OTRlY2ViYjcxYzhhNmI1M2Q2Zjc4NjFiZDE2MmVhMzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3NWJhYmNkYjI1ZjVjNTJlZTEyOTA2NTQ2MDRjYTRhYTFmZTczMmIyMGE3MTQ3YjAwOGZkOWQxZWRiOWQyNDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5Y2I0ZTBkMmIyNTFlZjk1OWZjMzNhNThkZDYxM2Q2N2I0NzQ5OWI0ODdkMTAzODc5NTFmN2EzZDMyOGYyMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3MzVlODVkMjQwMzY1MWMwMGY3OTFlZmQzNzgwOTYwNDEyODZhZGM5ZGJhYWFhNDFiMzA3YjgyYzk5YjA1YjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b5a018809c2446baa77f3f70b85f920",
+      "statement": "Clients should match the target backend, with Omni 1.11 specifically requiring an omnictl upgrade because of its API version change.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L125-L128",
+          "version": "repo-lines-v1:sha256:f0ca03f222e9ed60789c3488732b0ace743d55b91d26cde772a9be7ef23320e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FmZGYyY2ZhMmY0YjA1MWE1N2UzOWE1ZDZkM2Y3ZWJhOGM4YzVlMTg5ODFhYjVkMzIyZDZiZDU2NWU5MzlhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDE1NjcxOGNmM2U2NzcwOTQ2NTJhOWQ4ZmMxOGEzMDE0ZjE5ODNjZDUzMTFiMTg2NjJmZDEzMDgxZWIxYjVlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiNjE2ODE0NDI3NmM2MDAyMjgwNWU1MzM4ZDQ0ZDFhODQyYWIyYmI3Y2RiY2Q2NTI4MzM2ZDYzM2RiYTEyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWFiYWY5YmQxZmI4Y2JlN2I2NmNkNzM3OGU3ZmZjMjM0YWZhNmY0YWVhYjc3ZTA0MjMyNzgyMmE5NjI4ZGQ1YyJ9"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L35-L36",
+          "version": "repo-lines-v1:sha256:6a4b782626e253a461d2c5193a3f4033bd4ecc9d637fa2835739f313db7626a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMTc5NzViZGFmNTNhOTA5M2Q3MjE0MGZkY2U0YzAwMzQyMjdmMWIzYmU1YzQyMmY5MTgxYWYxODIyZjliOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjkxNmMyNjJhYTc1NmQ5YmE0MzMzMzY5MzM4MGQyYzhjNDcyODFhMWZiNzllODU0MzU1YzM5Nzk3Yjg1OTAzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzhiNGM1NGI3ZDgyMmViYmMzNjgyNjE1MDVmOTEwZjAwNmRhN2M0ZjU3ODA2ODI2YTg3YjIwYjhjYTllZjFhYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ec78c9d22c894277b3b617a2b2b3b236",
+      "statement": "Omni state migrations are not guaranteed reversible; the documented policy treats rollback as unavailable and plans roll-forward, explicitly presented for multi-minor upgrade approval.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L41-L43",
+          "version": "repo-lines-v1:sha256:c735e85d2403651c00f791efd378096041286adc9dbaaaa41b307b82c99b05b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmZiOTE1YTQ5YzNlZmYwYTUzYmNmMjkxYzJjZGIxMDdkMzdlNTFmNDNhMTIyMWMxOTg3NGY4NDFlNmQyYzQ2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU0N2RhNWMxN2I4MWE5Mzk4N2ZlNTUxZTBkMmE5NDE4ZDMwNzY0YjQ3MTdmNTRlZGYzNmIyZmQyZjM3NWYyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDA1NWQwMjE3MWQ2NTUyOTg4NWY3NTAzNjdlZDYwMzQ2YTAyMThkZjIzYWU5OWI2MDIwMWM4OTI5MTA3M2UzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDBkNmI5NjAwN2I5YTY0YWY2NWJjZjk2YzM2ZjY0M2NlNWRhODc4ZmNkZGRmMjBiYzQ4YzE1ZGYxOWJlZTkyNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c8d7af87076497a990d42f4181bb43c",
+      "statement": "Current Compose selects SQLite via OMNI_SQLITE_PATH inside the ETCD_VOLUME_PATH mount and loads encryption material read-only from ETCD_ENCRYPTION_KEY at /omni.asc; the example database is /_out/etcd/omni.db.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml#L46-L59",
+          "version": "repo-lines-v1:sha256:a3e3b0a29c3a27e8d0ed5e763ed4c1e111631ad5fc0e85d5dacb47011abf6dee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxM2Y0ZDk2NjFlOWQyYzNlMWEyODllNTgzMjI5OWJlYTE0Y2RiNjRiZjg4NjYxZGY3MTdiMTJmYTAyZDAxMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwNWY4MDM5ZmYyMTNlZGRiZjI1NjNiMDg4NDAzZjdjYjE0MDcwMGFkN2I2OWZkNmNkMjg0MDY5YzJkYmM0ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMzg3NmU0Y2M0MzE5YTc3ZDBhNTE0Nzc2YTI5ZjIxNjIwZThlOGE3ZWUzNDJjMDcxN2ExMGQ3ZjE4NzBiNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkMzczMThjOTdiZTBjODRiNGM0ZGM0NmJmMzlmYzcxNWU0N2UwYzhjZTVhZWRjNmY0MTZmNWI3ZGU0ZWJmMjcifQ"
+        },
+        {
+          "resource": "repo://omni/omni.env.example#L22-L31",
+          "version": "repo-lines-v1:sha256:6dbfd8f78327c901ad7ac44ea23006a79dc9b62bd370ade52ff48e18be1bd145:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxZGViNzcyZDFhNjJmODk0YmU3YjE4ZGIyNGNhZjAwMmZjMjZkZTVhZmQ4MmEwZWMyYzEwNTM0OWZiYWRkODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwYmYwY2ZhMjA5ZTBjY2Q3YWQ1ZGZkZWMzYjg2ZGI1OGFjNzM4NjZjM2Y1Nzk5NzRiMjhiNjE4YTZiODgyZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMTU2NGVlNGIwNzUyYWU5NTY4Mzc3MmUwZjFlYTliOTkzYmIzOTRmNzQ0MzM3ODdjZjVjOWZmODFiOTEwZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyYzg3MWE3MDYyYTY0ZTQ5ZjY2N2NjYjhkNDc4MGY2YWEzZGE2MDNiY2Q1OWM4ZDQ5NzQxZTRlYjAxNDI2ZmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b187022284e4c9682f2893c4df53037",
+      "statement": "Preflight must preserve restricted configuration and state copies, stop the sidecar for a consistent verified state archive, use a consistent backup method such as SQLite backup API for a running SQLite database, check integrity, and preserve encryption material for full recovery; local copies alone are not tested disaster recovery.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L48-L53",
+          "version": "repo-lines-v1:sha256:24716036aab32e12571c3f0f23aa982e48f5a9a7e5f9661a24a8626de489930d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGM4NDY5NTRmZmNkMDFlZGFhYTNhM2U2ODdlMDllNTMzZTVhMmU1N2RhOWI5M2U2ODA5MjViMGNhMDdlZjNkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjczY2U2N2IwNmFiOWEyOWM4NjBhMmUxNTJiYjcxYWYwNTk2YjI5N2MyZDFjNDEzZTk4MWNlNTAxYzFiOGZiNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWI3MGJiNzg0YzUzYTkxMmE4OGE1NzMzZTI3MTBmM2UwNmEzMzU4ZDhlZjc4ZTQxNjVhNjcwNDQ0NzE2YzY5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGZjZTNhMzcwOGMzZmNhYTA2ZWVhOWNmYTczNDAyYTA0ODE4NzdhNTNlZDc4NjJlMDQ4MmFjZDIwNjVhNGYxOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_45b993a8ad154d9981494374a0c20788",
+      "statement": "Tailscale identity persists through ./tailscale-state mounted at /var/lib/tailscale with TS_AUTH_ONCE=true; auth-key expiry does not expire an authorized device, and tagged-device node-key expiry should be verified after enrollment.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L57-L60",
+          "version": "repo-lines-v1:sha256:47741e7ab2509c609833102f3fe925ea502cf5d9a3b67ad5f54b0f12e75c3fcf:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDc3ZGUwZGJmMDcwNjc0NzQ2ZWRlMDAwODc1ZTZiYmJhZWRjMjhjNGJjZTFjMzE3MzI3YmVkNTU4N2Q1MjIwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGZjZTNhMzcwOGMzZmNhYTA2ZWVhOWNmYTczNDAyYTA0ODE4NzdhNTNlZDc4NjJlMDQ4MmFjZDIwNjVhNGYxOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDQwNWY3ZmM0OWY0OWU0ZTk0Y2Y3Y2ZiNTc4YzQ2YjE1ZmM5NGRhMWM5ZTExNjM1OGE0NDVjMTA4ZGQ2MTY3NSJ9"
+        },
+        {
+          "resource": "repo://omni/compose.yml#L13-L18",
+          "version": "repo-lines-v1:sha256:05fe2370cc71b74cc58612c5cbde7c8f261bd40da5a4d40819210c044b118abc:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjI3NDYzMzRmZGJkNjUxMzIzOWYxMzI2ZGI4YjYxMjc1N2I1YjMyYzA4MDhiNTA4MWE5OTM3ZjY1MzNiOGRiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzQxZTUzYmYyNGMzMWQzZWRjNGE4YTQ1ZDVkOGNlZDc0ZWQ4ZmQ5NDI1Mjg4NmIyYjU1YWZmMjU3ZWNiYTVjMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWNlY2I5MDI3MDZlNjRhNDQ5YzM3ZDlmMjhiODVjOWNiN2M5OWJhZjMwZDdjZDE0ZjQ3NmNjZTZkMGIyNDY1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjkwNDZjODZjZmUxOWJjZTdiM2UxNDUyMjFhODcyNTdlMWM5Yzk2NDM3ZWMxYjA1ZmNkYjljNjk1M2U0OTE4YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_278c383d4e534d9c8cc3f7e13ccb629c",
+      "statement": "Saved Tailscale state is not proof of registration and TS_AUTH_ONCE cannot recover deleted registration; compare saved node ID with inventory and stop before unauthorized fresh enrollment, never deleting state as a login fix.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L62-L67",
+          "version": "repo-lines-v1:sha256:a8237062037271f52573c9b178987d626a3fb0abeb60c0d7bc69b5bea8dd1f1a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGNkZmJjMWQ2MmNhNTUyZjQwYmI0YjZiYzg1ZmM3NTBhMGUwZTdlZWMwNDhmYzYzZTYzOGM2M2Q1ZTRhNzI1MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJjYTg3NTk4ZGE4ZWU0MmExYTU2YTE4YWMxMTZmYWFhZDk0MjFjMWY4OTAxNmM1NWVjMGI0ZThjNDRiMGU1ZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d61588385a1d43a3ab3bff8c249d90c8",
+      "statement": "Lifecycle operations must not use down -v, prune state or remove state bind directories.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L77-L79",
+          "version": "repo-lines-v1:sha256:3c2a277bdc48fc8b679b4d5e6d0215f3066c2468d71b1c822fe0bfb5bf8538ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDFiNDg0NTZhZTA1ZGQ1Njg4MjlkMmZmMzRiZTQxYTliMGI3NWZjODgzODdhM2MyZTVkMjExYTFmODE2ODQyYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjY1NDcxZGY2YzRmZDNkZTBhZDNiNjNmYmY5NWFiMjcxODljOWIxMGM4NWIyODQ1NGFkZDNiYzExOGYyYmVlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTJlYWI0OGZmZTQxYzBhZjQzNjZmNDQ5M2QxZjcxOTMyOGE2NjM0ZDc1MDBmNGJmYzEyNzBkMzY2ZmM1MTIyNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f36b1f678ec14c0b925d1e5057faabed",
+      "statement": "A changed or backup-stopped sidecar must recover first, with Running, Online, health, expected identity/tags and restart-count stability beyond the failure interval; only then may Omni change, and backup-only stops can use docker start.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L85-L95",
+          "version": "repo-lines-v1:sha256:a4780e01a5d63bcf066588212b5bef0532e02b39e3598765137f3e9acd2c2b44:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMjlkYzNhZGFlOWNmYTM4NzZmNjU1YWNiODlkZTk4MmMzMjdjYzE0YzNiNDU1OGUwYzMzYWVjZWEwMTcyZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMzE3OTc1YmRhZjUzYTkwOTNkNzIxNDBmZGNlNGMwMDM0MjI3ZjFiM2JlNWM0MjJmOTE4MWFmMTgyMmY5YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwMTY0MzYzY2U0ZmNlZjkwODllNWM5NTI0NTU0Y2MyZGYxNWYwMjg5OWQ1NDQxNmUyYTRkNTczNmU4M2U2MTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4ZDJiY2ViOWQ1MWNjYjI1ODQ5ZGJkZTMwOTkwNGIwYmIzZGE4MmQxMGY0YzhjMTcxMDdhNjFhZDdiNGIzZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b7cdfd6e0e44a59bb1d1d7ee5e74cc0",
+      "statement": "Omni shares the sidecar network namespace and the sidecar owns published ports; changing sidecar container identity requires recreating Omni because restart alone retains the old configured namespace target.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L97-L100",
+          "version": "repo-lines-v1:sha256:b93a8bd37632d7a5a418d12baa8bd5a025e9012447bcd05068bdce8aaabcbc3a:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQ2YzU5MzdkZjNjMzI0YWQ2ZjMzZmI2YTdiNGUxYjg1OWU4OWE0YmUyNTYxYmEyZThlMWJjMmIwNTI3ZWI1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2QxMzJmNjg2MWUxZTBiYmU5ZjRmNDE0NDk4OGYxZDM5ODhhZjk1NDdlMDM0NGUxMDhjN2ZlNDA3YjJjZmI2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU0ODljYjc4ZjJkZDcyNzE1ODU5N2JkNjRhMTExMzc3OTBiOWU2MzBhODFiY2E4ZjNjYWJmZDU4YTFkZmFkNCJ9"
+        },
+        {
+          "resource": "repo://omni/compose.yml#L25-L41",
+          "version": "repo-lines-v1:sha256:c9b5bf8383a19ad69c42b0dac519ab2626f3527f7ae7335f8ac1e08fd166c02a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlOGM1MzUxZTk0ZGY0MzczZmUyNzQ2NjdmYjBlNmY2NDMwYzhkOTZmMzc1NDE4ZGZhMGExMDJhNGFhNWFlN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3YTRkNTM2NTEyYzVlOGZlZDQ3NjA1YjRkYWI3MzVlNjVjYmE1NmMwMjQ2MGQ4MjUwZmIyMzg3MDhkZTlmMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0ZWI3NWE1NmE0ZWIyMDg0YTYwYWNmMTA2MTZjMmIwZGYyYTY4ODExM2I1NzM5OTRlOGM5ZWQ4ODkzY2JmMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5MDQ2Yzg2Y2ZlMTliY2U3YjNlMTQ1MjIxYTg3MjU3ZTFjOWM5NjQzN2VjMWIwNWZjZGI5YzY5NTNlNDkxOGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_69f2ceeee09148409f50dfecb8a493d7",
+      "statement": "Recovery verification must compare actual process network namespace identities and routes plus valid-TLS LAN/tailnet HTTPS; configured network_mode alone does not prove a shared live namespace.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L102-L106",
+          "version": "repo-lines-v1:sha256:495d06c3d3bddb81fe838f6e5348b1146ff73888ece3e1d97cbe037594aa744e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWY5NjZhOTdmNTQ2NmQzYTcxNzE2MDA2YjM1ZDIwOTAzYTBmYTNiMmUzNjQyN2I0YjE2MTdjYWRiZGJkZWYyMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2QzOGI2NmY4NGJjODNkNTg5ZDcwNjZjMWUwYjhkYzg4M2Q5MzdkZjQzOTg0OGRjZmMzOTllYjA2YzUxN2UxYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0OGIxOGMzMmUyZjliMzlmNzRkMzY4Y2MzZDAzMDdlMDQ2NDg0NDM4NjFhNDk0NzczODUxYmFkMDY4MjVjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTllNzY4YzdjYjg4OWY3OTU0OGQwNTVhY2MwYjllZDE4OTM0NzRiODM0YjI5MGE2ZDY3ODM5ZWIyOWY0ZTM5NCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_18eeb0e80456406ab5d528ed6e7bfa4b",
+      "statement": "Deployed Omni uses Auth0 for user authentication while the Tailscale sidecar provides network access; authentication facts should be refreshed from filtered deployed configuration without exposing environment files or unrestricted inspection.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L24-L26",
+          "version": "repo-lines-v1:sha256:0d29f92550d7bff26876e80bec3fd643a26d212a4c3156eba91cb0cad607ab2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkyYTlhMDVkMTVjMjFlZmEzMjllOWUzYTI4YWUzODFlMzEwZTk3YWRiZjA4MWJkYmEzMTUzZWM1NWU1ZWVlYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGM1NDRlNWQxN2Y4YmY0NDhjMDk1NmU3MGI5NWZhM2M3M2EyNjQwNGVlNzI5YjQ0MWFjZTI3NTBmNmY4ZDA0OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2I4MjVjMTIzMzY0NjQ1ZWFkNDM1Njg3M2Y1ZTc4ZmEyNDYwNzQ1N2I5YmE4MjZmOTA3ZmYyNWExOGU2ZTRmMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWUzMjY4MTNlN2RkMjcwMzhhMWQyODFlNWFmZmViN2E1YWFjMTA5OGZmNTUyMzY0YTU4ZjVjNmE0MDI5YTllMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d225a59cde694e6583ead3a6e08436b9",
+      "statement": "Authenticated verification requires backend/version-support reads, combined provider spec.health, machine connectivity and cluster health; stored provider registration or HTTP 200 alone is insufficient, and expired CLI authentication requires operator completion and repeated reads.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L108-L120",
+          "version": "repo-lines-v1:sha256:3f6bf4191f99b0e9ba7c4fb00610ddc714f1bec4db347714ecb495f0d75640c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4NzgyMzA3YTIyYzU3MTUyNDIxN2MzMjQ5ZDAxNDY2ZjYwZDAyNTViYjcyODM4N2U3ODlmYjEyNjQwM2UyZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYWZlY2MzMTdmNDUzODc4OGJiY2E0ZWRmMTQyN2RkOTgwMDExYzgyODBjZTU4YzhiYjUwMGQ4NDQ3Mjk5ZDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmZDVkN2FhMmI5ZjEzZTBlNjdlZTIyZDZjZWZlYjU5MTI0OWNjYjAyZWZhNWEwNTUzOWMyNTkyMjgzYzdlZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiMTBhMzZmYWIxOTAyNjhiYzMzNjZjMzZhNzZmZDYwN2RhYWIwYmRiNjE3MmQyZDMxZGY3ZmU1MjZlZGM3MjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_65d2eea2fd5245c79a3f6affd2d69b3d",
+      "statement": "Post-upgrade synchronization includes the omnictl pin, changed environment example and docs naming old versions; sanitized evidence and deployed state are recorded in Lab Operations.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L122-L128",
+          "version": "repo-lines-v1:sha256:bd19e4e7098d730f03dc7b8325cc1cb849a3c845c77ca3ac3a4cd0a91bc5a02d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTA0MGMzYmI0NDY3NWFlMzAyNjM5MzlhYjJjNDFkMWE5NGQ4NWI1ZTFiNzY0YTc5NzBhOWYyYjViMWNjOWJlNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDE1NjcxOGNmM2U2NzcwOTQ2NTJhOWQ4ZmMxOGEzMDE0ZjE5ODNjZDUzMTFiMTg2NjJmZDEzMDgxZWIxYjVlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGMyOWEzM2RhZjdiZTEwYjgxZGE2NWQxMGEyODEwNjM5MmYzZWIwNDNjMjZmMzc5MzNiYTkzNmQxZTVkMzk0ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWFiYWY5YmQxZmI4Y2JlN2I2NmNkNzM3OGU3ZmZjMjM0YWZhNmY0YWVhYjc3ZTA0MjMyNzgyMmE5NjI4ZGQ1YyJ9"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L141-L142",
+          "version": "repo-lines-v1:sha256:8b24dd06688b19387c14bd1cf0c0803f8f18b121a4aaf91d6143ab0f526afed1:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzBkMGVmYTJhZWIyMThhZDM0NTgwMmUyMmE5NDQ0MTYxMTkyM2Y1NTkwOGMzYWQ2ZDU1MThjZmRkZjNmZWM5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmIyNzM5MjNkMWIxMTM0NDc0ZDNjOTkyOGZlNDM5NmNlZmM3YTgwMTQ5MTE3YWU1MjNhZDBhYmZlZjg0OTk5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTA3ZmZlODViMTJiZGFkYmUzZmNmMzk4MjhmMDZlNmYyNjJmODBhZmM2MjQ3MzNiYTQwN2FiMWFlNWVlOGVjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWQ2MDgxZTM2YTkxYzc1OTdlNTk4MmE5MmE1ZTJhMDE5YzExMTBjOWZlNzM1NGY1OTlmYjEzYzE4ZWU3OGZkZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6e7974bb62b24116b689c9253c8a876a",
+      "statement": "Unknown-flag crashes require correcting and resyncing Compose commands; unreachable APIs require attachment/route/namespace checks, and attachment repair neither fixes authentication nor reconnects existing Omni processes automatically.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L132-L140",
+          "version": "repo-lines-v1:sha256:25e5740688b2d627bdd875f34dbbd9fa0ae86dc8d8486ef731d2a54cba7ad3b0:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFlNTlmYTk3MzZkOTU5MmVmNDk3MGE1NmJiMjA0YzEwNjZiNTU5MzUzZmM1MzRjMmJmNGUxMDJjYzc0MjM0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjEwYmY2ZDBmOWM5ZGU5M2RjNWY3NGYyOTRhYWMyY2MwYTUyZGZkZmJkM2E2NjIwMTkwNzdlMzNhY2M5Y2U4ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWFiYWY5YmQxZmI4Y2JlN2I2NmNkNzM3OGU3ZmZjMjM0YWZhNmY0YWVhYjc3ZTA0MjMyNzgyMmE5NjI4ZGQ1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Y5MDhjNGQzNDFmYzM3OTMzMjM0MDQ1NWE5MjdlYTRhZGUzMjFhNDc2YjhlN2IzNmE1MTZmNjJhZGUwYTIxMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0ab54a58e71428b8c827e96f8d799cd",
+      "statement": "A provider that fails to re-register after Hub upgrade is investigated in the separate omni-provider LXC through the omni-talos provider lifecycle.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/SKILL.md#L15-L33",
+          "version": "repo-lines-v1:sha256:670a1a01ff680e72c674b4177320a5ef9378051edf3e948b35d31eb513ea8e6c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMzRiZjZjOTg4N2MxZmZmMDIwMTY1YjhiZDZlMzRmNDM4MjY0NDEyNzY1ZjlkNGU3OWViODU3NDExODQzZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZDhiOTEyMWJlNGEzODc4NzY0ODRkMDJiODE2NzY2YjIyY2Q1Y2E2ZjQ2MjUxNTljMzZiZDQzOGJmMzcxMjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyYTgyYWY0ZGM4ZmVmNDFlNThkNTM1ZmY1ZDZjN2U1YWEwMjgyN2RiZDRiMTI5ODVjZTVkMDIwOTc4ZmJmNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiMDBhNGM3NDY4MzZjNWMwMDk3Y2NjZmI2MmY3NWIxNmJhNGE1NzNkYmFlZWM0YzhkNTllNGUzODk2YzRlNTUifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-upgrade/SKILL.md#L143-L145",
+          "version": "repo-lines-v1:sha256:9d6081e36a91c7597e5982a92a5e2a019c1110c9fe7354f599fb13c18ee78fdd:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM1MzQzMjE0NzM3NjRiZTExM2Q2ZWM0OGU2ODYzNzliNjFlODI0ZjQ4YmFhNWFjMmU0ZDUyMmY5NWNjYTg2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODg3NWIxMjQzNjc1MjJjZGMyYzBjMDE0MzdiMTk5OWRkMzZjZjEzNzMxNTAwMTdiZTFjY2M1YTkzZjMxMWZlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTlkMjAwMDNhMTc1YjMyMjg0MWQ1ZjU2MDc1MzJlNDg2YTU3ZmVjNDU3YWZlNDM3YjEzNDg2ZmI5YmY1OWVlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

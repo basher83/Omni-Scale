@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:273960af3924e3f1213f52c2efeaf27cff67455dd275f782b6ffcfccb23e7c91",
+  "claims": [
+    {
+      "id": "claim_02b43a253d2541649d236907e4c761f4",
+      "statement": "The disaster-recovery entrypoint is an interactive destructive cluster rebuild, not backup restoration: it warns that workloads and data will be lost, requires exact yes confirmation, runs sequential phases without rollback or resume, and a rerun begins at deletion again.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh",
+          "version": "repo-file-v1:sha256:bc5c32662df4cc3fca60a0c8990e3b0da1e9692e62524525f777449a9935a0e6"
+        }
+      ]
+    },
+    {
+      "id": "claim_06c8e20cbc1249b3b86ff99af021604e",
+      "statement": "The mise disaster-recovery task directly executes ./scripts/disaster-recovery.sh; the script requires Bash associative arrays and strict shell execution rather than POSIX sh or Bash 3.2.",
+      "evidence": [
+        {
+          "resource": "repo://mise.toml#L92-L95",
+          "version": "repo-lines-v1:sha256:2af43ec9630c1a7e22c3b3d7fd121ffd15cd19266ca64c97ebddee1678d74944:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjVkNzYwNzQwZTdiNGExNTMwNjM0M2VmZTY1NzNkZDU5ZDgwYjkyZWRjZWY1Njg4ODNmMzA5M2RiNmI4YTAyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2UzMmVhNmI3YjRlNTdhYTBmOGFiNDQxNGJiM2VhMjBkMzY0MDYwZmUzMjg5Nzg1N2E0MmExYmY4YmExNjgzMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiZDg2YTY2MDI3OWU4MjEyODJjODBlYTM3NzE1MGRlZWI2MmE5Yzc4NDU4ZDE3OTdkNTU4ZWEwNjJiMWEyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWNiYTRmZWYwM2RlNmZkYmY5MmU2OGNhMjI3MjBlNDFlNDVlOTQ1YmYwZjNiZGViZWE5OGI0OTU0M2RiMTdiYSJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L1-L49",
+          "version": "repo-lines-v1:sha256:21c0610f599b99dcdeb2686615277e2a191044d8cd768edc14aa2eab71d6c135:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MWYxODMzMzYwNGI3OGM4MmI2ZDNkZGY4NjBmYjcyNTY1NWIwMTlkOTY4MjhhNDlhNzdjZDkxOGZlZDY1M2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhNjdhOWYyYjJjNGNjYzAxZTYzNTJhNDFhNzhmOGNkNzQ0ZmY3ZWE0NTk4MDU1ZjExMWI2MTM1MjgyZTBhMTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b52bad00d4843c787e58b94dcde317c",
+      "statement": "Preflight requires omnictl, kubectl, jq, tailscale, existing template and bootstrap files, authenticated Omni access, an executable provider helper, and root Tailscale SSH connectivity to foxtrot, golf, and hotel; it does not check provider health, machine classes, credential contents, or the helper runtime.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L91-L146",
+          "version": "repo-lines-v1:sha256:9082d61820cca5b166f68e4198d8238dd14ff87f918b482fed4c9c5c5e45a732:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5OTU2NjlkZTk1NjI4ZGRmYTQ5NTNjM2M1MzdmMGYyMjJjYjAwMDM1OGJkZmVkNjk5YzZiYTU1ODExMzI4ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MmYxZDdkNTkzMDE5NDhjNjI2N2I1ZDlmNDg2ODMyM2FmMWM0YzYyNWVmMmE5OWMxMDFhYzU5NDUzYTM4YTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2MTQzYjg5ZWViZjBjOTkxZWQ2NzM5MzVmNWVkMjRmZDI3YmYxNTY5ZDRmNmRhMWMwYWU3NDExNGY2ZDUxNWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3OTFkNjdiODRiNjI3OTJkN2QwYWUxOGRjN2UxOGM0YmVjODg2NzA1MGE2N2I4OGMyMDk4MzY3MGQ3NGIwYWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c69568a2a59a44d38fbe3ec8b874a84e",
+      "statement": "The rebuild assumes the Hub, provider, and referenced machine classes already exist: its recreation action syncs only the cluster template, whose production topology requests three control planes and one worker each using matrix-worker-foxtrot, matrix-worker-golf, and matrix-worker-hotel.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml",
+          "version": "repo-file-v1:sha256:48896647eb39bddcdf04cc7504e25815b8edc000a07078942f29a1c46ebc8fa1"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L188-L205",
+          "version": "repo-lines-v1:sha256:7bcce47b33ae8c895b04606b3558775cdc996d45f7947d49a5fc37af304f72ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmZTE1ZDJmZDA2MDgyOTZjOTZlYmMyMzEyN2Q0N2JiMDIwYTFkZDVhYmNkMGRhNGU2OTdmMGRmM2E1ODA5OTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ZGMxYzY1YWM2MWQ1ZThhN2NkMmEzOTY3ODNiNjFmYzlmNjA0MzUwOWMyNDk4NGRkZWVlZWIyMTE4Mzg4YWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3OGNjYTZiNmJiOTVmNTIwYjZlMzQ1MWZkOTBlNjYzMDFiNzBhZDZkNzc0ZTMxOGI0ZTU4ZjAyYWE5NWQxZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhN2IzMzNhMjNiMGZjOGY2MGY5ZDBkMzc2MDRlM2MxNDQ3OGI0MDFhYzllNWQxYTI0NWY1NDcwNjRhYjQ5YTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b78f151ec6284c88ae77c45f86176e9e",
+      "statement": "Cluster name, template path, GitOps bootstrap path, expected count, and provider diagnostic helper are environment-overridable; defaults derive from the script checkout, with bootstrap in sibling mothership-gitops/bootstrap/bootstrap.yaml, and changing CLUSTER_NAME does not rewrite the template name.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml#L9-L10",
+          "version": "repo-lines-v1:sha256:9c901813e763d5e2d0fe3d9ab1636b812da883993f10d64bbe854da819a231ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzIyZmEyMzE0ZTA1NjFmMWI3MmIxODFjYjhkZGRmMGU0NjEwM2RiMDg2ZWQzZjgyNzU0Yzk3NzQyYjAyOWMyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjNjYjA4MTEzNDBmNWRmMTcyZjFkMTNlYjUwM2VhOWYyY2U0ZjkyMmRlMmFmNzQ0ZmEwM2VkZWU2YWY3OTg1MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjgyMDFiYWViOTc4Zjk3MTQ2OWM1MzRjYjEyNTA1YjhiZjhhZjNhYmJmZGRmMGQ4ZDVjOTNlOWRmN2JiMGYxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGYwYWFiNWVmYWQ1ZTNmNmUzZGUzMzg5ZWMzYWUxYjM1ZjU5ODg1NTE1MDZlYWY0NDY0YzU0ZmYyY2VkNDUzNiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L20-L38",
+          "version": "repo-lines-v1:sha256:8a0a99b899ec9ff39903834a48fa5c2ee47174a69938ba9ab629cc3650906f17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3OTc0MzQ0ZDM3YjRjNzc0Yjg4MDJhZjc3ZGQ3MWU5MTM0NDcxY2QzMDliMzRlNzBiNzFkMzEwMDZkMmY2MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzYTBlMDMwMmY0MGZlNDIxYzA5MWJjNDJhMzQ2MGFlMzc1NmNiNWQzMzQwMDdhYTVhZTExODEwNGUwYmY5MTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YTgwNzlmMDc0M2RiZWE4YjRhOWZmYThhNmM1MTQ0OGM4MTBjMWI4ZWRkMjA0NTM4NmRiOGRhZWIzMjA3MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhNmIzM2ZmMWUxMTYwMTBhYjg1ZmZhOTAzYjgzMmYwMzcyMTA4MDRjZDBlY2VhMWQ3MGNlMGEzMTE4NDYyYmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8bcab7818bd4b43a0df08cca6d9ae83",
+      "statement": "Cluster deletion targets CLUSTER_NAME through Omni, but VM cleanup waits for all names starting with talos on all three hard-coded hosts regardless of cluster ownership; cluster overrides do not narrow that check and the script does not directly delete VMs via Proxmox commands.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L148-L186",
+          "version": "repo-lines-v1:sha256:86cfe656e0e38b28de2ec9e93d273ce2061efc9a5afac9583ca858ebd6f95ddd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4MTBkZDNjNWI0MmU0ZDc1YmM2OGZlM2QwMjdiZTg3ZTk3NjNiNGVhNGY4MmZlNGRiNzdhOGJiOWI1MDU3ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmZmE3OGRhYmJkMWQyODhmNWM2MWI2MmI5OTg5ZDJhMGE1MWE3MTRlOWY2NGY0MDI0OTBiODA0ZTU0MjM3NDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyNGYyZGY4Yjk1YzJlZGQ2MjlmYjI5NmYxNGJhOWRmY2JkNzgzNThjYjJjODNmZjQ5ZGYwMWIxZWMxYjA3M2MifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L26-L31",
+          "version": "repo-lines-v1:sha256:8d9ba78e14ac1784c28bf8c1779140279cc43ded4a6a2fcd9d659555087314ce:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJhMmU0YzE2NGZjYmMxYzdjYzY5ZTM1NjJjNTYwZTQ0ODgwMjdhYzEyMmU1M2M1YjkxZTA2MTM5ZmRlMDFkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjRmMTkwY2M3NTFhM2EzNTcyZmZlOTNmZjJjYTQzYWViNWVhYzI1NWY3ZTUyMTc1YTZjYjlkNTYwNjFlMjM1OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFmYTE0ODBiOTE5MjFkMGZmOTQ4NWQwNTZkZGZkOGU4NGVjNDk4NjhhYzA1NDEyMDAwYmExZjA4MmRjN2UxZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTliZjkwYjhkZWY0ZGQ4OTVkZGMzOTY1ZWRkNmU5N2FlZmE1ZDgxYjljYjAzZDIwM2UyMjhiYzAwZDNjOGJhMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6c5b741d903b4271967a508091d33cdc",
+      "statement": "Any failed initial cluster lookup is treated as a nonexistent cluster and skips both deletion and the VM destruction wait.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L167-L186",
+          "version": "repo-lines-v1:sha256:84d1ada5d72598cc23c0812e3c17255b2c43a46817cfb84f7ce81b3bca1c01da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5MzY1MWIwZDY4NzA1ODQwMTYyMDM5OTY3MTgwYzMxM2U4NzU4ZTc4NGU4MGIxYTM1MTQ0ZjA2NjlkM2VlMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyNGYyZGY4Yjk1YzJlZGQ2MjlmYjI5NmYxNGJhOWRmY2JkNzgzNThjYjJjODNmZjQ5ZGYwMWIxZWMxYjA3M2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_69b681b1e915434bae63a5295278db23",
+      "statement": "poll_until immediately evaluates a stderr-suppressed condition, retries after 10-second sleeps, and on timeout runs best-effort diagnostics and returns 1, causing the unguarded main phase sequence to exit before subsequent phases and summary.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L1-L2",
+          "version": "repo-lines-v1:sha256:7269fdd881f2a8fff804aed9d18e4487c2978912720204045ead0a0c5472b25f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ5NWZjMDRhODBjOTUyZjQ5Y2U0MTg4NjI3YzUzYjBmYmU4YzQ0MDQxYjk1MmQ1OTJhY2QxZGU5OTg2MTQ2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODhmYzYzMzY2N2QwMzAwNzMxYmRkODQ0NzJkYzQyNGUxZjljNjQxNzVlYTJiYWRiNjY2NDcyZDkxYWViNGVmYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Q2MmJhOTE3MmJjZGMxNDY3NTZhMDM1MDk4Mjg3M2MwOGQ0ZGQxZWE0ZTk2OTExMzRkM2ZhZGY3ZTFlNmI0NiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L327-L337",
+          "version": "repo-lines-v1:sha256:72f91b8813a3cf10361fa1e9ac23e5885f8543e232a910783e88884060b7b83b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ZTAwYWFlODYwMzEwZTg0OWY5M2Q0ZGE3ZWMwYTM1NmU1OGRjMWUwZTA4MTA0ZGFmMjgyYzYyZWY0OWI2ZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZTdlZTIyNGIxYThjODEzYzkwMWUyMWU5ZjE1ODFjYjNiZGRjMGM5OTI2YTk5OTkzZDFkMzY0YjNjMTNhOGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhMzg5ODY0ODFkMWMyZDhiNjJhYjI5ZGE3NWQwNzNkNmJkYmYyZjE4ZjExZDZmNzAwMzI2M2YyZGZkYjU5N2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjZmJiZGRiYTI2M2FmM2Y2ZGNlYmU2MDk5NmE1OGRjZDgxZjU3YjhiMzhhNzg4ZTcwOTBkNmZiZjZlZGI0YWUifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L60-L89",
+          "version": "repo-lines-v1:sha256:32bcf11a72b8c2cd03c184487119e9d5ea72300d0adeb08e827551cdd7d6abab:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMGQ1MDY5MWI4M2I4YmNlZWY2NDQ4YjFmNGJjMjA4ZDRmODM5M2Q0MmExY2JjNzgxYTRkMTQwNmViNzVjM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlZjY5MmE5MjZiYTRmM2MwOTg5OWVkOTg2NWFjNTI0MjJlMjIwNTFmMDZhNjg3ZTQzNjZiN2ZmZDA1Y2RiOWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1OTE4ZjAzNzk0YTNmYWEwMGQzZmQ2MWI5NjVkNDAzMzhiOTYzMDQ2NDliNGIyM2E3NjhhMjRhYjE4NDQyZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b01a358392b45d69feed34b4769038b",
+      "statement": "The machine gate requires exactly EXPECTED_MACHINES cluster-labelled machines all in running phase; its 1200-second timeout prints machines and invokes provider-ctl --logs 50.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L188-L205",
+          "version": "repo-lines-v1:sha256:7bcce47b33ae8c895b04606b3558775cdc996d45f7947d49a5fc37af304f72ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmZTE1ZDJmZDA2MDgyOTZjOTZlYmMyMzEyN2Q0N2JiMDIwYTFkZDVhYmNkMGRhNGU2OTdmMGRmM2E1ODA5OTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ZGMxYzY1YWM2MWQ1ZThhN2NkMmEzOTY3ODNiNjFmYzlmNjA0MzUwOWMyNDk4NGRkZWVlZWIyMTE4Mzg4YWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3OGNjYTZiNmJiOTVmNTIwYjZlMzQ1MWZkOTBlNjYzMDFiNzBhZDZkNzc0ZTMxOGI0ZTU4ZjAyYWE5NWQxZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhN2IzMzNhMjNiMGZjOGY2MGY5ZDBkMzc2MDRlM2MxNDQ3OGI0MDFhYzllNWQxYTI0NWY1NDcwNjRhYjQ5YTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a4398a845a047689c3b9bc5219d109e",
+      "statement": "The API gate is successful Omni kubeconfig merge rather than a separate health probe; the script then merges kubeconfig again, selects omni-CLUSTER_NAME, and requires exactly EXPECTED_MACHINES nodes each Ready=True within 600 seconds.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L208-L233",
+          "version": "repo-lines-v1:sha256:721e5a569e3fcdf4e9cf73f7f5cbc8bbd8a4f6f1a9d2966d2c3f5ecee58407dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1YjQ1ZGQ0ODk3M2U3ODIxYWYwMDY4MzJiOTk2YTcwOTk1ZDNhZGIyYzg1Yzk3YjQ5NjY0NmRmY2Q5Zjc0MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjNTQ2NWQxNDExMjJlMjQ0MDhjNGZjOTU4OTY3MjJiMWQ0M2Y3ODM3NGU5Njc5ZDYyZjIzYTM0MjIyMGVkNmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjNjhhNjZjMjgxODZkMTlkYjg2ODhhZDhiYTUxODAyNTZiMWQ4NTgzMmIxNDY0NzQ2MzlmOGNjOTY1MDlmMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwYTZjMDk1MGNiMzk0ZGFkMDQ1Yzc1MGMxMTY5YmZkYzQ4OGFmNzFjMzQxY2E5Y2MzMzZmM2ZkZmVjMTEzNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_487f080618c240feb3391993a82ae4b5",
+      "statement": "Production disables default CNI and kube-proxy, while disaster recovery waits for all nodes Ready before GitOps and never installs Cilium; the Cilium guide describes imperative installation outside ArgoCD, leaving a fresh-cluster readiness ordering gap requiring operator action or script changes.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml#L17-L25",
+          "version": "repo-lines-v1:sha256:5f6d5e158960e4d59a77bc4ffc6111c2d70c7a60cdfa6b2f8e15edd4cc966b01:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDk3ZmNmOWQzZTRlYmU0ZmJhYjFhNzUxZjA5NWUxN2RmNGMyMGNiZjIwNDVhYjIwZTExYTQyYmIyM2M3M2E1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzViZTcyZmM2ZTMzYWE0NjI5MGI1YjFkYTI0OTI5MTNiNWEwOTA5ZTBkYWI5ZWZkMjI4NzllMjExZGZiNWI1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDY4MjE5M2Q0ZjIzZGE2NDMzNDZiMjVhNTBmMWQzNThkYWJhNjA4NTk3YjA0ODk3OWVjOGIwNWNkN2I1NzJhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGI0YWZjMzcxYzc0YTA5NzM2NDNjNDFjMThhMWQ0MmUxYWJiOTNjYmVkNjJiNzM5NjJmOTA0MGJhMzM2MDZkNiJ9"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L65-L78",
+          "version": "repo-lines-v1:sha256:8181fba11a8261810c35faba957e4c20f513ec2e810cb49bbb92338125c970dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNDIyOTNkN2RhMDdjMTk5YmZkOTUxYWQ5MjI1YzFiZjA0ODc5MThhMDQzN2QyOTk4MWQ3YmY2YmQ2NDU4YzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4NTFjYjZlNTI4ZjQyNjhjZmI1OTU5YzlkZTJjMTgzMTUxZTEzZDczZDFkZTc1NmJmNDJkMjFlMjJhOTQyYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyNDliNDY0YjE4NzI4NTI1M2JkMWZmYWZkY2VkM2E2OGViZTI2Y2FhNDI2MTBkNTVlYzI3OGZlOTVkZDFhYzIifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L208-L280",
+          "version": "repo-lines-v1:sha256:91bf24068d51d3172f838501beab184641aa9d02ff8b51fd4cfb66ce2b4459ef:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1YjQ1ZGQ0ODk3M2U3ODIxYWYwMDY4MzJiOTk2YTcwOTk1ZDNhZGIyYzg1Yzk3YjQ5NjY0NmRmY2Q5Zjc0MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjNjhhNjZjMjgxODZkMTlkYjg2ODhhZDhiYTUxODAyNTZiMWQ4NTgzMmIxNDY0NzQ2MzlmOGNjOTY1MDlmMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1MmYxMDIyNmI0ZjA0YTc3NzI1ZDI4YWUwODhjZGViZDZhZWQxNGMzNTg5OGNmNjAxZjc5ZWRkNWEwOWE3ODcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_87ef689f5b364934ba0825d3c384303f",
+      "statement": "The Cilium guide requires MTU=1450 in install commands and documents cilium status --wait, node readiness checks, and cilium connectivity test as verification.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L21-L63",
+          "version": "repo-lines-v1:sha256:1988f11b8e7d4dccd124b8503face199fdf68653eeab79d8ff2b59e93ab91284:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0ODdlMmFjYjgyNmQ2NTM3YjRjYmQwYjk1NTMzOGY1MmQ3ZDNjYTcwNmI0NTNiNjdmOTEzZWUzMDhmMGVkOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YjBmOWZhMGQ2NWQ5ZTM0MWFmMGUzOGZjZGE5NzdjMTMwZjhkN2QzZjI1NzRkNzEzZjYyY2ExNjYwYTg5NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4OGM1MmVhMDRiODA1MjFkMDgyZDkwZjEyMTQ2MmZiN2U1MTNhZThmMmYxZDk3OGY5ZTFmNzU0Mzk0ZGQ4YTYifQ"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md#L211-L237",
+          "version": "repo-lines-v1:sha256:9d3167999de4aaa095d2d671cdb912d36b163331b9516dfdb8a0bce3e27fda84:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2NjA0Y2RlY2Q0ZGMxODlkMmM5ODUyOWM2ODllOGY2NGNlMTlmMmM1YjMwYzQ5ZGNhODc5ZTA2YTNiZDc3NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0OTZjNWFjNTE1MTRmY2RlNDA1NTA4MjJlOGQ0ZGZhMjY0MzcxMTU1MDZjYjE5YjJhZDRjZDJiNzE1NTI0ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiZjExN2YwNzUzMmJkZWY3M2RlNTM5ZjdiZGYyM2E2N2QzMWM5NGNhYzU4NGNhZjhjYTJhNGYyM2YxZGIxMzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_14d6d0721e7c432abecf819c381de7e5",
+      "statement": "After node readiness the bootstrap phase creates external-secrets namespace if absent, pauses without a timeout for manual universal-auth-credentials creation if missing, and exits 1 if a single post-pause existence check fails; it does not validate secret contents.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L235-L264",
+          "version": "repo-lines-v1:sha256:a22a4a5a8c696238593d83d8a5fe9c820c58f6f83f004e8c6b21d53fe84ce30b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhOGEzYjQxMTliYzdiMmIwYjNlYjIyNTM2YzkwNGU2ZmRkNzgyZDk2N2I0N2IyYWVjYjU0NWI5YmRkMjExNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1MDg4MmYzYzY0YTFkZDIyYjkwNTlhN2E3YmQzYTMxODUyM2E2NzNiZjU2NDk4YTA0OTU0YzBmYWM1Yjk0ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwYmJjMzJlNDEyZWRhZTY0NGNkZjlhNDU0ODE2NDVlMTA3YmZhN2NhMGEzM2FmZTIxYzJjMjExOWNiYTM3ZDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_67dfe5d016ec43d3b11d2b1f7e6b105d",
+      "statement": "GitOps handoff applies the configured external bootstrap file, waits up to 300 seconds for argocd-server availableReplicas to contain a nonzero digit, then up to 1200 seconds for a nonempty application list whose non-argocd-ha entries are all Synced and Healthy.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L264-L280",
+          "version": "repo-lines-v1:sha256:f7e3609e22958aa8bd4e307fc15359fb2ab09276b5cece2c6f14c2ba70fc9d8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0ZmQ2YTBkMTMzODUzMmE1OWZmNGI2M2JlOGFlMzA1ZTI5YTc0MjU1ZGJjYTdiMjJhOWIwODYzNTNlYmViMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1MmYxMDIyNmI0ZjA0YTc3NzI1ZDI4YWUwODhjZGViZDZhZWQxNGMzNTg5OGNmNjAxZjc5ZWRkNWEwOWE3ODcifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L28-L28",
+          "version": "repo-lines-v1:sha256:81e8338bd1d6d689d364412177186c917897a66df4d568817ebb2578446f076a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODFlODMzOGJkMWQ2ZDY4OWQzNjQ0MTIxNzcxODZjOTE3ODk3YTY2ZGY0ZDU2ODgxN2ViYjI1Nzg0NDZmMDc2YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODFlODMzOGJkMWQ2ZDY4OWQzNjQ0MTIxNzcxODZjOTE3ODk3YTY2ZGY0ZDU2ODgxN2ViYjI1Nzg0NDZmMDc2YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2VjYWU3YzliZGJlY2I3MzljNjg4OGJiYzI1ZjJmNjdiM2NhMDUwZTgwODEyY2YyMzNmNmYxN2VjNzkwMDQ3YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTE0MzE1NTMxNTY0NDFkMmZjZWQyMTJlZmE3OTBiN2ZhMzUyMGJjOTkyZDhiMTNlY2U3YjJlZWU1MDlhNmZmNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8f3e8b001e8f4537b32b276e8919a299",
+      "statement": "argocd-ha is exempt from application sync and health checks; the completion summary hands off a manual application sync patch if HA is desired, rather than guaranteeing HA or restored application data.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L274-L312",
+          "version": "repo-lines-v1:sha256:4f7976b64bf2615c378c36e7dd9fac20a6cf28bc657c2ef2fc05e266331bde64:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjM1Y2ZjMjRhYjg0ZWY4OTYxZGExZWJiOTkxMTI0YzlmODFiMGI4ZTYyMTEzZTM1OThlODQ3ODQxNDkzNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ZDM2NTMyZjFlMzc2OTk4MmRjNThiOWQxYTNiNmExYmU4NDEzOGQ1YjFiYTllYWExMTAxNGI3M2IyMTkyNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI2MDhkM2E5Yzc1OTk3ZDU0OWU4YTE1MTQ2ZmQ4NDczNzhiZWE1YzdmMWRkY2I2OWQ1MmQ3YWJkMGY1ZjIwMGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_04c55a257f814e76a9d5d2cd33cd40a7",
+      "statement": "The six source-configured polling budgets are 600, 1200, 600, 600, 300, and 1200 seconds, totaling 75 minutes; the advertised 30–45 minutes is not guaranteed because polling counters count sleep time, commands add runtime, and human pauses are unbounded.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L250-L255",
+          "version": "repo-lines-v1:sha256:5d086fe2132c639a928d1c5a1518c10233af10379354a2affe9774533c6132bb:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjVmYzJiZTc3MThkZTYzNmI0ZDlmNzljYTU3ZWRhMDMxNDJkNmQ1YmZlY2IzMzk5MWI0NmRmMzA1YjZkYWNjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2I1NzAyYTZlNzU2MGYxNjNjY2RmMTQzYmMyMThhMTFhNTc1MjAxOTQ3MDYyY2MzY2QxYTc2OWZiNjAzYzIwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjlkNDE0YmE5YmIyMmEyYTViMmNlN2E4MDdhYzRlOThmZWRjMGM4ODQwM2VjMmEwZjBhNzhkYjQ4ZjA5ZGQwZSJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L315-L327",
+          "version": "repo-lines-v1:sha256:a7b0e376217aae782aa2e93dadbe96ff7dcbe5d62382a6a06046c8ba969a45aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhNDhiOTU0ZmU5Y2FhNDQ3ZWQyOGQzOTgwODFiNzQ2NmJhOGQ1NDBjNjAyMzQyYzRjOWVhYjA5NjkzMjE3ZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ZTAwYWFlODYwMzEwZTg0OWY5M2Q0ZGE3ZWMwYTM1NmU1OGRjMWUwZTA4MTA0ZGFmMjgyYzYyZWY0OWI2ZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkNjRkZjFlNzE2OWI0M2I4MDFiNjExMjFlYjE1ZjYwYzYzNTkyNDk2MzgyOWU3ZDljZTQ0Yzc4NjZkODg4N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiYjBhZGU1YmNkOTNkMTcyYjc4YzI3YWQ4NWFjNzg0ZDI5YzAwZjU0ODY0NDdkMjRlZDBjYjdjOTU4OTAxYTQifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L33-L39",
+          "version": "repo-lines-v1:sha256:bbbf1e19a34c16c735dab7436cfb5aacd1e215e7943f522b150902e627658488:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1N2JiMjA2NGI4MjI0OGI0MjU4ZDhhN2RlMWFhY2M4NDUxOGMwMDI4ZDlhMjY0YmZiYjM1YmNhYjcxMThmMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTAyZDc5N2VlYzRhNmUwNmMxOTMxNDM0MjU1ZWE5ZmY2NjgzODYyNTkyNDAzNzYyYmUyOTgwYmNmMTI1YTg4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M3ZDFhODQ4YmFkNjE5NTc1NTdmNjkyYzc3ZThkOGQ1M2U5MmZiN2ZjYTJmZDM4ZGEwNDMzOWY2MzE1MjAyZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWU4YjdiOTBiODkwZjU1MWI3YThlYjg2Nzc0NTg4NGE4YmMxNTg2MjFjN2Q3ZTdlODU4NTBiNTJhNDk4N2I0OCJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L60-L89",
+          "version": "repo-lines-v1:sha256:32bcf11a72b8c2cd03c184487119e9d5ea72300d0adeb08e827551cdd7d6abab:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMGQ1MDY5MWI4M2I4YmNlZWY2NDQ4YjFmNGJjMjA4ZDRmODM5M2Q0MmExY2JjNzgxYTRkMTQwNmViNzVjM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlZjY5MmE5MjZiYTRmM2MwOTg5OWVkOTg2NWFjNTI0MjJlMjIwNTFmMDZhNjg3ZTQzNjZiN2ZmZDA1Y2RiOWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1OTE4ZjAzNzk0YTNmYWEwMGQzZmQ2MWI5NjVkNDAzMzhiOTYzMDQ2NDliNGIyM2E3NjhhMjRhYjE4NDQyZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ca9fa570dfb74f209223e5aaa25c4fb2",
+      "statement": "Phase times and total runtime are measured from script load before confirmation; phase times are cumulative rather than per-phase durations, and skipped destruction records no destroy timing.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L169-L185",
+          "version": "repo-lines-v1:sha256:9d8a0e5e59128ff332303bbe8bf865d6ee49d1e3f754bd10d71793d2f6d018c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YWEwZDgyMGY3MWE0Nzg2MTNlNmUwYTBmMDE0N2U4YjA2ZWJlMDY0ODg0MWY3OThmMzBlZGI2OWRjODAwMzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0NzJlY2Q0M2M5ZTdmYjEyMzI1M2M4MWMxMjNlZjYxY2NjMTcxNDA3Y2U5ZTYyODRmZDcwMDg0MGJkOWI2YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlMTM4N2FmYjZhZmYzMzkyMDI5MTQwNTFkYjRmNWEzMjdjYmQyZGVjODZjNTY4MTRmMTEyZmE1MTM0YzY5OWEifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L284-L306",
+          "version": "repo-lines-v1:sha256:8f1cd36220b4a17f166148dea771ecf1f0c25d62328ba901909c2fe1ee0c4444:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjM1Y2ZjMjRhYjg0ZWY4OTYxZGExZWJiOTkxMTI0YzlmODFiMGI4ZTYyMTEzZTM1OThlODQ3ODQxNDkzNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1MmYxMDIyNmI0ZjA0YTc3NzI1ZDI4YWUwODhjZGViZDZhZWQxNGMzNTg5OGNmNjAxZjc5ZWRkNWEwOWE3ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzN2RlMTc1OTQ3ZmZjMTdkMWZkMGRjZTg3OGE3Y2NlNzU1MGMzY2YwZDZjMjY1YTMyZGMyNzBkYzc1YjdjOTQifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L47-L58",
+          "version": "repo-lines-v1:sha256:7abd65c4d92945bbe9626c51ea0a627d75024d247b4de9d66d7806c792102595:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmOTUzNDRhOGIwMjA4OGQ4OTZkNmEwOTA0ZjI4ZDg5ZDQzY2FiMTRmMjVjODNkOTg2MjA1Y2NhNWZiYzRlMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjY2E0YzEyNTYzYTg1N2MwYTQ4ODZlNDcwNTE4ODQ2NDliZWEyZGYwNjBlMDM1MThlZWFjZGNiYWVjNDA5NzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4ODBjM2NkNWIxM2Y4Y2JkYzE4MGE0NTAwYzAwZDczOTdiNjM1ZjhiNjA5OWM0ZTU4NjdiOTJlMjEwMTljOTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a8e1625023074e2796200fc0bffc1a44",
+      "statement": "Provider diagnostics use an executable uv script requiring Python >=3.11, default to root@foxtrot and pct exec 200, and discover a Docker container by Compose service label proxmox-provider; OMNI_PROVIDER overrides customize diagnostics independently of rebuild host scope, and the rebuild only calls logs, not restart.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L1-L99",
+          "version": "repo-lines-v1:sha256:e31fb0a71e86c70458dc260a913b423cbfbacd2837d8c7c6baa919db1676895f:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NWY2OWE4YzJlMzdmNDkxMWI1MTdmMDkyYjA4ZTNhZjYzYzM2ZDJlZTc4NmQ2NGExNGVkNmFjZWE1OWZlNjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmNjQ3YzMxY2UxYzJlZWE2NGVkZGVjNGI1YzJkZjViZjI3YzZkN2ZiNzBmNDBmOTAzZGYzZDE4M2E0MzlkNWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyNWVkYzljYWJmMGZkYzc3MjhlZTAyZmI5NGY0OGMxNWRlNWY5Y2EyNjllN2FkN2EwZmM0MDM0ODY2ZGVlMDMifQ"
+        },
+        {
+          "resource": "repo://.agents/skills/omni-talos/scripts/provider-ctl.py#L238-L249",
+          "version": "repo-lines-v1:sha256:e9c07cca718b07d3cbcd5600d9a7f219420fe2e2037cb944f96e0f89fdf51d0c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwNWU0MzY5ZDg5ZmY3NjQyOWNmNTgyZGFkZWZiYTRkM2FiNDU5MzY4M2NiNGVhNmMzYTQ4YzBlNmVlZTAwM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZDRhMTAxNjI5OGE0NTRhYzUzZDhlY2IzYTZhNDMwMWVjNGUwODk5YTFhNDc0YWY2YTEzODY1YjJhZjVmZDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0NGNkMGE0OWYyMzY5YjJhMTNkZDViOTcyOTk1MWFkOWQ3OTcyMjg3ODVhZTVhOTIxYzA3Y2Y4MTQzMGMxZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4ODY3NzA4ZjNlNjdjOTZmOTIwODg1OGNjOWY1OTFhNmU4NzdiNjQ2MjI5MTgzNmNiM2YwYzA0ZjYyNGZiZDYifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L195-L200",
+          "version": "repo-lines-v1:sha256:602b79081b6e16ea28585b49007ccc56171100403fb1fbd8d44dcf80a103be3f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDMzZTY3YTRiNjk5ZjkyYzBjNTdkNWFiZTRhMWI4YTk3MTk3ODM1Njc3NTAxZGViOGUzZGNlMTJhMzY5NjJjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTFiMjA5YzAyMDQ0ZGYxNjJjNTI1MGZkMzI4YzQ4NTBjYjVkYjAyMDZjZTY3NGY1ZDI2N2UxODdlYzYwMTE4MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTdjNTY5NWM5Yzc4ZDAwNGM3NTdlMjQwNjkxOTdjMjIxNDcxNzY4ZDQ1YTlhZWY5OTQ4ZDQzNDE5YzE3ZDIwMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGQzOTNkYzhkYzhlMjJhMjI0MWQ3MmRhMGRiM2RiNDg5YWFhYzk0NmYxMmEwZTQ5MGYxZmMwNzc4YmIzYjE0NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_16a5b0df27ef40dbad66d7928b935a7c",
+      "statement": "Local validation checks production and test cluster templates offline and runs pre-commit ShellCheck/shfmt quality checks; CI runs the same mise check task, not a live destructive recovery drill.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml",
+          "version": "repo-file-v1:sha256:3aba5e4e00acc847d7726a9dd5acbb8cc1279ee842b8a510d3656f9404a07899"
+        },
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        },
+        {
+          "resource": "repo://mise.toml#L105-L115",
+          "version": "repo-lines-v1:sha256:0d980b22b20b34e0e8719659db8fafc853f75b1c21228846abfeb876d3889e8e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwYTY1NzU0MzFmMmJhMjgzMTk1MTNiNmRmMTM3Yzk4ZmU5MTFmZWVjNWEzN2U4NDQwNDc4NWNmODhjYTIzYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkMDBkMGY1ZDE2ZmExYTNhODM2MGUwZTBkOTlmNjBmMDhjM2E5NGEzNDA2ZTU1MDExZWFlNDM3OTQyOTM4MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MjMxODBhMTMyOWY4ZTc0MWVhNzQyMDgwYzM3OTU0ZDM4M2FiYjllMTgxNDUwMjI5ZWRlMjg3NDU5OGY3YjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmNzgyOTYwZWMyODgzY2M0NDA3OWNiOWQ1YzliZDlmYzE1ODZmYWIwOTU5ZjkyMjJkZmY0NTVmMDdjNWU0OGMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

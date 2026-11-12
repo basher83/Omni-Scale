@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:28508ba289e6f7119df277e923f3d8ee6338a0e707e48eebaaa42cd5fdd32cfe",
+  "claims": [
+    {
+      "id": "claim_8be55e2c9549409c9f48a694e173966d",
+      "statement": "Omni-Scale owns the Omni Hub, Proxmox provider, cluster templates, machine classes, Talos node requirements and connectivity constraints through the GitOps handoff; post-bootstrap platform applications belong to mothership-gitops.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L5-L24",
+          "version": "repo-lines-v1:sha256:17d70fea6bfbec84ba37131522c6926d6273c907ed12e9608a81194fb4ec8c4e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDcxOTRjODJhYzA3Y2NlNzVlZjlkY2NjNDYyMmIwZWVmYjQ5NmM5MmQ4YTBmODAzNDJhM2QzY2IwNzcxYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNzg3ZTQ2YjlhYjAyNDAzOTgyZTE1ODk5Njk5MjAyZDQ0NjY3ZTk0MGVlMjFkODg5MjU5YjA0NjI0OGFjNjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlN2FmYTUzNjljYjdkNDQ2ZjZjYWM3NDg3NjkyMmNmOWM4ZWUyZjA3OTQwZGE3OTZkZGMyZTE1NTE2YjA0OGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzYmEzMTAyN2JiN2Q0NGJkYmIxOWRlY2VjOTcwMGQyODViYzRmZmMxZjZkZjE1NThhMzYwYzlhNzYyYmY2NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_55250c1f014b4e98af2e3a8b138ff36b",
+      "statement": "The Hub manages Talos clusters while the provider provisions Proxmox VMs; the provider must be on the Talos VMs' L2 network and boot-time DNS must resolve Omni to its reachable LAN IP rather than its Tailscale IP.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L20-L28",
+          "version": "repo-lines-v1:sha256:c4c4e1a3c17fc56f198485e4e79251efa694cf8f09feacc93a2830bad7ad1aed:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGYyMTM3NjY4Zjk2NWJlM2NjMWQ5ZTFkZGM3YWVhODVmYmFkOWM2MThmMjBlMjczYTE1YWIzZThmYjAwOTc3MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWM2N2ExNGYyNDc3NDEwM2FlZGI5OGQ0YjgyZmE0NjY5NTg3ZjIzYzMzMGU3Y2Y3ZDU1MmUyODE5MjM5MTQ0YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTNlYjE1YjM5MjgwODMwYTQ1YjQyYjU4NzIxZmI1Y2M2NTRlYWUyYTFiYjNiMWMzYmFjODUxMDI2MDcyNDZmNiJ9"
+        },
+        {
+          "resource": "repo://README.md#L77-L84",
+          "version": "repo-lines-v1:sha256:9ac3f183e401b6c61710b6d0938f7e58bdbfde68bd33391e214461582b32bc7d:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzlmNzUyMjczYzg5ZjA3MDU5ZGU0ODJiNWI2NzQwZTI5MDg2YjRmNWQ3ODFkODY5OTU2YjViZDMzMzBkZDRkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3OWQ4NDI0ZTI2OTUzZDAzYzA4ODZjNTRjYTI4M2E2NTVkZjgzOTY1Mjk3YWY0MmJiZTdhM2E2MTNjZWFkYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzY3NWNjMmJkZTZiMjgxNmExNTE1NDFiODhmMDNhZWYyZWJmMmVkZTc5MTI0MWU1NGIwNzBhYmM2MmMyNzIwNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGM5N2ZhN2U1ZWJjNTE2MmY1N2M1NTRmYWMyMjA4YTU5NTMyNzhjNmFhM2QzZThkYzIwMzUxZTE2NTRmN2I4YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a5b26534c2724ae2a9b5fda523a22579",
+      "statement": "mise configuration requires at least version 2026.2.17, pins omnictl 1.9.3 and linting tools, and creates a local .venv; the documented setup entrypoints are mise install and mise tasks.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L128-L131",
+          "version": "repo-lines-v1:sha256:e4dadcd763fdbc2c85e37ceb63d8cca5b86efd697bca641f93248f5eaf678d1f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjJkOGQ5NzQyZWRkNzA2NjEzYzVhNGRkMDgzNTExZDliNWIzNGMxYWQ0ZjIyNmRiZmRkOTk4ZGQzZWJjZWYwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzE2MDM5OGU5NTFlM2NkNjkyMzRmNTVjZDc4OTY2ODU0NTM5ZmViZjYwMTliYTIxMWM1NjQ3ZTZmYmY3YjA2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNjZDNkOTRhMDc1NGU5YzEwYzM5YTVkZjBjNWZmYmU4MTI2ZjllNTg0M2U1ZTk5MjA3NzhjZWVkMTk1NzMwOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmE1YjlhZTNjNWM1YTFiNjUzZDBlYjI2NzYzNWNiNjdmZjZjNmVmZjUwYmMzNjBhMjEyMzBiMmM3NjNhM2MzMyJ9"
+        },
+        {
+          "resource": "repo://mise.toml#L1-L29",
+          "version": "repo-lines-v1:sha256:75048d2b2e88fa3a6284ca7837aa6b42e620937576b4bcebc83cd3246a46c80c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMzQxZTEwODhkZmJjZTRmMTkwNDU0MmUyZDcwODY0MDE1YWUyYmJkNTU1MjFkYzA4OTliNTczNzQzMzlmYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3ZTNkYmQ3MDc4Y2RkMmY5NWFiNGI4OWUzNzEzODliOGU3MWU3MzIwNzhmMTBiNGIzMzZiNDNhMDRkZGMzNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0ZDI1YTQ0MGExOTEwNmMwNDMzY2IyYzExOWE5YWJmMmI1ZjEyOWJkZmY3N2U5ZDQ3YmVhMmI1ZTBlMGZlYTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_070bb12bcc9d4338a44c0e97fafd0a1f",
+      "statement": "mise run validate:omni performs offline validation of the production and test cluster templates, separate from authenticated inspection or applying infrastructure changes.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md#L142-L164",
+          "version": "repo-lines-v1:sha256:ec2b33306f999c856dcc1c34686f231ef667f540c1d653a0de2b112777565d40:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1NDNmY2JhODMyNDE1N2M2YTM5MjJhMjZkOTZkYTAxYTJkZGQyM2QxZGNjZGY3OWIyNmY4ZThjMjU0MTFlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMDI1Nzg5NmViMmFjNGQ5MDQ0ZWRhMzNjNzAzODgzYzA1MTEzNjhmOGQ5MWVjNzdmYzk0MGMyZjFkYzRkNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4OGNkMzgzMzBhOTI1MGRjNGJlZGM5NjgxYWIxMjE1YTI0MGZmNjU3NWI4YTAyNGJjNzYwYjIxZjg3OTcwOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzNTQ4OWVlMjdiOTZiNDk3OTE3NzFjYzUwNTA1ODYwNTVjODFiYjhjMjQ0OTI4MDI1ZTc5MmE5Y2ZmNWYyMmUifQ"
+        },
+        {
+          "resource": "repo://mise.toml#L99-L105",
+          "version": "repo-lines-v1:sha256:5d0b0cbc854ce3a60f7097bd2cdf19ab4d060549ed372d94d7e57717a3834c37:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzY0NmY1MjkyYjAyZTg1ZWUxMWExODBkNjUyMDM0NmZjNWQ5MWE5ZTU5OGNlYzQ4ODMxNzU1YjdkYmJkZTEzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTBhNjU3NTQzMWYyYmEyODMxOTUxM2I2ZGYxMzdjOThmZTkxMWZlZWM1YTM3ZTg0NDA0Nzg1Y2Y4OGNhMjNjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiYTRmZWYwM2RlNmZkYmY5MmU2OGNhMjI3MjBlNDFlNDVlOTQ1YmYwZjNiZGViZWE5OGI0OTU0M2RiMTdiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjE4MTVlNTk5NTFiZmY3ZmNmMTk0ODBiMTZkYTQ1NmM2ODdmM2EzNjEyYTExOTM3NjlmYmFlNDM3ZTgwNDEwYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b55176a0308841ba8f62dcd12ec28d3b",
+      "statement": "mise run check executes pre-commit run --all-files, whose configured checks cover syntax, shell scripts, selected Markdown files, workflows, secret patterns, Renovate configuration and Omni templates rather than live infrastructure health; fixer hooks can modify local files.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+        },
+        {
+          "resource": "repo://mise.toml#L107-L109",
+          "version": "repo-lines-v1:sha256:30c70c7bb5bede3f8778ce749018295708c02b2ddc67b6fb0c4bd220d64e86c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzM4MmZmOWZlMDViNTYzNGJiMmNlOGMyMzdiYWQwNzA0ZmM0MzQ2ZTZjMTE4OWI3YmU3MGNkNDA4NTMwZTJhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmNkMTExNmUwMTk5MmRiZjIxZmU3ZjRmNmU3MjU3NDgxNGFiYmExNmE3ZTA2ZTZkMzJmNmJjZTE3NzkwYmYxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGIxMzYxZDFiZDJkODJkZjA3YjcxNjA5MzU1YTIzNjlmNmU2MTFmOTg0NGQxMTM2M2JlMjYxODE3OTFlMDdiZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_fc41f6807b8b4ecebb48bcd8a939f498",
+      "statement": "Existing-environment inspection uses omnictl contexts and get commands for clusters, machine classes, infrastructure providers and machines; get clusters can initiate browser OIDC sign-in and cache credentials locally.",
+      "evidence": [
+        {
+          "resource": "repo://docs/OPERATIONS.md#L147-L151",
+          "version": "repo-lines-v1:sha256:52a79e5d3a6769c5ca1845014fdc268fc9d7ad16caa33a872dbc584b10c0308b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJhNTgxMzQ5ZDQyMzhmNjVmYjc3YmExN2I1ZWQ5MDZlYjE3ODAwY2U3ZGViNzJjN2FlMGNlODY2OGViMjk1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJlZjZiNzZlYWI2NmVhNGE2Zjk2NDg2NTA4YTUxNzcwYWRlMzZmMjg3YTBkMTU3NWMyOTUyY2E4N2VhNjJlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWY0MzZiMWUyYTVmOGM0MzQ4YTk4M2ExMzhjMDFiMDE0NDg2ZjlkMjMyNmJhNDlhNzZlNzU2Y2NhY2I3ZDZlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2U0YjE4ODJjY2E1YzRlMzk1ZmM1MWE5MDNhY2QwNDMwMzRiOGVkMWMxODc2NzdmY2NjMmI0MTcxMTVkNzVjMCJ9"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L191-L201",
+          "version": "repo-lines-v1:sha256:34f91d860e1bb23c210bbf1639f154cb514e4532580076cf9acb2af7e9b6190d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiM2NjYTZiMjllNzZkMjY0ZTljNGFhOTNmYmI1ODY3ZTQ1NzJmYWM3YTBkNzc0NTFhODEzMmNmOGUyOTQ3ZjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4MDA2YjgxMDVkMThjNjk4NDlmY2YwMzU0NWFjZDk2Njc5NDA2MzkwMmFkOTE3ZjY2ODM0NmNjOGRlYzZhMTgifQ"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L223-L229",
+          "version": "repo-lines-v1:sha256:ff496416185609a64bb5409014e2bf3ef2edf2ef6c76f39e5b241355e7642871:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY4MGVhNDEzNGY0NmRmMmQ3MDEwMDY4YzhhY2E4OWZmMzI0ZTliYWVkNzY5NGQ3ZDNkOGViNWY2MDAxY2RkNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTEzZDgzMjVlNDY5NDdlNTI2Y2FjMDllNjA2YWI2MThhZDg0YWQ1ZmViMGFkNjRmNjhlZDZlNTJjY2ZiNmNmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2M1YWM3ODAzYzc5MmIwNzc5ZTVmMzcxYmYxZjBjZjBkNzI0OTVhYTRmMmQzZjY2NDZiN2YyNjNjMzIwNDdkZSJ9"
+        },
+        {
+          "resource": "repo://docs/OPERATIONS.md#L85-L104",
+          "version": "repo-lines-v1:sha256:e8a690fb539744da2126259861419b62d8bc4138b0b9abde473f26dce1c15da7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMjVlZmRlMTRiZDA0MzEzMWQ2OWU5ODU1Y2M0YjQ4ZDhmODBhMWU1NDU1NmQyODIwODQ3MDc1YmM5NzczNWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NDlmN2Q3NDgwZGVlZTFiM2UyZWQ5YzRjMGY5MmQ2MWNlNzE1YmU3M2FiMmM4ODgxNGZjOTQ3N2ZiMDA2OGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiYTQ1OTE0MTE4MGMzZDVmZjM1ZTY4N2FlNGE1YWMxYjQ3YmY4ZWUwMTU2ZGFjYjg0Y2Q1NmIzNDhhMjQyODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlYzNjOWJlZTg1OTkyNjk0YWE2MzZkZTA4NTExZGMwOWMyMGYzZjdmNjBkYTc1MGIxMWEzNWIxODhlMTJiNmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_29187cb0e5ed4a5d87cb1ec868200a53",
+      "statement": "Template validate is offline, diff previews environment changes, sync applies a template, and delete removes cluster resources; these are distinct safety categories.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md#L142-L164",
+          "version": "repo-lines-v1:sha256:ec2b33306f999c856dcc1c34686f231ef667f540c1d653a0de2b112777565d40:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1NDNmY2JhODMyNDE1N2M2YTM5MjJhMjZkOTZkYTAxYTJkZGQyM2QxZGNjZGY3OWIyNmY4ZThjMjU0MTFlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMDI1Nzg5NmViMmFjNGQ5MDQ0ZWRhMzNjNzAzODgzYzA1MTEzNjhmOGQ5MWVjNzdmYzk0MGMyZjFkYzRkNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4OGNkMzgzMzBhOTI1MGRjNGJlZGM5NjgxYWIxMjE1YTI0MGZmNjU3NWI4YTAyNGJjNzYwYjIxZjg3OTcwOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzNTQ4OWVlMjdiOTZiNDk3OTE3NzFjYzUwNTA1ODYwNTVjODFiYjhjMjQ0OTI4MDI1ZTc5MmE5Y2ZmNWYyMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_22e22346c30942a8b702ef32227f3ded",
+      "statement": "The task entrypoints separate Hub Compose/environment configuration, provider Compose/configuration, machine-class VM provisioning specs, and cluster templates for versions, counts, extensions and patches.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md#L5-L129",
+          "version": "repo-lines-v1:sha256:952ded1989ec9abdb2672d49caefcf47da564a64121326556deac62c8a8cc81d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzYThjYTZjY2NjNTA1YWY5ZGI0OWZlY2YwNGU0OGI3MzNjNWNhMWIzYmIzMzUzNjYzZTFmMTRjMmFmZDI3NGUwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5ZGNjMDJhYWVkYzMxMzRmMzlhMDhlMjBhMjJkMWEyYzgxMmY1ODQzZmJkYjQzMzkwNDdhMDFmMjBkNWNiNDVmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxOTllMThmYTlmYmU0YmQ2OGJmZGQyNWYwNzRiNmYzMmEzYzI4NmM3YWNmMzE2NjI2MWNiYzVjYmZmYWE0OWU3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzZDdmMjA5MTQwMGRmNGE0N2MyNThkNDcwNzhmNjc4Y2U4MDZhNzg4MjAxNDk2ZTFhZTI5YzBiZmMwNzViMDcyIn0"
+        },
+        {
+          "resource": "repo://machine-classes/README.md",
+          "version": "repo-file-v1:sha256:5374220bd8f6b45064a4827c9d114e805ae6e949b21cfb92c11009a3536d4ac8"
+        },
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e2014cd84f54669aecf0ef4d63fc79f",
+      "statement": "The repository's Longhorn responsibility is the Talos worker mount substrate contract, not ownership of the platform release, storage classes, backups or restores.",
+      "evidence": [
+        {
+          "resource": "repo://clusters/README.md#L131-L140",
+          "version": "repo-lines-v1:sha256:dad3a5926e2bd8daf344ae13a2c49619119b60977c80034727ffc61b57298761:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NDRiYzBkMDBkOGUxNzFhYzRmZTdlMTgwMjc2ZWY1ZDdkYWI3MWM0NTZhNTBmYTc4NDMwNmJiYTMxMTIyNGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5MDU0MmQzZTMwNzFmYmEzNzQ1NjEzYzQzZWFkN2IwYTVmMjg1MjQzMGVmY2MxYjdjMmY0MTZhM2NkYWVjYmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a67d573cb6e14489b565268fb0e3df3e",
+      "statement": "The provider Compose file references the historical local-fix image but explicitly says the hostname workaround was superseded and requires reconciliation with the verified deployed digest before redeploying.",
+      "evidence": [
+        {
+          "resource": "repo://proxmox-provider/compose.yml#L26-L31",
+          "version": "repo-lines-v1:sha256:c2efd75bf9ef30e54620f670ef1655671a5a2ff3d9e17547fbd786aa2d66ad21:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU2MmY3NTI4OGEwZWQwM2E0YWRjM2IxOTU2OWFjOWI4NGEyNDRlNTI1M2RjMDhiN2ZlNzc0OTZhNDRiYTMyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODBjMmM1NTM2ZWIwM2Q1YmViMjU3NmVkNTQ0MzFmMTczNjBlNjhlMzFkNjYyNDlkZmRkOWM5NTk3MzlmODQ3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2Y2Y2EyNjYzMDRkOWY2ZDM2NmVhMDM4Y2JiM2M4M2EzZGY4MjZmMmRiMTM0YWMxZTQ3Y2NhMjQ1NmQzOWNkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGU4OWY2MzU5NDUyMmFmNGUxYzUyNTU1YTI1NTQ2NDU0YTQ4ZTc4ZGQ5YmY0MjAyY2FjNGIxYmJiMDIxY2ZiOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_106b39c0432146e0bff662795dbce028",
+      "statement": "mise run disaster-recovery invokes a destructive cluster rebuild script, defaults to talos-prod-01, and requires confirmation before deleting anything; it is not an inspection task.",
+      "evidence": [
+        {
+          "resource": "repo://mise.toml#L86-L89",
+          "version": "repo-lines-v1:sha256:f167fde288f243d6664a1d4486c8bf55545fc614111fd37300808e7c855a5d76:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGRmZDk4ZDAzMDZkM2IyNTI3YzQ3MDhiZTMxYzhmMTQzODdiYmNkNzVkMDdjZmMwM2Y0OGYxNjdiYjJiOTEwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmZhMTg3NWQ2OWE2N2JiN2ZiZGM3YmRmNmE1ZTEzYTRiYjQ4MjJhN2ZmNWE3MzhmZjQ1NDhmYTFhY2FkYzQ4ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjUzZjcyODVhMDBjOThhNTNkMDY4N2ZmMGVjMmViMzU5MjAzYTIwYzU0OTg4NjUyM2VjZjIxNzdmMGE4NTY4ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzA5OGEyMzEyZGQ1OTFlNjE1M2E2OTFmNjY3NjAyNjJmYTA2YTM1OTY0NmFkMWYzODY5OTRkMmM2MWQzNmEwMyJ9"
+        },
+        {
+          "resource": "repo://scripts/README.md#L9-L22",
+          "version": "repo-lines-v1:sha256:990d9f1caf116f1c4e6653c3be39b1f12aae874ac4c701b19cfeee3f2c0bcf96:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZDEzOWQ0MGI5MTc3ZDgwZDY1YWVhZDAyNjNmZTFlNmRiNDRiYjk4ZDNlYWMwNjA1NTY5MDFlMTRkNjU4MzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkxNjlmM2MxMmEzNTEyNmExZDc0NWNhZmY0NGUyZTM0NzQxOGJhYTQ2OWRiZDJlZGM2NzI3ZThhNjRjMmRlMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiMTJkMjQ1OTk1N2Y5NDc4NDNiMTU0ZWRkNGU3ZDE4ZTk3NjMwYWI5NjFiZTFkNDVmYTMwMmYwYjMwMDhjZjcifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L4-L29",
+          "version": "repo-lines-v1:sha256:7a2b4dbf50f4f3e825c51dae2c43bde0ac38d47f668fabfda257bac4f7a0572d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyYzQ4NThlMjJjYzJjOTY3YjQyMTUwZmE1NTA1NjJhMmM4MzljMmNlYmNhYWI5MWNhYmRmNmY0ZGEwMjAwMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmNGVmMzg0MjkzNTkxZjFkYmM2MzAyYjgzYWNhMTE4OGM0Y2I4ZGZmZDc0Y2I5MGYyYzJjNjA0MzU2ZGI0MWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmODE3ZTVlNWZkNzRjMWFmMWQ1MDBjNjFhZjhiNDM1ZTE5ZTU2MjNlMDdhYzljMTBjZjZhYTgyODgzYmE5NTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjN2QxYTg0OGJhZDYxOTU3NTU3ZjY5MmM3N2U4ZDhkNTNlOTJmYjdmY2EyZmQzOGRhMDQzMzlmNjMxNTIwMmYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

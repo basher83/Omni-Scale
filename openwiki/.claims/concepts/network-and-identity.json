@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:aa7cc2810a796b5dba3d2a4eb6d7358aaf63aa3ed7a35886214680c7d2196359",
+  "claims": [
+    {
+      "id": "claim_29b94d0b6aa94403966688be7633ef2f",
+      "statement": "Administrators and the Proxmox provider reach Omni via the tailnet, while fresh Talos VMs use LAN machine API and SideroLink endpoints without Tailscale enrollment.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        }
+      ]
+    },
+    {
+      "id": "claim_81b7ae5570a249b0a3887ec8c8e1f8aa",
+      "statement": "Split-horizon DNS maps omni.spaceships.work to the hub tailnet IP publicly and 192.168.10.20 locally; Proxmox boot-host DNS must use Unifi because initial Talos DNS inheritance otherwise sends fresh VMs to an unreachable tailnet address.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ab5aa2cc7a64d68b728bac507463038",
+      "statement": "The architecture reference requires provider/Talos L2 adjacency on Matrix and static routing between the Matrix and hub subnets; the hub itself is not on the VMs' L2 segment.",
+      "evidence": [
+        {
+          "resource": "repo://.agents/skills/omni-talos/references/architecture.md",
+          "version": "repo-file-v1:sha256:faf57d7ceff86614fe7950c65e65ba4cff48b6e26dbd96736996f88ca97fa171"
+        }
+      ]
+    },
+    {
+      "id": "claim_096226ca8ea742b291f8e362ff730eb9",
+      "statement": "Omni shares the hub sidecar network namespace, which publishes TCP 443, 8090, 8100 and UDP 50180 on HOST_IP defaulting to 192.168.10.20; the configured event sink 8091 is not host-published.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://omni/omni.env.example",
+          "version": "repo-file-v1:sha256:ac53955aae6c05b9ed1579f8a5c6c89d5d9fab8d4ca32baf5076224193b2154a"
+        }
+      ]
+    },
+    {
+      "id": "claim_913f61976d5c4ef088b7a670faf30453",
+      "statement": "The example distinguishes bind addresses from advertised API, Kubernetes proxy, machine API and WireGuard destinations, using the shared HTTPS hostname and an explicit LAN WireGuard address.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://omni/omni.env.example",
+          "version": "repo-file-v1:sha256:ac53955aae6c05b9ed1579f8a5c6c89d5d9fab8d4ca32baf5076224193b2154a"
+        }
+      ]
+    },
+    {
+      "id": "claim_4407e769b2444377bd8294694b5ee428",
+      "statement": "Explicit LAN port publication fixes the documented LAN-only connection-refused failure even when tailnet UI access already works.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        }
+      ]
+    },
+    {
+      "id": "claim_a010d343136f4a9cbebc3cac7758f5a6",
+      "statement": "Omni uses the same read-only mounted TLS certificate and key for main and machine APIs; the runbook uses Cloudflare DNS-01 issuance and records a certificate-name mismatch resolved by aligning hostnames.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        },
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        }
+      ]
+    },
+    {
+      "id": "claim_264bd60067814f0d83cfebe8004bb942",
+      "statement": "Deleting Omni database state while previously provisioned VMs remain can produce unrecognized-machine Links reconciliation loops, so historical certificate-reset instructions are not a routine non-destructive repair.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        }
+      ]
+    },
+    {
+      "id": "claim_344f415ff3064a5aac1cc12fbe58a91f",
+      "statement": "Both applications wait for sidecar tailscale status healthchecks and share their sidecars' network namespaces; these checks do not test end-to-end API authorization or TLS.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_da01e203d63149f1b06ffb383c3f9e11",
+      "statement": "Both sidecars require TUN and NET_ADMIN/SYS_MODULE; Omni separately requires TUN and NET_ADMIN, and only the worker Compose explicitly selects TS_USERSPACE=false.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_ee15de20da974efc8df6363df2c9c70f",
+      "statement": "The worker LXC requires nesting and TUN passthrough, and a documented missing kernel-interface failure allowed tailscale ping to succeed while ordinary application traffic timed out.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        }
+      ]
+    },
+    {
+      "id": "claim_adc7cafa91454d028d115ee812a5df41",
+      "statement": "Both sidecars persist /var/lib/tailscale in a host bind mount; the hub additionally sets TS_AUTH_ONCE=true whereas the worker does not, preserving identity across ordinary recreation rather than treating enrollment keys as application credentials.",
+      "evidence": [
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        }
+      ]
+    },
+    {
+      "id": "claim_d8367abf40cc49dab98bccd485a0147c",
+      "statement": "Tailnet saved identity state must not be treated as restoration of deleted server-side registration; lost identity state can also leave stale registrations and cause hostname collisions.",
+      "evidence": [
+        {
+          "resource": "repo://docs/TROUBLESHOOTING.md#L502-L511",
+          "version": "repo-lines-v1:sha256:938111be0bc0605f00288e610034de0084874911826378f5915cceaa0eac2b37:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZTM4OTkxYjk5MjM0YzI1Y2IyNWEwMmY0M2YyNTg4NGVjN2UyZWM3ZGExMGUzMzI0YTdhZGIwYTYxNjA1NWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4NmEyNDI4Y2Q3ZWRmNDNmMGUzNjY2NjA4YzFkZWRlMzgzODAzNjJlYWU3MDJjMzQ4MDdlNzNmZjM5MGEyYjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwNWJlOGU2YjE3MGQyZDdhZjFkMTFmZGRmMDBhZTNjNWI2MjU3MWM2OTc0ZjI5YTFiM2JiYTM3MTk0MmNlNDkifQ"
+        },
+        {
+          "resource": "repo://omni/compose.yml",
+          "version": "repo-file-v1:sha256:a101701c9dbe00b19e2bf8a16a67372a8b09dbb9a67d44bc3f666780627832e3"
+        }
+      ]
+    },
+    {
+      "id": "claim_0d09f8fb090f48208016a71d2798ede6",
+      "statement": "Human authentication uses Auth0 SPA PKCE, not historical tsidp, whose bootstrap and routing complexity led to the Auth0 pivot; the Auth0 domain flag must omit the https scheme.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        },
+        {
+          "resource": "repo://omni/omni.env.example",
+          "version": "repo-file-v1:sha256:ac53955aae6c05b9ed1579f8a5c6c89d5d9fab8d4ca32baf5076224193b2154a"
+        }
+      ]
+    },
+    {
+      "id": "claim_3a488145e27347ecb893ecb700122b62",
+      "statement": "Provider authentication to Omni uses a separately created service account key passed as --omni-service-account-key, distinct from Tailscale enrollment and Proxmox API token credentials.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        },
+        {
+          "resource": "repo://proxmox-provider/.env.example",
+          "version": "repo-file-v1:sha256:ed56a5d59f34be2df1cc6e8a8d03d5cdfcd7df8472a9769b2401a5a00ac43110"
+        },
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        },
+        {
+          "resource": "repo://proxmox-provider/config.yaml.example",
+          "version": "repo-file-v1:sha256:701c5c238a616c8595f376e3410b0063e04c4c6aa48db88523996c0b0caf16b0"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6ae740dcb8347ec97bb82f422afbb82",
+      "statement": "The provider targets a separately configured Proxmox API endpoint with tokenID/tokenSecret, and insecureSkipVerify in the example applies to that Proxmox connection rather than Omni TLS.",
+      "evidence": [
+        {
+          "resource": "repo://proxmox-provider/compose.yml",
+          "version": "repo-file-v1:sha256:f883a8fabc465c5fad825e174bc5c1589713fc493d572dbe1bc4267bdf2e20a7"
+        },
+        {
+          "resource": "repo://proxmox-provider/config.yaml.example",
+          "version": "repo-file-v1:sha256:701c5c238a616c8595f376e3410b0063e04c4c6aa48db88523996c0b0caf16b0"
+        }
+      ]
+    },
+    {
+      "id": "claim_599e6d4980434eabb3bfe664b573e52c",
+      "statement": "Auth0 origin settings must match the Omni HTTPS origin; INITIAL_USER_EMAILS seeds administrators and OMNI_ACCOUNT_UUID identifies the installation rather than being a login credential.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        },
+        {
+          "resource": "repo://omni/omni.env.example",
+          "version": "repo-file-v1:sha256:ac53955aae6c05b9ed1579f8a5c6c89d5d9fab8d4ca32baf5076224193b2154a"
+        }
+      ]
+    },
+    {
+      "id": "claim_0546f75a393e41bfb59e3b9ce381bb05",
+      "statement": "The Cilium guide records SideroLink MTU 1280 and observed pod MTU 1280 with approximately 22 KB/s Tailscale Ingress throughput without the override; the exact auto-detection selection path is explicitly unmapped.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md",
+          "version": "repo-file-v1:sha256:f20fcf865517c07d4cc28aeec3e011994a6894ce92a7fd8ed2b339c11ad281ea"
+        }
+      ]
+    },
+    {
+      "id": "claim_a056ca3f5979421f8f218fe5131ee45f",
+      "statement": "This deployment requires Cilium MTU=1450 in install/upgrade inputs, direct live ConfigMap verification, and pod recreation to change existing veth MTUs; ConfigMap-only patches do not survive reinstall.",
+      "evidence": [
+        {
+          "resource": "repo://docs/guides/CILIUM.md",
+          "version": "repo-file-v1:sha256:f20fcf865517c07d4cc28aeec3e011994a6894ce92a7fd8ed2b339c11ad281ea"
+        }
+      ]
+    },
+    {
+      "id": "claim_338108ae49274d7083ddbc4cad5c6e30",
+      "statement": "Cilium is documented as imperatively managed rather than an ArgoCD Application, while post-cluster workload platform reconciliation including Tailscale Operator belongs to mothership-gitops.",
+      "evidence": [
+        {
+          "resource": "repo://docs/DEPLOYMENT.md",
+          "version": "repo-file-v1:sha256:ed5609bcd14d2fe23b9fe4aa2dbdba204d095521b07cd938985188087d0bc03a"
+        },
+        {
+          "resource": "repo://docs/guides/CILIUM.md",
+          "version": "repo-file-v1:sha256:f20fcf865517c07d4cc28aeec3e011994a6894ce92a7fd8ed2b339c11ad281ea"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-12T07:23:30.062Z"
+  }
+}

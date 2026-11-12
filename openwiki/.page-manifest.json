@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "/openwiki/architecture/substrate.md": {
+      "pageVersion": "sha256:bc5ed8904af428437dfbfbde43d3d7b38de3aff69a572d035a18eae3e740c9f9",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/concepts/network-and-identity.md": {
+      "pageVersion": "sha256:aa7cc2810a796b5dba3d2a4eb6d7358aaf63aa3ed7a35886214680c7d2196359",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/integrations/gitops-handoff.md": {
+      "pageVersion": "sha256:38f97d45618f71573b0d883824eebf3ee3ebcedc264b9dd251a61daf553312d3",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/operations/hub-lifecycle.md": {
+      "pageVersion": "sha256:699ab31fbf035dee7c307174840c9498f59a304105a2ee0fd7963cd269a2e4bb",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/operations/troubleshooting.md": {
+      "pageVersion": "sha256:731f563fca656cbbdd4832ea1b48e6f6e89bc20131bd689833f93e5bb724d69e",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/quickstart.md": {
+      "pageVersion": "sha256:28508ba289e6f7119df277e923f3d8ee6338a0e707e48eebaaa42cd5fdd32cfe",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/testing/validation.md": {
+      "pageVersion": "sha256:5b6b5406c9229d03be99be2c0803ecd7245f463d8c8a9459255aec2f1693fbc5",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/workflows/cluster-changes.md": {
+      "pageVersion": "sha256:393f1fc493d9bc227ec55376b13815fac9af59d68ceeb8e3be632342cef611a9",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/workflows/deploy-substrate.md": {
+      "pageVersion": "sha256:c5e8e91f5f0a08b7d7ff67f2ae922e0391f2bdee8fcb16134b007f92d2dc1afd",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    },
+    "/openwiki/workflows/disaster-recovery.md": {
+      "pageVersion": "sha256:273960af3924e3f1213f52c2efeaf27cff67455dd275f782b6ffcfccb23e7c91",
+      "completedBy": "openwiki/0.9.0",
+      "completedRunId": "db56207a-1fbe-43eb-a560-a06283cd6488",
+      "gitHead": "144aed511a656254f2db9b6a1a3e5e10494e3b3b",
+      "sourceFingerprint": "sha256:7ee1e917b3e8ed712770cc7292c082defc9acb0b8e24c72a8089974304bc7ff7"
+    }
+  }
+}
