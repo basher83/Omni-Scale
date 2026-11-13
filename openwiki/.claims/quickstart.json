@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:28508ba289e6f7119df277e923f3d8ee6338a0e707e48eebaaa42cd5fdd32cfe",
+  "pageVersion": "sha256:beacfba4e7631e80f198a9ce4ce58bf1243fc11e58b498039fdf6c67568fedd4",
   "claims": [
     {
       "id": "claim_8be55e2c9549409c9f48a694e173966d",
@@ -159,10 +159,100 @@
           "version": "repo-lines-v1:sha256:7a2b4dbf50f4f3e825c51dae2c43bde0ac38d47f668fabfda257bac4f7a0572d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyYzQ4NThlMjJjYzJjOTY3YjQyMTUwZmE1NTA1NjJhMmM4MzljMmNlYmNhYWI5MWNhYmRmNmY0ZGEwMjAwMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmNGVmMzg0MjkzNTkxZjFkYmM2MzAyYjgzYWNhMTE4OGM0Y2I4ZGZmZDc0Y2I5MGYyYzJjNjA0MzU2ZGI0MWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmODE3ZTVlNWZkNzRjMWFmMWQ1MDBjNjFhZjhiNDM1ZTE5ZTU2MjNlMDdhYzljMTBjZjZhYTgyODgzYmE5NTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjN2QxYTg0OGJhZDYxOTU3NTU3ZjY5MmM3N2U4ZDhkNTNlOTJmYjdmY2EyZmQzOGRhMDQzMzlmNjMxNTIwMmYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_732b1ea248f441018c69be8ee4a1304c",
+      "statement": "AGENTS.md defines the generated openwiki evidence index as optional just-in-time context, forbids startup enumeration/preloading/search, and limits retrieval to user requests, material unfamiliar architecture/dependencies, or important uncertainty after source inspection.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L80-L88",
+          "version": "repo-lines-v1:sha256:22b7451b163c3e52cd9b69d6b289d3354aa9cb460c0ce2ca54a2f7c0994b4038:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA4ZTlmMmM1ZTcxMmZjMTAwNmMyYzE0MzQ2ZmRiZDNjMDY3ODhiMjE2YzFmY2M5YjI0YTNjODJhY2Q2NTg3OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzhhOWNiZTNhOTMyYTFjYWEwOWE5OWFjNmJkOTU0YzBmZDQ0ZmM4ZWQ3OTYzNTYzNTQ0Njc2NWZkOGVhMzJlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTAyZDFlNjcyNTU4MTg3NTZjYjYyYmUxNGViZDVjMWI1M2FlYmQxOGZhZTVkNWMyMGVkYWNiYWZiYjdjZTMzZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c152d4d434545569fe576ed3d0f8676",
+      "statement": "When retrieval is warranted, AGENTS.md directs use of openwiki_search and openwiki_read, workspace selection and retry for workspace_required, workspace discovery tools when membership needs discovery, and quickstart-linked pages as the fallback without retrieval tools.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L86-L90",
+          "version": "repo-lines-v1:sha256:381b96ce544cb20c4569b6a973ada48d00beb916c41f4bc0366bfd3bf730fcbe:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjRjZDU2ZjNmODQxYTEyOTE2MzVkM2M4MzUyMTBiMjViNTkxNTMyYzAxZTFlN2QxZTdiZWQ0YjI4NDFjNDYzNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTliNDhjMWM5M2FmNjMyZDBkNTRmMzc1ZjM0YmU2M2JmZTA4NGRhMjFkYmY5OGQ4OWYyYzUxNzRmNGY1NjZlYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDhhMTMzOGFlN2QxMWM5NDRlODVjNTU0N2JiNmVmNDRlZTljMmNkZjA4ZDZjOWIwOTI3ZDgzMGIxNzFjYzBlNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_fa2736f69d4b4a0789a6cd6d3d16bd10",
+      "statement": "AGENTS.md makes source code and tests authoritative, treats brief unknowns and review items as verification gaps rather than automatic requirements, and asks for the narrowest quiet validation with complete failure output preserved.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L91-L92",
+          "version": "repo-lines-v1:sha256:ac3a6038580db271f24cd8d56e47a87d753b3ae0ec8d17b39a1c1adebe04f8e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNGJmZGNmMzdhOWE0MGQ0ZWNjMWIwNWQwNzhmN2M1ZjFmMDNmZWZkYjllMjVlNTAzOTlkZWE2ZTUwYjQxNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDc1NTNiMGQ1MmViODI0ZWY0MWU3NmJmNDViNTYyZjFjZTQ4M2ExMjYzZjRmZmI0M2IxMWIwOWEwNzI4NThiYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmQyM2IzOGVjZTNkMDcxYmQ5MTdjODFmMzU2OGI2YjQ5ODdhNmE3ZDM0ZDRlNWYxOTU4MzRiZmQ3NGVjZTgxZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZjYjMwYThmOTQ4MTMxNDkwODJmM2RjYjkxOWRiMTJmMjIwYjMxYTI5NWZiZWU5NTM1MWNmOGYxNGJhZGEyZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_18df4ea76dc64826a68574c581b1b3a9",
+      "statement": "Operational skills in .agents/skills own procedures while docs describe the system; agents execute skills and humans approve plans.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L13-L17",
+          "version": "repo-lines-v1:sha256:d60fd40411f1cfc745ac33feb5a103b81e54bae7e66b7b309a6b0355ed33787a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU5ZjJiYzlmYzA1Y2Y3MjNkMzg5NzlkZDY1NjQzYzIzMmE2OWM4N2YzM2U0ODVhYzVjYjMyODNlNmUwYWE3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVhNTI3NTQ2ZDQwMWU2YWJiZWViZTJjNzcxMzVhMTY5Y2Q2MTJiN2RkMDJjMzBhNTk3N2I1MWE4ZWFmMmZiZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA5ZTcyYmRhMDQ0MmU2MDZmOWE5NjIxMGM5OGY1YTY4MmI1ZDM1N2FhNWNlMzZkMjRhM2I2ZjZhZjkwNzFmNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjQ2MTZmNGZmNDZjMmZkMmYzNTNlM2U4ZDJmNWI5Zjg0ZTMyNWNkZDhhMzkwNDI4NjYyNmQ5YjhkMjFjN2E1NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ed5eab382f3417780a8b5170ed66734",
+      "statement": "Generated documentation should normally be refreshed by updating source code/docs and using the documented maintenance process rather than hand-editing generated pages unless explicitly asked; configuration and completed runs must be checked before relying on automatic updates.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L94-L94",
+          "version": "repo-lines-v1:sha256:bcb305dcb14dcb4153e1a3f259465ceadadc9b044a793da427d2c43d3a09d491:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNiMzA1ZGNiMTRkY2I0MTUzZTFhM2YyNTk0NjVjZWFkYWRjOWIwNDRhNzkzZGE0MjdkMmM0M2QzYTA5ZDQ5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNiMzA1ZGNiMTRkY2I0MTUzZTFhM2YyNTk0NjVjZWFkYWRjOWIwNDRhNzkzZGE0MjdkMmM0M2QzYTA5ZDQ5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDhhMTMzOGFlN2QxMWM5NDRlODVjNTU0N2JiNmVmNDRlZTljMmNkZjA4ZDZjOWIwOTI3ZDgzMGIxNzFjYzBlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGIxYmVkMmMxZTE3NjVkNzgzZTEyY2EyMjBkM2JkZDU5Y2Q4N2U5NWNhZjg5ZDg5ZDljMjM5NWYwNWFjMGE1YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_908b622d789f449d860b792a0d493577",
+      "statement": "OpenWiki Update is a separate documentation-maintenance workflow triggered manually or daily at 08:00 UTC that attempts an openwiki/update PR; ordinary push/PR CI instead runs mise run check and does not perform that refresh.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L1-L9",
+          "version": "repo-lines-v1:sha256:fbf9fe3ed92d33129cdb2aa684df87d8ad0da9b8183b426d9dfbb7a256cecdca:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDZlMWIzMmZhMDkwNzlhZTJmMDAwMWZmZjBlY2EyN2I0OTg1OTU3ZDRlYjQ4NTc5MjliM2NmMDU4ZmFhZTU0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDllY2VkYzE4ZWNhZjFkYWY5ZTdiZWZiOWZkNzllMmMzY2YxNTU5OWU1M2U3OWNkYmQ5MDFlZTZlMmM5NzlkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmZjYTM3NmY0YWQ3ODRkODExYTQ0ZmMyY2YzNTI2ODYwMzYwZTBhMzY1OGNjOGYyZjc2ZTk1ZWZhNTNhNjMzNCJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/ci.yml#L38-L39",
+          "version": "repo-lines-v1:sha256:ba4cb6a028cd3fda9ac9129efbcf0ddf06e43b80fd1d715ea5fa187059956efb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDAxNDIzM2VmNWEyMDc3ZDdiMzI4N2I1YTAxYmYyNjE2Yjc0Y2EzNjBiMzU4YzVhMDg4OTAxMzRhNDgwMzg2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDRiNTNkZGJiMDFlOWM3MTQwZjgyOTI2Y2FkOTQ2ODVlOTM4Y2M4OWZhYjA4YmJlOGJiNTBlYzQ3ZmUxODU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjhkZmUxZTNkNTM2NGExNDUzNTViYWY0M2ZmZWRkYTFhNTYxYzZhMzcxYmQ0MTI5YTEzMzExOTNmNDUwNzg3YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L11",
+          "version": "repo-lines-v1:sha256:6c5163d6387c32fe9d3fde95f0fb9f82de48c1f87da4645e90a5eb8faec4198f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MDI3ODdhZjZkY2MwODM0ZGUxMjFjYmIxY2I5NWY5NDU5YjcyMWVhYjAzNDlmMTA1MDFiOTk2YzFjNzdmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxZDZkYzczMDVjNmEyZGQ5ZTczYzlmNTVmNDZlMzA5ZTEyODUyMGQ3YjA4MzRhM2U5YmQ0MTQwZWYwZTU4OTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiYTVhZmZkODIzMWMwZTgxYmJjZDQyMTU0YTFjYzkwZTg2ZWZmNjYzNTVjMDQ4Y2U1NWIzMjM3YmRhYzNhMWQifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L77-L85",
+          "version": "repo-lines-v1:sha256:e4f0c376295a0ab27415fbd9ed19def5186a7b603927304b523fd75ee9b15f04:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDFjZmY0YWQzM2JhOTFiMTQ4ZTFiMWI4MjkwYjhmZmYyN2IyMDNmYWJmZWU1ODcwMjgyZGUzNjczODNiMWJlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGRhNDE2NjQ5MGIxNzI5YjVlY2JmYWZiZGUyZjViYWIwOWQyZjdlZWZlNDRkZDVlZmQwNmRmZTIwNWJiNjFhNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJlMWFkYWRhMTdhZTJmNGYzZDhkNDc5N2RiMzZkNTI2NzU4YmY0OWE4YzRhNzQ5ODk4NjRhNDNjY2IxOGUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGQ4OWRkZTY2ODA4NTU2NGZiZGRjMWJkNzczMDEwYzI0Y2FkZWI5NWJjNDZlNzExMGIzMTk3Y2RiYmE3Y2RmOCJ9"
+        },
+        {
+          "resource": "repo://mise.toml#L109-L111",
+          "version": "repo-lines-v1:sha256:316c7d5b8f177c2a32cfcf1f05026170ffacad806febd78ef7f2127389b328c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTFjYWE5MTQ4NTAzNWUwMTBjNmNmNzk4NTBiZDEwYTA5ZTAwZjc1YjM5YjcxNjY1YzgxNWY0ZDIxYTIwOGY0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjE4MTVlNTk5NTFiZmY3ZmNmMTk0ODBiMTZkYTQ1NmM2ODdmM2EzNjEyYTExOTM3NjlmYmFlNDM3ZTgwNDEwYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDc0OThkZWQ5Y2QyNDc2YjFkNTdkNjFlMTZjZmMzNTZjNDUwOWZkOGYwZDFlNWU4ZmM1ZDczOWY0OTFhNWYyYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_74318f66fc83455c95d7155d338a1914",
+      "statement": "The OpenWiki workflow continues after generation failure to preserve completed-page updates in a PR, reports the generation outcome in the PR body, and then propagates generation failure; PR existence therefore does not establish a successful full refresh.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L40-L44",
+          "version": "repo-lines-v1:sha256:caa88ae890440bf33da8a7309e438c235f2b17fae0f0f04e61efb5c1e48f1f45:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc2MDg2MDNhNzFkZWY2YTE5ZTY1NDcyNDI0ZmFmNDcwODkzMGFjNGU2NjI2Zjk5YjA2ZTVmOGFkMGRhZTU4OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGY1NTBjOWIzM2NmMzhhZjJjM2JjMWE5NGQ0ZmFhNjE2N2UxMTY5OTYxNjhiYTJiMzcwYTBmNjQxN2RiYjNmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQ5MzIwZGM1NTZjZmEyZWExYTM0MzljYzg0OTZmNmU4MDVhOTg0ZTU2NGFmODQzNzNlMDA2NjI3ZmZhMzVjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDYwZjY2NDIwNzY2NGQ0MDY1YzI3ZmM4YWYxYTQ2NmYyNDQ5OTdlMzc5YmY5MzJlYTE2MGM4YzVlZGFkOTYzNCJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L77-L101",
+          "version": "repo-lines-v1:sha256:415f687a286df9440c7cc95580eed202fee332c77e23458ae32fe3c88373a016:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxY2ZmNGFkMzNiYTkxYjE0OGUxYjFiODI5MGI4ZmZmMjdiMjAzZmFiZmVlNTg3MDI4MmRlMzY3MzgzYjFiZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiZTFhZGFkYTE3YWUyZjRmM2Q4ZDQ3OTdkYjM2ZDUyNjc1OGJmNDlhOGM0YTc0OTg5ODY0YTQzY2NiMThlMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-13T15:52:19.245Z"
   }
 }

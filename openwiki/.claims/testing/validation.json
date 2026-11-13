@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5b6b5406c9229d03be99be2c0803ecd7245f463d8c8a9459255aec2f1693fbc5",
+  "pageVersion": "sha256:e87f7bc4bd60588d44b3d18ee021c1d08d151a28b917d482beeb1743b0cf4628",
   "claims": [
     {
       "id": "claim_f68d4516f6e74dc38471ee64e9711df0",
@@ -171,10 +171,124 @@
           "version": "repo-file-v1:sha256:bc5c32662df4cc3fca60a0c8990e3b0da1e9692e62524525f777449a9935a0e6"
         }
       ]
+    },
+    {
+      "id": "claim_9a65af42495540239019aeb0e30d66c5",
+      "statement": "OpenWiki maintenance is a separate manual-dispatch or daily 08:00 UTC workflow with contents, pull-request, and id-token write permissions; it is not executed by the static CI quality gate.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L17-L39",
+          "version": "repo-lines-v1:sha256:6e4c2e2c6e77eae6f4de8aea3e2a5b85946e6965e1cfb386d158a0a60d480782:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyZTZkNmFmOWU0NTMxZWI1MTc1NGExNzViNzVkOWNjMGVjMGU1MWYwZWQxYzNlZWM2NDc2ZThkMTE5YWE5MTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YjUzZGRiYjAxZTljNzE0MGY4MjkyNmNhZDk0Njg1ZTkzOGNjODlmYWIwOGJiZThiYjUwZWM0N2ZlMTg1NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjYzEzYTc4NjUzN2JhMGYyZWQ0ZmRhNDYxZmY4NGM0OWY4Y2E2ODFkZGI5MDJmMGQxNTFjMTc0NjhmYTdmZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L15",
+          "version": "repo-lines-v1:sha256:d54228b4fd60ea309e6c77bbfea4b7cde5b31e0d60a6b0c1e34741d4437ae4e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MDI3ODdhZjZkY2MwODM0ZGUxMjFjYmIxY2I5NWY5NDU5YjcyMWVhYjAzNDlmMTA1MDFiOTk2YzFjNzdmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzMzczMzRhZWMwZGNiMjRlNDBlM2MyMGRjMDlkNTlhZjY3NDNkMDI3ZGJmZjUwYzFhY2EwODk3NDcxMTc2NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwMjYwNDVjMTc5MzkwMzA1NWIzYWQ1Y2RhYjRhNGY1ZjA0NzlhMTYwZTc3NWNiYWZmNjg5YTQ3NWI1ZWRmNTQifQ"
+        },
+        {
+          "resource": "repo://mise.toml#L110-L112",
+          "version": "repo-lines-v1:sha256:db1361d1bd2d82df07b71609355a2369f6e611f9844d11363be26181791e07bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA3MGQ5NjNmZDJiZDJjM2YzMTFhNTRhNmYwNWRlMWViZWU2ZDA2ZjFjZjYxNjY3MDgzNzVjNGNkYjU2N2ZkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM2MjZlYzVmZDQ4ZTVkYTVhOGY4YTY2Yzk1ZTRkNGE5NWViMzVkMjlkZGE3ZWIzODg0YTBkNDI1YmMxNmQ2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzBjNzBjN2JiNWJlZGUzZjg3NzhjZTc0OTAxODI5NTcwOGMwMmIyZGRjNjdiNmZiMGM0YmQyMjBkNjRlODZjMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmRhNDM4MGQ3YmM4OTRiNjNlZTJkMDU0ZmUxMmI5ZWM2MGIwYjJmYjZjNzE4MGEwZjNiNmEwOWIzMDZhYWMzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f6e70d681dae4718a64d3438986b6477",
+      "statement": "AGENTS.md treats generated OpenWiki as optional just-in-time context, makes source code and tests authoritative, prefers source changes followed by regeneration over unsolicited generated-page edits, and requires checking maintenance configuration and completed runs before relying on automatic refresh.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L82-L98",
+          "version": "repo-lines-v1:sha256:6bea3489ab18657636c55ec5cb1d03dfc23530bffb858ac3d96c97b5b6635741:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Zjc4NzE0ODkzYWE3Nzk0MmNlYTFjNGEyZTAyMzFkYmI3ZmEyYTQxYTcwYzgxNDYwYTNjNjc1NjJkYTNhYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwN2U3Yjk5OTcxNTVmMjA2OTUwYjQ1MGY0OGE3N2IyMjZkOTllYzA2ZDJiNzRhYjJkZjBjM2U3ZDk2ZTIwMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_df60e7c37f8a42328a68c637d4bf492e",
+      "statement": "The maintenance workflow uses full-history checkout so incremental updates can compare HEAD with the last documented commit; its documented failure mode for shallow checkout is an empty change summary.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L17-L23",
+          "version": "repo-lines-v1:sha256:5f513af748b362994b00e41cc2ab8ac7880f4f9a4ac3fb63f49be6f3f2680e8b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVkNmNmN2Q0MjhjYTgxMTVmYzRiYWJiNjgwNzM5MDIzMzI3YTdhOWQ5MTYzZjcwNmEyNzY4N2RkNTE2ZjM5OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMwOTc1YzdlMjBlYmE4ODU3ZWZkMzFlNjJiNjY1Zjc4N2U1MTY0MTk1MWE2NjA3ODlmYmE5MzNhNjM0NzIxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWM1YTg5Mjc3MGFlNGY1MzMzZmQ3YzllMTJlMGE2YmM0NWIyNmI1YmI3NzUzZTAzOWRmOGVkNDljOTdiOTYwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDI0MTAxNDVjNGQ3YjI0NDhiM2MwMzI2OWUzNmE4Y2Y3MGVlNzRlN2JhMmRhYjU3ZTc1NWE0M2YyN2IxNzgzNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f01134e12f9c41c2bfe85f74afd8feae",
+      "statement": "OpenWiki maintenance sets up Node 22 and installs pinned openwiki@0.9.0 with mermaid@11.16.0 and jsdom@29.1.1, which the workflow describes as optional high-fidelity Mermaid validation dependencies.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L33-L38",
+          "version": "repo-lines-v1:sha256:b28a881e2833e58f87b364125ded745cf1d5e6473c8cb27f7d6d28faf04a0f73:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzZkNzEwYTE3NjI4OTVjZDRjOTNjNmEyYTI5ZTYyOTI0ZDZmNzMwZDk1ZTJhZDE3N2NhNTA0OGViNTY5YzlhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODZjZTBiMGQzYjM4MTIyYmMyNzUxNWE4ZDk2OTYxNWQ5ZTEwZTI4MDY0NGY3NjEyMjFkMDQ0NzlhZDI1MzkzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODNjZjIwZjU5NDhlNTJjMGVlODNjZTY2ZmY0MGIwNjY1M2UwMGVhYzJjNzkzM2ExNWZjY2JjMGNjZmU4NjNkNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjNmNzA0NTRjM2NiYjVhMjUxN2JlYWMwNmZmZTk5ZmFiZDM1NzhlMGM2MmNjMGMwZTFmNTE5ZDVjN2ExMTg3MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4fb8a0dea8c94b1884de83a1ce1bd1d0",
+      "statement": "The maintenance runner connects through tailscale/github-action@v4 using TS_OAUTH_CLIENT_ID, TS_AUDIENCE, tag:ci and ping: agents, then configures the OpenAI-compatible endpoint http://agents.tailfb3ea.ts.net/v1 with Responses API enabled, model gpt-6.1-sol and page concurrency four; static actionlint validation does not execute these dependencies.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L25-L60",
+          "version": "repo-lines-v1:sha256:fefafbad69646ffb1a9d65ffddb6070c7fec4bf3f28a65d5a9b52be1cbd91d9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxZDQ3ODQ2ZjhmZWVjM2FmYTE5MDdlNWNhNzk4NzNlNTViYjM2YjQxZDZiM2I1OWU1M2QxYjVlZDljMWE4ODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4ZjhiODAyNzQxYWZjN2ZiMzg0MGZlY2RjNDNkN2Y4ZTQwMjNiYmZjYjViN2VjNjVlZTA4ODc5OGQ4NTE3MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MDkxODI2YjRhMzg1NzFmZWNmNjkxMTZjMDgwYzc2ZWVjNDc2ODQyMmRiM2ZiZWRlYjJiZTJkYmU2MGJlOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJhM2E1N2FkOGFhYTkxNDgxMjg1MWRhZTMxOWEzNjU3Y2RkMTQ4ZTY4ZTYzZjQ2ZTk4YmNjNmIxN2I4ZWFkNzgifQ"
+        },
+        {
+          "resource": "repo://.pre-commit-config.yaml#L42-L46",
+          "version": "repo-lines-v1:sha256:11292e16cf6559bd44d8b744587ca00e1dd2474e41c193edd899e7b33a6b50ef:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU5NDBmNjY5YjcxZWVlZWVmNzY1ZjJjMTIyYmE3N2Y0ZTc4ZDEyZTAwM2VmZWM4Nzc0NDNlODIxMGY3ODE3OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjAwNTUzZDRkNzdmZGRiNDhkZjI2OTE5N2JiZTYxMjZmMzM5ZGZhNWY0MDI1MmIwNmIxOWM2YmFlOTU3Yjg5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWMwZDU3YjUyODMyZTU1NTdiNjlmZTVmODk1MzUwN2I4YzI5ODI4YzE5N2Y2YWI0NDc4NmZmOWI2YmNhMjEzNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b503691059dd483f8a0cfc525b840998",
+      "statement": "OPENWIKI_LANGSMITH_API_KEY authenticates the LangSmith connector's code-mode pull, with numbered keys supported for extra workspaces; the separate LANGSMITH_API_KEY tracing configuration is optional for tracing the maintenance run rather than a requirement for repository static validation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L25-L39",
+          "version": "repo-lines-v1:sha256:0d24a3405dd2af3c7d21d3309a2c384a0c00a11fe9b63ebf444d1031979d633e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5YzRmMzZmYTM0OGQ5ZWEwYTBiYWFiMThmZWMyMjc1YWJmMTZkMjI1YTI2NTYxNmE3ZDU1YjJlOGU0OTRjN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YjUzZGRiYjAxZTljNzE0MGY4MjkyNmNhZDk0Njg1ZTkzOGNjODlmYWIwOGJiZThiYjUwZWM0N2ZlMTg1NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg1OTg3NzRiODM0YzgyZDkwNjNkOGQ5YmE1YWFiZjgwYzNiZDM3ZTg2YjA2MTRlZGNiYmViOGU1ZjJiNjk3ZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L51-L59",
+          "version": "repo-lines-v1:sha256:2d6b617588676979c0036cd18d32619fe8aa49c345482765209f9d7798bb6ba9:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlNDQ1N2VhMDRjY2UyMzc1YzU4MDFkY2Q3ZDc1NmNhM2I3NjFjNjY0OWUxZGVkODYyZjZmZDg1ZTFmNWNjZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDY4NGI1YmJjMmY3MjQ0MDg3MTg5ZTIwODg3NjFhNTljMjUxYTZiOGM5MTkzNWZmNWYyYWY4ZmFhNjA1NTk1NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzRmNzhiMmY3MzIwN2I2M2IwNGE3N2YyNjg0Njc0Y2ZhY2RjNzAwMjUyOTQ4MzEyNTdhMjI2MWEyN2ZmMmRlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmIxYWIyZWY3OTA1MWExNDdjYWIwZWFmZWFjZWYwZGM4YTRlODEyMTY4YzcwMGQ0NzdiZjAxMmJhNzIzODZlYyJ9"
+        },
+        {
+          "resource": "repo://mise.toml#L110-L112",
+          "version": "repo-lines-v1:sha256:db1361d1bd2d82df07b71609355a2369f6e611f9844d11363be26181791e07bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA3MGQ5NjNmZDJiZDJjM2YzMTFhNTRhNmYwNWRlMWViZWU2ZDA2ZjFjZjYxNjY3MDgzNzVjNGNkYjU2N2ZkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM2MjZlYzVmZDQ4ZTVkYTVhOGY4YTY2Yzk1ZTRkNGE5NWViMzVkMjlkZGE3ZWIzODg0YTBkNDI1YmMxNmQ2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzBjNzBjN2JiNWJlZGUzZjg3NzhjZTc0OTAxODI5NTcwOGMwMmIyZGRjNjdiNmZiMGM0YmQyMjBkNjRlODZjMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmRhNDM4MGQ3YmM4OTRiNjNlZTJkMDU0ZmUxMmI5ZWM2MGIwYjJmYjZjNzE4MGEwZjNiNmEwOWIzMDZhYWMzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_68a9c534b5d34ed9af8e5f80660414fc",
+      "statement": "The OpenWiki step runs openwiki code --update --print with continue-on-error, allowing publication after an OpenWiki failure, but a final step propagates an OpenWiki failure using exit 1.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L40-L44",
+          "version": "repo-lines-v1:sha256:caa88ae890440bf33da8a7309e438c235f2b17fae0f0f04e61efb5c1e48f1f45:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc2MDg2MDNhNzFkZWY2YTE5ZTY1NDcyNDI0ZmFmNDcwODkzMGFjNGU2NjI2Zjk5YjA2ZTVmOGFkMGRhZTU4OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGY1NTBjOWIzM2NmMzhhZjJjM2JjMWE5NGQ0ZmFhNjE2N2UxMTY5OTYxNjhiYTJiMzcwYTBmNjQxN2RiYjNmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQ5MzIwZGM1NTZjZmEyZWExYTM0MzljYzg0OTZmNmU4MDVhOTg0ZTU2NGFmODQzNzNlMDA2NjI3ZmZhMzVjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDYwZjY2NDIwNzY2NGQ0MDY1YzI3ZmM4YWYxYTQ2NmYyNDQ5OTdlMzc5YmY5MzJlYTE2MGM4YzVlZGFkOTYzNCJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L62-L101",
+          "version": "repo-lines-v1:sha256:cbf690d07007a49615942c90bf909b75c97c7aded2c4e3439c0c4d526bdc2c92:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwZGU2ODlhODdlNDE0ZDk3YWNjYmE4MzUxZTZmOTZkYTgyNzgwYjgwZjJkMzI1YjI4ZjkwNzk5MmZlYTMzZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c0052d8823a045a1a732114e0338765b",
+      "statement": "When not cancelled, maintenance removes transient openwiki/.run.json and selects openwiki, AGENTS.md and .github/workflows/openwiki-update.yml for staging, adding CLAUDE.md only when present to avoid a missing path preventing staging.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L62-L75",
+          "version": "repo-lines-v1:sha256:1de3a7b85ba31d2151edc62e35ce0b5feb589c8ce5948ee086bd6e596acf4070:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5NjdjMzczOGYwNmI5MGQwNjAxNWE0ZDYyNjRkNTIwOTE0ZjhjZDNkMTM0YTA1YTUxNzA4NjZlNGYxMzkzZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwZGU2ODlhODdlNDE0ZDk3YWNjYmE4MzUxZTZmOTZkYTgyNzgwYjgwZjJkMzI1YjI4ZjkwNzk5MmZlYTMzZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkZWVlZWUzZTEyMGQ5ZDEwNGI3NmU1YzcxYTYyMjZlNDVjMDkzNWNiNWM2ZjI1MTIyZTUyNTdmYjFjMzgyNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36d7d349a11a4838b7f6c8e2b1d6f9d6",
+      "statement": "Maintenance attempts an openwiki/update PR with title and commit message docs: update OpenWiki, reports the OpenWiki step outcome in its body, and emits a PR URL notice when one is returned; its failure contract deliberately preserves completed pages for review, and merging those pages advances their baseline for the next scheduled run rather than proving the whole run succeeded.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L76-L101",
+          "version": "repo-lines-v1:sha256:b4b6a28486e5daa0e9d08f7624a5442e0289c9c2ffe4367fed18045a580c20c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4N2QzMWVlYjJhNWI3ODEzYzZiY2Q3ZTdiYzczYWVlZWM5YWYzZDNiMDBhZTBjMjhiNzUyYzc1ZjliYzZmMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-13T15:52:19.245Z"
   }
 }

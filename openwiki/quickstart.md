@@ -5,10 +5,16 @@ description: Safe local setup and task-based routes for the Omni-managed Talos s
 tags: [quickstart, substrate, mise, validation, operations]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-13T15:52:19.245Z
 sources:
+  - id: openwiki-source-164e2da859b5277df81c7d94
+    resource: repo://.github/workflows/ci.yml
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-d3cba2290d494077f7f1ce41
     resource: repo://clusters/README.md
   - id: openwiki-source-b7b85158fefb9a43f4887ead
@@ -27,7 +33,7 @@ sources:
     resource: repo://scripts/disaster-recovery.sh
   - id: openwiki-source-4c56c4085c56a3ab75df5178
     resource: repo://scripts/README.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-13T15:52:19.245Z" }
 ---
 
 # Quickstart and engineering task map
@@ -37,6 +43,14 @@ generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
 Omni-Scale owns the self-hosted **Omni Hub**, **Proxmox infrastructure provider**, machine classes, cluster templates, Talos node requirements, and connectivity constraints through the GitOps handoff. Post-bootstrap platform applications and their operations belong to [mothership-gitops](https://github.com/basher83/mothership-gitops), not this repository.
 
 Start with [substrate architecture and ownership](architecture/substrate.md) for the system model. The Hub manages clusters; the provider provisions Proxmox VMs. Administrative Tailscale access does **not** replace boot-time LAN connectivity: the provider must share the Talos VMs' L2 network, and boot-time DNS must resolve Omni to a reachable LAN address. See [network and identity dependencies](concepts/network-and-identity.md).
+
+## Use context just in time
+
+[AGENTS.md](../AGENTS.md#openwiki) treats the generated `openwiki/` evidence index as **optional just-in-time context**, not required startup reading. Do not enumerate, preload, or search the wiki at task start. Retrieve context when requested, when unfamiliar architecture or dependency behavior materially affects the task, or when source inspection leaves an important uncertainty; stop once the question is grounded.
+
+When available, use `openwiki_search`, then `openwiki_read` for the relevant complete sections. If search returns `workspace_required`, ask which listed workspace to use and retry with its ID; use `openwiki_list_workspaces` or `openwiki_list_wikis` only when workspace membership needs discovery. Without retrieval tools, use this page's task routes below.
+
+**Source code and tests remain authoritative.** Unknowns and review items in a brief are verification gaps, not automatic requirements. The operational skills in [`.agents/skills/`](../.agents/skills/) own procedures: agents execute them and humans approve plans; documentation describes the system. Prefer the narrowest quiet validation that proves the change, and preserve complete failure output.
 
 ## Set up locally, without touching infrastructure
 
@@ -59,6 +73,12 @@ mise run check
 ```
 
 This runs `pre-commit run --all-files`: syntax, shell, selected Markdown, workflow, secret-pattern, Renovate, and template checks. Some hooks can fix local files; review the resulting diff. First-time hook installation may need network access. See [validation and CI](testing/validation.md) for scope and limitations; these checks are not a live infrastructure test.
+
+## Refresh generated documentation separately
+
+After source changes, prefer updating source code/docs and regenerating rather than hand-editing generated pages unless explicitly asked. Follow [OpenWiki maintenance and partial-failure review](testing/validation.md#openwiki-maintenance-is-a-separate-pipeline): the [OpenWiki Update workflow](../.github/workflows/openwiki-update.yml) is configured for daily **08:00 UTC** runs or manual `workflow_dispatch`, attempting to create/update an `openwiki/update` PR. It is separate from ordinary CI and `mise run check`, and is not infrastructure validation.
+
+Inspect the current workflow configuration, completed run outcome, failure output, and proposed diff before relying on an automatic refresh. A PR can preserve completed pages after a generation failure; its existence does **not** prove the update succeeded. The linked maintenance guide covers credentials, tailnet/model-service dependencies, and review of generated instructions and workflow changes.
 
 ## Inspect an existing environment separately
 

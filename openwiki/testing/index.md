@@ -1,3 +1,3 @@
 # Files
 
-- [Local checks, CI and infrastructure verification](validation.md) - The repository's static quality gate, its coverage limits, and safe validation routes for infrastructure changes. Separates offline checks from authenticated inspection, provisioning smoke tests, and destructive recovery.
+- [Local checks, CI and infrastructure verification](validation.md) - The static quality gate, separate OpenWiki refresh pipeline and partial-failure review contract, and safe validation routes for infrastructure changes. Distinguishes offline checks from credentialed documentation updates and live infrastructure verification.
