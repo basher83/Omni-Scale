@@ -45,7 +45,8 @@ jobs:
         run: openwiki code --update --print
         env:
           OPENWIKI_PROVIDER: openai-compatible
-          OPENAI_COMPATIBLE_BASE_URL: http://agents.tailfb3ea.ts.net/v1
+          OPENAI_COMPATIBLE_BASE_URL: "http://agents.tailfb3ea.ts.net/v1"
+          OPENAI_COMPATIBLE_API_KEY: "-"
           # OpenAI API via Aperture
           OPENWIKI_MODEL_ID: "gpt-6.1-sol"
           # Required for the LangSmith connector's code-mode pull to authenticate.
