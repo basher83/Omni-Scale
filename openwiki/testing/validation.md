@@ -1,18 +1,22 @@
 ---
 type: operational-guide
 title: Local checks, CI and infrastructure verification
-description: The repository's static quality gate, its coverage limits, and safe validation routes for infrastructure changes. Separates offline checks from authenticated inspection, provisioning smoke tests, and destructive recovery.
-tags: [testing, validation, infrastructure, ci, safety]
+description: The static quality gate, separate OpenWiki refresh pipeline and partial-failure review contract, and safe validation routes for infrastructure changes. Distinguishes offline checks from credentialed documentation updates and live infrastructure verification.
+tags: [testing, validation, infrastructure, ci, safety, openwiki]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-13T15:52:19.245Z
 sources:
   - id: openwiki-source-ad017f103f82227c6212df2f
     resource: repo://.agents/skills/omni-talos/scripts/provider-ctl.py
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-5e30a0f9a41a9ce834d07e62
     resource: repo://clusters/test/test-cluster.yaml
   - id: openwiki-source-04ee1d50038764a2f7f17a47
@@ -29,7 +33,7 @@ sources:
     resource: repo://scripts/disaster-recovery.sh
   - id: openwiki-source-d8ed296e7d79fda12b730d4e
     resource: repo://scripts/proxmox-vm-optimize.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-13T15:52:19.245Z" }
 ---
 
 # Local checks, CI and infrastructure verification
@@ -78,6 +82,46 @@ With tools already installed, individual parser/linter invocations can inspect s
 | General hygiene | Whitespace/EOF fixes, large added files, executable/shebang consistency, private keys, AWS credentials (`--allow-missing-credentials`), JSON, merge conflicts, and symlinks. | Not a comprehensive security audit or runtime test. |
 
 The hook configuration is the authoritative filter list; the mise tool versions and hook revisions are independently pinned. [Hooks](../../.pre-commit-config.yaml), [mise](../../mise.toml)
+
+## OpenWiki maintenance is a separate pipeline
+
+[OpenWiki Update](../../.github/workflows/openwiki-update.yml) runs by manual `workflow_dispatch` or daily at **08:00 UTC** (`0 8 * * *`). Unlike read-only CI, it requests `contents: write`, `pull-requests: write`, and `id-token: write`. It regenerates documentation and proposes repository changes; it is neither an infrastructure check nor part of `mise run check`. Actionlint checks its workflow source, not its network access, model service, credentials, generated content, or ability to open a PR.
+
+[AGENTS.md](../../AGENTS.md#openwiki) makes source code and tests authoritative and the generated `openwiki/` evidence index optional just-in-time context. Prefer updating source code/docs and regenerating; do not hand-edit generated pages unless explicitly asked. Use the narrowest quiet validation that proves a change and preserve complete failure output. Before relying on automatic refresh, inspect the current workflow configuration, completed run outcome, and generated diff—not just the schedule or PR's existence.
+
+### Runtime dependencies and configuration
+
+The workflow checks out **full history** (`fetch-depth: 0`) so incremental updates can compare `HEAD` with the commit last documented; its comment warns that a shallow checkout hides that commit and produces an empty change summary. It sets up **Node 22** and installs pinned `openwiki@0.9.0`, plus `mermaid@11.16.0` and `jsdom@29.1.1` for optional high-fidelity diagram validation.
+
+The runner joins the tailnet using `tailscale/github-action@v4`, the OAuth client ID and audience from `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE`, and `tag:ci`, with `ping: agents`. Model access then uses the OpenAI-compatible endpoint `http://agents.tailfb3ea.ts.net/v1`, the Responses API switch, model `gpt-6.1-sol`, and page concurrency **four**. These tailnet and model-service dependencies must work for the networked refresh; static workflow validation does not exercise them.
+
+Use the workflow's [Run OpenWiki environment configuration](../../.github/workflows/openwiki-update.yml#L45-L60) rather than copying its full environment block. `OPENWIKI_LANGSMITH_API_KEY` is required for the LangSmith connector's code-mode pull; extra workspaces can use numbered keys as described there. This is distinct from `LANGSMITH_API_KEY` and the tracing settings, which optionally trace the maintenance run itself. Optional tracing is not a prerequisite for the local gate or infrastructure validation.
+
+### Success, partial failure, and review
+
+The execution and publication contract is explicit in the [workflow steps](../../.github/workflows/openwiki-update.yml#L40-L101):
+
+1. Run `openwiki code --update --print` with `continue-on-error: true`. An OpenWiki failure does not immediately prevent the publication steps.
+2. When not cancelled, remove transient `openwiki/.run.json`, then build the staged path list: `openwiki`, `AGENTS.md`, and `.github/workflows/openwiki-update.yml`, plus `CLAUDE.md` **only if it exists**. The conditional avoids a missing path causing `git add` to stage nothing.
+3. When not cancelled, attempt to create/update the `openwiki/update` pull request with commit message and title `docs: update OpenWiki`. Its body reports `steps.openwiki.outcome`; if the PR action returns a URL, a notice links to it.
+4. Finally, if the OpenWiki step's outcome is `failure`, propagate it with `exit 1`. `continue-on-error` preserves publication opportunities; it does not declare the overall run successful. Other step failures can also fail the job.
+
+```mermaid
+flowchart TD
+    A["openwiki code --update --print"] --> B{"OpenWiki outcome"}
+    B -->|success| C["Continue publication"]
+    B -->|failure| D["Continue despite OpenWiki error"]
+    C --> E["If not cancelled: remove .run.json and list paths"]
+    D --> E
+    E --> F["Attempt openwiki/update PR with outcome in body"]
+    F --> G["If URL returned: emit PR notice"]
+    G --> H{"OpenWiki failed?"}
+    H -->|yes| I["Propagate failure with exit 1"]
+    H -->|no| J["No forced OpenWiki failure"]
+```
+The workflow preserves a publication opportunity after OpenWiki failure, then propagates that failure; the diagram is not evidence of a completed run.
+
+A failed run can deliberately preserve pages completed before failure in a PR. The PR body instructs reviewers that merging those pages makes their progress the baseline for the next scheduled run. Review the reported outcome, full failure output, and actual diff before deciding to merge: completed pages may be useful progress, but neither partial completion nor PR existence proves the whole refresh succeeded. Inspect generated pages and any changes to `AGENTS.md`, optional `CLAUDE.md`, and the workflow itself; treat those instructions/configuration changes as reviewable output, not incidental documentation churn.
 
 ## Choose the right verification level
 
