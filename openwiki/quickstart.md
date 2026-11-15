@@ -5,10 +5,14 @@ description: Safe local setup and task-based routes for the Omni-managed Talos s
 tags: [quickstart, substrate, mise, validation, operations]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-15T15:15:11.935Z
 sources:
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-d3cba2290d494077f7f1ce41
     resource: repo://clusters/README.md
   - id: openwiki-source-b7b85158fefb9a43f4887ead
@@ -27,7 +31,7 @@ sources:
     resource: repo://scripts/disaster-recovery.sh
   - id: openwiki-source-4c56c4085c56a3ab75df5178
     resource: repo://scripts/README.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-15T15:15:11.935Z" }
 ---
 
 # Quickstart and engineering task map
@@ -37,6 +41,12 @@ generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
 Omni-Scale owns the self-hosted **Omni Hub**, **Proxmox infrastructure provider**, machine classes, cluster templates, Talos node requirements, and connectivity constraints through the GitOps handoff. Post-bootstrap platform applications and their operations belong to [mothership-gitops](https://github.com/basher83/mothership-gitops), not this repository.
 
 Start with [substrate architecture and ownership](architecture/substrate.md) for the system model. The Hub manages clusters; the provider provisions Proxmox VMs. Administrative Tailscale access does **not** replace boot-time LAN connectivity: the provider must share the Talos VMs' L2 network, and boot-time DNS must resolve Omni to a reachable LAN address. See [network and identity dependencies](concepts/network-and-identity.md).
+
+## Use the wiki just in time
+
+The generated `openwiki/` index is **optional context**, not required startup reading. Retrieve it when requested, when unfamiliar architecture or dependencies materially affect a task, or when source inspection leaves an important uncertainty; stop once the question is grounded. With retrieval tools available, use `openwiki_search`, then `openwiki_read` for relevant complete sections. If search returns `workspace_required`, ask which listed workspace to use and retry with its ID. Without those tools, follow this page's task routes.
+
+**Source and tests remain authoritative.** Normally update source/docs, then use the configured regeneration process rather than hand-editing generated pages unless explicitly asked. Check configuration and completed runs before relying on automation. The configured workflow runs daily or manually and proposes an update PR, including completed pages from a partially failed run; it is separate from local checks and infrastructure verification. See [generated-wiki maintenance](testing/validation.md#generated-wiki-maintenance-a-separate-pr-lifecycle).
 
 ## Set up locally, without touching infrastructure
 
@@ -79,6 +89,7 @@ These inspect local contexts or remote state rather than apply changes. Confirm 
 
 | Task | Source entrypoint | Wiki route |
 |---|---|---|
+| Refresh generated documentation after source/docs changes | [AGENTS.md](../AGENTS.md#openwiki), [OpenWiki workflow](../.github/workflows/openwiki-update.yml) | [Generated-wiki maintenance and PR review](testing/validation.md#generated-wiki-maintenance-a-separate-pr-lifecycle) |
 | Understand or change the Hub stack | [omni/compose.yml](../omni/compose.yml), [environment example](../omni/omni.env.example) | [Architecture](architecture/substrate.md); [Hub upgrades and persistent state](operations/hub-lifecycle.md) |
 | Diagnose or change VM provisioning | [proxmox-provider/compose.yml](../proxmox-provider/compose.yml), [provider config example](../proxmox-provider/config.yaml.example) | [Troubleshooting and provider operations](operations/troubleshooting.md) |
 | Change VM sizing, storage selection, or worker placement | [machine-classes/README.md](../machine-classes/README.md) | [Machine classes and safe cluster changes](workflows/cluster-changes.md) |
