@@ -28,6 +28,8 @@ jobs:
           cache: true
           cache_save: ${{ github.event_name != 'pull_request' }}
           install_args: >-
+            uv
+            python
             pre-commit
             shellcheck
             shfmt
