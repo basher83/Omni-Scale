@@ -5,14 +5,18 @@ description: The repository's static quality gate, its coverage limits, and safe
 tags: [testing, validation, infrastructure, ci, safety]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-15T15:15:11.935Z
 sources:
   - id: openwiki-source-ad017f103f82227c6212df2f
     resource: repo://.agents/skills/omni-talos/scripts/provider-ctl.py
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-5e30a0f9a41a9ce834d07e62
     resource: repo://clusters/test/test-cluster.yaml
   - id: openwiki-source-04ee1d50038764a2f7f17a47
@@ -29,7 +33,7 @@ sources:
     resource: repo://scripts/disaster-recovery.sh
   - id: openwiki-source-d8ed296e7d79fda12b730d4e
     resource: repo://scripts/proxmox-vm-optimize.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-15T15:15:11.935Z" }
 ---
 
 # Local checks, CI and infrastructure verification
@@ -78,6 +82,38 @@ With tools already installed, individual parser/linter invocations can inspect s
 | General hygiene | Whitespace/EOF fixes, large added files, executable/shebang consistency, private keys, AWS credentials (`--allow-missing-credentials`), JSON, merge conflicts, and symlinks. | Not a comprehensive security audit or runtime test. |
 
 The hook configuration is the authoritative filter list; the mise tool versions and hook revisions are independently pinned. [Hooks](../../.pre-commit-config.yaml), [mise](../../mise.toml)
+
+## Generated-wiki maintenance: a separate PR lifecycle
+
+[OpenWiki Update](../../.github/workflows/openwiki-update.yml) is configured for manual `workflow_dispatch` and a daily **08:00 UTC** schedule. It regenerates documentation and proposes a PR; it does **not** deploy infrastructure or replace the static CI gate. The inspected workflow alone establishes no successful completed GitHub Actions run. Check actual workflow outcomes, logs, and the generated PR before relying on automatic refresh.
+
+### Configuration and access
+
+The workflow checks out full history (`fetch-depth: 0`) so `openwiki code --update` can compare HEAD with the commit last documented; a shallow checkout can hide that baseline and leave an empty change summary. It connects to the tailnet with `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE` secrets, `tag:ci`, and a ping to `agents`, providing access to the configured OpenAI-compatible endpoint. It installs Node **22** and pins `openwiki@0.9.0`, `mermaid@11.16.0`, and `jsdom@29.1.1`; the latter two support diagram validation.
+
+The run selects `OPENWIKI_PROVIDER=openai-compatible`, the endpoint via `OPENAI_COMPATIBLE_BASE_URL`, Responses API via `OPENWIKI_OPENAI_COMPATIBLE_USE_RESPONSES_API=true`, model via `OPENWIKI_MODEL_ID`, and **page concurrency 4** via `OPENWIKI_PAGE_CONCURRENCY`. Authentication configuration uses `OPENAI_COMPATIBLE_API_KEY`; the LangSmith connector uses the `OPENWIKI_LANGSMITH_API_KEY` secret. Optional run tracing uses the `LANGSMITH_API_KEY` secret with `LANGCHAIN_PROJECT` and `LANGCHAIN_TRACING_V2`. Consult the workflow for authoritative settings rather than copying credentials into docs or logs. Its permissions are `contents: write`, `pull-requests: write`, and `id-token: write`.
+
+### Partial progress is intentional
+
+`openwiki code --update --print` runs with `continue-on-error: true`: a generator failure is recorded in `steps.openwiki.outcome` without immediately preventing progress collection. Unless cancelled, subsequent steps remove transient `openwiki/.run.json` and explicitly select only `openwiki`, `AGENTS.md`, `.github/workflows/openwiki-update.yml`, and **`CLAUDE.md` only when present** for staging. The existence check avoids a missing path causing `git add` to stage nothing.
+
+The PR action uses branch `openwiki/update`, with commit message and title `docs: update OpenWiki`. Its body reports the generator outcome and explains that, on failure, the PR intentionally preserves pages completed before the failure. Review and merge useful completed progress to establish the next run's baseline; a failed run does not mean all output is discarded. PR creation still depends on the action succeeding and having changes to propose. A notice links the PR when its URL is available. Finally, `Propagate OpenWiki failure` executes `exit 1` when the generator outcome is `failure`, so preserving a PR does not turn that failure into success.
+
+```mermaid
+flowchart TD
+    Run["openwiki code --update --print"] --> Outcome{"Generator outcome"}
+    Outcome -->|Success| Collect["Unless cancelled: remove transient state and select paths"]
+    Outcome -->|Failure tolerated| Collect
+    Collect --> PR["Attempt PR on openwiki/update with completed pages"]
+    PR --> Notice["Annotate when PR URL exists"]
+    Notice --> Failed{"Generator failed?"}
+    Failed -->|Yes| Fail["Propagate failure with exit 1"]
+    Failed -->|No| Normal["No generator failure to propagate"]
+    PR -.-> Review["Review and merge completed progress as next baseline"]
+```
+The configured progress-preservation path runs before generator failure is propagated; cancellation or PR-action errors can prevent a usable PR.
+
+Follow [AGENTS.md](../../AGENTS.md): inspect source and tests first, retrieve wiki context just in time only when needed, and use the narrowest quiet validation that proves the change while preserving complete failure output. Normally update source/docs and regenerate rather than hand-edit generated pages unless explicitly asked. For maintenance changes, inspect this workflow and its completed runs; use actionlint for workflow syntax, not as proof of endpoint access, successful generation, or PR creation.
 
 ## Choose the right verification level
 

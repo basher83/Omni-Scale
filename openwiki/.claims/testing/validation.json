@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5b6b5406c9229d03be99be2c0803ecd7245f463d8c8a9459255aec2f1693fbc5",
+  "pageVersion": "sha256:09b7ef8a5b6ca87086fe9c7823e7e26e2b2e3eb2e8c76ae78ea78388100326f8",
   "claims": [
     {
       "id": "claim_f68d4516f6e74dc38471ee64e9711df0",
@@ -171,10 +171,104 @@
           "version": "repo-file-v1:sha256:bc5c32662df4cc3fca60a0c8990e3b0da1e9692e62524525f777449a9935a0e6"
         }
       ]
+    },
+    {
+      "id": "claim_d38bb73d46b74f6a94a639253b46a7a3",
+      "statement": "OpenWiki Update is configured for manual dispatch and a daily 08:00 UTC schedule, regenerating documentation through a PR rather than deploying infrastructure; its configuration alone does not establish a successful completed Actions run.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml",
+          "version": "repo-file-v1:sha256:4a333638a17c8dfabaf2dad07c297da7467c598dd0c03ab7cb9750887a6e4cfe"
+        }
+      ]
+    },
+    {
+      "id": "claim_a66287efd11049df960afe8c378a9bd6",
+      "statement": "OpenWiki Update checks out full Git history so update mode can compare HEAD against the last documented commit rather than lose the baseline in a shallow checkout.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L17-L23",
+          "version": "repo-lines-v1:sha256:5f513af748b362994b00e41cc2ab8ac7880f4f9a4ac3fb63f49be6f3f2680e8b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVkNmNmN2Q0MjhjYTgxMTVmYzRiYWJiNjgwNzM5MDIzMzI3YTdhOWQ5MTYzZjcwNmEyNzY4N2RkNTE2ZjM5OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMwOTc1YzdlMjBlYmE4ODU3ZWZkMzFlNjJiNjY1Zjc4N2U1MTY0MTk1MWE2NjA3ODlmYmE5MzNhNjM0NzIxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWM1YTg5Mjc3MGFlNGY1MzMzZmQ3YzllMTJlMGE2YmM0NWIyNmI1YmI3NzUzZTAzOWRmOGVkNDljOTdiOTYwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDI0MTAxNDVjNGQ3YjI0NDhiM2MwMzI2OWUzNmE4Y2Y3MGVlNzRlN2JhMmRhYjU3ZTc1NWE0M2YyN2IxNzgzNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1af2a626869b4a5b82af35f606257d6f",
+      "statement": "The update runner connects to the tailnet using TS_OAUTH_CLIENT_ID and TS_AUDIENCE secrets with tag:ci and an agents ping, then installs Node 22 and pinned openwiki 0.9.0, mermaid 11.16.0 and jsdom 29.1.1 tooling for generation and diagram validation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L25-L40",
+          "version": "repo-lines-v1:sha256:fb0741d945b5fbaadb2d49eba8148605d7bbd7786a48b03791ec6aec16880b4a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxZDQ3ODQ2ZjhmZWVjM2FmYTE5MDdlNWNhNzk4NzNlNTViYjM2YjQxZDZiM2I1OWU1M2QxYjVlZDljMWE4ODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3NjA4NjAzYTcxZGVmNmExOWU2NTQ3MjQyNGZhZjQ3MDg5MzBhYzRlNjYyNmY5OWIwNmU1ZjhhZDBkYWU1ODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MDkxODI2YjRhMzg1NzFmZWNmNjkxMTZjMDgwYzc2ZWVjNDc2ODQyMmRiM2ZiZWRlYjJiZTJkYmU2MGJlOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzNzY5ZDI5MmFhYTAwYzJkM2QwMjcwZGZjOTIyMzg2YTBkZTRkYTM4YzkwNzAwNTU4ZWIyMzJiOGRiMmI3YjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c8db562bef2848ddb12ab1917e804f88",
+      "statement": "Generation selects the openai-compatible provider, configured base URL and model, Responses API, and page concurrency 4; its environment includes OPENAI_COMPATIBLE_API_KEY, the OPENWIKI_LANGSMITH_API_KEY connector secret and optional tracing via LANGSMITH_API_KEY, LANGCHAIN_PROJECT and LANGCHAIN_TRACING_V2.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L42-L62",
+          "version": "repo-lines-v1:sha256:efa50281c1c2c362ab2b4ae9f9dfd44c761448daf0b5a24e88654826cd28ae87:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwZThmOWZhNDBlN2JkMDQ5OWQxYzBkODNmZDc1OGFhODViMzA4NDJkYmQ2MWYwZWE2YjdhZTEwZWZlYzc2ZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzZjcwNDU0YzNjYmI1YTI1MTdiZWFjMDZmZmU5OWZhYmQzNTc4ZTBjNjJjYzBjMGUxZjUxOWQ1YzdhMTE4NzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhODM5MDY3ZjQ3YmViMWNhMDhjNzEwYjcxZTU5OGIwNDAyY2MxZmQxODRmYmFmZmIwNjQxYmU5MjVlZjhhN2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef92d914f26f4130a2b51880a47eb334",
+      "statement": "OpenWiki Update grants contents, pull-requests and id-token write permissions to support its automated update workflow.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L8-L11",
+          "version": "repo-lines-v1:sha256:08161e7e8a4388197d7e034bcac3c69bc3ad683513a58997d326f87ba01f4f0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzUyNjI0N2VkZTAwNmU5YmRhYjljNjg1MDcyODQyNWQxYjQxNjZjYWY1Y2FjNTBjZjA5NTVjNDRkMjRjMWE4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzFkNmRjNzMwNWM2YTJkZDllNzNjOWY1NWY0NmUzMDllMTI4NTIwZDdiMDgzNGEzZTliZDQxNDBlZjBlNTg5NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjg4ZGMwMjcwODY5OTQyYjg1ZTUyOTViYmE0NGM3YjI0MWZiYTcxN2RmNGRkZjcyMmU1ODNjZTZjNDEwZjIwZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2JhNWFmZmQ4MjMxYzBlODFiYmNkNDIxNTRhMWNjOTBlODZlZmY2NjM1NWMwNDhjZTU1YjMyMzdiZGFjM2ExZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_054813f2f8514364b33a2c273cb9498f",
+      "statement": "The generator command openwiki code --update --print uses continue-on-error so completed output can be collected after generator failure; non-cancelled follow-up steps remove openwiki/.run.json and limit staging to openwiki, AGENTS.md, the update workflow, and CLAUDE.md only when present to avoid a missing-path git add failure.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L42-L46",
+          "version": "repo-lines-v1:sha256:4611fa9324ac6d896ea4d1f30513e7b4c2a6f1e4458b0201d8b9ab533aafbeb6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBlOGY5ZmE0MGU3YmQwNDk5ZDFjMGQ4M2ZkNzU4YWE4NWIzMDg0MmRiZDYxZjBlYTZiN2FlMTBlZmVjNzZkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2IwNzg0OGE0MzY2NjU2YjJiYTYxOTdiZTAyYjkyMDgxNDU0NmY5ZDlhZDBiNTMzOWU0YzI2YTJjOTQ2NTExNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjNmNzA0NTRjM2NiYjVhMjUxN2JlYWMwNmZmZTk5ZmFiZDM1NzhlMGM2MmNjMGMwZTFmNTE5ZDVjN2ExMTg3MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjk0YmUxNTM1YzFiMzk1YzljNDcwMWVhZWI5ODY0OWNkMmY4MjI3MmVjMjg5NzFjZTljZWU3MDE4NGQzNGFmMSJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L64-L86",
+          "version": "repo-lines-v1:sha256:28e0434ee20caa45c34f3fe8ef99d8dcbdfbf91c4d0960dac2481688d2f698ac:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwNzI0MGVhOGNkYTIyODAyZDBmNmRhZGU2ZjYxMTU0YWMzMGY2N2VjZWRhZDI5ZWViMGQ1OTg1MGQ1OGFiMDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1OTQxNTViZGFlYjgwMGFlMTczNGFjMDVkZGE2MTQyYTI0MGEwNGYxZWQ5MTNjMmU2ZTk5YzBiMTRmYzlmZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhM2E1N2FkOGFhYTkxNDgxMjg1MWRhZTMxOWEzNjU3Y2RkMTQ4ZTY4ZTYzZjQ2ZTk4YmNjNmIxN2I4ZWFkNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjZDlmMjJkNDYyMmZiMTMyMTkwZWUwNTJlNjRiYzgwMjE4ZDkxMzZlZmFlODI1ZDVjZjYxYzI3MWYxMDk1ZjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1e3f92aa5d1146648eb540fd599102bf",
+      "statement": "The update PR uses branch openwiki/update and title and commit message docs: update OpenWiki, reports the generator outcome, and intentionally preserves completed pages after partial failure so merging that progress establishes the next run's baseline; an available PR URL is emitted as a notice.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L77-L97",
+          "version": "repo-lines-v1:sha256:4e19c91fe00b7b0a0a3f068c4a74b6f0d5b7eccb70d7258f4ef02dc707a245b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxY2ZmNGFkMzNiYTkxYjE0OGUxYjFiODI5MGI4ZmZmMjdiMjAzZmFiZmVlNTg3MDI4MmRlMzY3MzgzYjFiZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2OTZiMWE3ZDI4MzMxMDgwNWIyZWIwMzViN2M0OWQ5ZWZmNDc3ODIxZjhlOTZhNjgwZTVlYmMzZWNkM2I0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiZTFhZGFkYTE3YWUyZjRmM2Q4ZDQ3OTdkYjM2ZDUyNjc1OGJmNDlhOGM0YTc0OTg5ODY0YTQzY2NiMThlMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YTQ1ZDcyMzdkYmQ0NjVkYzc2Mjc0NTVmMzg1OWVhNjRmNzEwMjY1NDNkZDE3YmY2Nzc3ODkxOTQyZDVjYzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bcc6094c112b4c38a9b1b9b69b593a22",
+      "statement": "After attempting to preserve progress in a PR, the workflow explicitly propagates a failed generator outcome through exit 1 rather than treating progress preservation as generator success.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L77-L101",
+          "version": "repo-lines-v1:sha256:415f687a286df9440c7cc95580eed202fee332c77e23458ae32fe3c88373a016:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxY2ZmNGFkMzNiYTkxYjE0OGUxYjFiODI5MGI4ZmZmMjdiMjAzZmFiZmVlNTg3MDI4MmRlMzY3MzgzYjFiZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiZTFhZGFkYTE3YWUyZjRmM2Q4ZDQ3OTdkYjM2ZDUyNjc1OGJmNDlhOGM0YTc0OTg5ODY0YTQzY2NiMThlMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7eb009c4dbd346c7afc8971da381d4d1",
+      "statement": "AGENTS.md directs source-first inspection, just-in-time optional wiki retrieval, narrow quiet validation with complete failure output preserved, and normal regeneration rather than manual generated-page edits unless explicitly requested; automatic updates should be trusted only after checking configuration and completed runs.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L76-L96",
+          "version": "repo-lines-v1:sha256:3044b50c82f2dd7a869c7ab574e155f594e900e755f9eff751ea582ca4476a2d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZmY4MDhlYmQ5YTBhZGYxN2Y3M2IxMzM1ODk4MzZiOTE1Y2FlM2I5ZWM4OTIwMTNhYzI3Mzc0NDlmMzA3MDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjYWQ0ZjI1MjNjNjljM2ZhN2M5ZGQzNTM0YWFiOTBiNDYwM2UxMzI4ZmJkOTVhNWQzODIxZWIzYWY4YjBiZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwODlkZjkzZjhiYTU3YTRkZGJmZDhmMDEzOTYyYzM5NzhjZTRkYjY4MTk5YzRkYTY2NjY0OWIwOTk2Y2VkYTkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-15T15:15:11.935Z"
   }
 }
