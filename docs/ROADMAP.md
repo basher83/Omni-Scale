@@ -32,7 +32,7 @@ configuration.
 | Cilium MTU durability | Keep the Omni/Talos `siderolink` MTU requirement explicit here and in `../mothership-gitops/README.md` bootstrap commands |
 | Pod-MTU regression signal | Define the substrate invariant: pod `eth0` MTU should be 1450. Implementation may live in `../mothership-gitops` if it becomes a monitored workload. |
 | Provider lifecycle | Track whether the local `:local-fix` provider image can be replaced by an upstream release |
-| Recovery drill | Keep disaster recovery solo-executable through cluster recreation and GitOps bootstrap handoff |
+| Recovery drill | Keep disaster recovery executable by one person, end to end, through cluster recreation and GitOps bootstrap handoff |
 
 ---
 
@@ -50,7 +50,7 @@ configuration.
 
 - ControlPlane node pinning not possible (Omni template limitation)
 - Provider requires local patched build (hostname bug)
-- Single admin — recovery must be solo-executable
+- Recovery procedures must be executable by one person, end to end
 
 ---
 
