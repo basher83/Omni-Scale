@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:38f97d45618f71573b0d883824eebf3ee3ebcedc264b9dd251a61daf553312d3",
+  "pageVersion": "sha256:1d01ed8fc631b27dc55b0c1d104bf9924dccb018388f8a32edb627c60174e700",
   "claims": [
     {
       "id": "claim_fa36088d0b6d49569ad6b4aeb370689d",
@@ -36,11 +36,11 @@
     },
     {
       "id": "claim_6b88cc06303043068d1886fcf6f1f5c4",
-      "statement": "Cilium is currently installed imperatively through CLI/Helm rather than managed by an ArgoCD Application; the guide treats GitOps management as roadmap work, while the current roadmap focuses on MTU durability and a future pod-MTU regression signal.",
+      "statement": "Cilium is documented as imperatively installed through CLI/Helm with no managing ArgoCD Application. The Cilium guide's assertion that GitOps management is tracked in the roadmap is stale: the current roadmap tracks MTU durability and a future pod-MTU regression signal, not a concrete Cilium-to-GitOps migration plan.",
       "evidence": [
         {
-          "resource": "repo://docs/ROADMAP.md#L27-L35",
-          "version": "repo-lines-v1:sha256:77a24fcfd9a62d265f60bc46bc375b517dab2b22529dc1fe50b03ccc9601d4ef:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTllYmUxZGY1NjRhOWQ5NjQxMGMxNmU5MzdkMzVjZTNlNzcyYjZkMzdjYTcxN2I2MGVjY2FiN2QzNmRkMzE4ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc1YmE0ZjVhN2IyOTU3MTNlMDFkMmIwOGE2NTQ1YmJmYzMwYThlMzFkYjJmMTRhNGNmZWI1M2QyMzhiYmUzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSJ9"
+          "resource": "repo://docs/ROADMAP.md#L17-L35",
+          "version": "repo-lines-v1:sha256:7f7b659a5f8e1e833559f737c81459a1b092a35ed3671133df42bc1ee7054f4a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3YmEwMTc4MzA5MDQyMjI0MzlkMTdhYWI2NWNkNGFkMzRkNjdkYzQ2NjZjZDY1OTkwNmJjZGJjMDNiNzNjMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkMjg3Zjk2ZWEyZWYwOWIyMjUzNjFkMzE5MmM5OTVhNmE1NjBhMzYyMjM2ZTBlZjE1MjVhZTM4YzFlYmY2MjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
         },
         {
           "resource": "repo://docs/guides/CILIUM.md#L64-L78",
@@ -219,10 +219,32 @@
           "version": "repo-lines-v1:sha256:d01822d72053bd1cd319b5410d593b717d348d5f564f28bc983b404d39eeb7bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmODRiNTIyMzQxNTlhYjY4MjI2NWQ1NDMyN2YzZmFjZTY0MTc1YmY5MjI2YjI3ZTllYTZlZTk2ZjgzMzFiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZWZmMjg0YTA0NzgyNjBiOWY3NmY5YjNmNjlmYzlhOWVkMTUwMzJmNDBkZjM5OTE2MTI2ZWE2ZDI2NmI4M2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyODI0NDU2MjY0NGE0YTAwOTY3YjUwYTM2ZTY5YWQ0N2M3NWI5YzcwMTQzYzNjMjQxMjkyZmMwNzNjMWRlZTIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_896f0c07debf4200af7ad1a27e867bb7",
+      "statement": "The roadmap requires recovery executable by one person end to end through cluster recreation and GitOps bootstrap handoff; this is a design constraint, not evidence of a completed drill or unattended recovery, and the current script still requires operator prompts and lacks Cilium installation before its node-Ready gate.",
+      "evidence": [
+        {
+          "resource": "repo://docs/ROADMAP.md#L28-L35",
+          "version": "repo-lines-v1:sha256:7472d229d5502e206d87932a917743035e1993c0c98e4b7d32cbcdd199a0c5a9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTRiOTdmZjNiNjUyZDg2M2ZmY2NkYjlkM2UxYmRkODU4YTQ5ZjU1ODhlM2VjOGNlMzAwNjkyMWUzNWY0NTMwZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGQyODdmOTZlYTJlZjA5YjIyNTM2MWQzMTkyYzk5NWE2YTU2MGEzNjIyMzZlMGVmMTUyNWFlMzhjMWViZjYyMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSJ9"
+        },
+        {
+          "resource": "repo://docs/ROADMAP.md#L48-L52",
+          "version": "repo-lines-v1:sha256:51ef29b711ca44fa94ef3ccf7c3f2fdb1c5981e145a4588b9be67654d11501d0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2NlYmEwMzgxZWFhZTFmYWNkNTk3YzM3MGI2YzQ2YWIzNDZkOTc2ZTcxZGE0ZTMzMDExMThjZDQ0ZTM0N2FiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2RiNmI5ZTg2ZmVjMDk1M2NkNWM0MWVkMzY5MjNlNGQyNDE1MTQ3YmE1YzVmZDYzZmYxOTEzNmQxMDc2MTJiYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTc4NzAyMTExY2FlNDU0MjQyZGZiZDhmZDUxOWNhZDVmODg1MWExOTg2NmQ3MmQ0ODRkNzc0ZDNmZGQwMWM4NiJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L208-L261",
+          "version": "repo-lines-v1:sha256:29c236fd3d11831314063ce0155940a39641d8aee58034333922e736073fac5f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1YjQ1ZGQ0ODk3M2U3ODIxYWYwMDY4MzJiOTk2YTcwOTk1ZDNhZGIyYzg1Yzk3YjQ5NjY0NmRmY2Q5Zjc0MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzk2MTUwYjc5NDYwNWU2NmZkOTAwMzAyZDNjMjY3M2M4ZmM0ZWMxM2U4NWE1NjRiNmNkZDExNDUzMjNhM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjNjhhNjZjMjgxODZkMTlkYjg2ODhhZDhiYTUxODAyNTZiMWQ4NTgzMmIxNDY0NzQ2MzlmOGNjOTY1MDlmMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkOWMwNTJhZTdjZjY0NzcyOTFjNDIxNDc4YzM5Y2I2YWJlNjZkNjI5NDU4OTI5MDY4ODQ0NGU3NGNkZTMwYTEifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L301-L342",
+          "version": "repo-lines-v1:sha256:464805c752597e3a090d351edfbb3203f01b1777672f1e9b0f1d3aa893d59ffd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwMjIyZTU4MzZlZmJjOTg5NDM4MmM4YjFmNmE5MzY3NDhiYWVmZmIyNjMxNGJjYmE1YWRmZDE1NmJkY2E1NTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhMGI0MDA0M2FjZDg4NWM4YmZhZDJiMWFjZWRlYmQ4MDY0MDZmYjIwZDIzOGU0Y2Q2ZmMyMTk4ZTNkOTk3YTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-22T17:03:02.055Z"
   }
 }

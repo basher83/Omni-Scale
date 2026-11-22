@@ -5,14 +5,20 @@ description: The repository's static quality gate, its coverage limits, and safe
 tags: [testing, validation, infrastructure, ci, safety]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-22T17:03:02.055Z
 sources:
   - id: openwiki-source-ad017f103f82227c6212df2f
     resource: repo://.agents/skills/omni-talos/scripts/provider-ctl.py
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
+  - id: openwiki-source-7c354146222295632e28c540
+    resource: repo://.rumdl.toml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-5e30a0f9a41a9ce834d07e62
     resource: repo://clusters/test/test-cluster.yaml
   - id: openwiki-source-04ee1d50038764a2f7f17a47
@@ -29,7 +35,7 @@ sources:
     resource: repo://scripts/disaster-recovery.sh
   - id: openwiki-source-d8ed296e7d79fda12b730d4e
     resource: repo://scripts/proxmox-vm-optimize.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T17:03:02.055Z" }
 ---
 
 # Local checks, CI and infrastructure verification
@@ -39,6 +45,24 @@ generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
 The inspected quality gate is **static validation, not an end-to-end infrastructure or disaster-recovery test suite**. `mise run check` runs `pre-commit run --all-files`; CI invokes the same task. It does not deploy Compose services, provision VMs, exercise cluster bootstrap, or run recovery. Offline template success cannot establish DNS resolution, credentials or permissions, provider/version compatibility, resource availability, or bootstrap readiness. Those require separate, explicitly authorized operational verification.
 
 CI runs on pull requests and pushes to `main`, with read-only repository contents permission, an Ubuntu runner, a ten-minute job timeout, and cancellation of earlier runs in the same workflow/ref group. It checks out the repository, installs quality-gate tools through mise, then runs the gate. There is no deployment or recovery step in this workflow. See [CI](../../.github/workflows/ci.yml), [tasks](../../mise.toml), and [hooks](../../.pre-commit-config.yaml).
+
+### Clean-runner tool setup
+
+CI's mise-action explicitly installs the following tools, in this order:
+
+```yaml
+install_args: >-
+  uv
+  python
+  pre-commit
+  shellcheck
+  shfmt
+  pipx:rumdl
+  actionlint
+  omnictl
+```
+
+The versions come from `mise.toml`: uv `0.11.29`, Python `3.14.6`, pre-commit `4.6.0`, ShellCheck `0.11.0`, shfmt `3.13.1`, `pipx:rumdl` `0.2.37`, actionlint `1.7.12`, and omnictl `1.9.3`. Keep **uv and Python explicit before `pipx:rumdl`** when reviewing clean-runner installation dependencies; this is quality-tool installation setup, not a new runtime dependency of Omni or the Proxmox substrate. The action enables caching but saves its cache only outside pull-request runs. [CI setup](../../.github/workflows/ci.yml), [version pins](../../mise.toml)
 
 ## Local entrypoints and side effects
 
@@ -64,7 +88,9 @@ With tools already installed, individual parser/linter invocations can inspect s
 
 ## Actual check coverage and limits
 
-`--all-files` means all eligible tracked files, not every file regardless of hook filters. A normal pre-commit invocation without that flag is scoped to staged files. The configured filters remain important:
+`--all-files` means all eligible tracked files, not every file regardless of hook filters. A normal pre-commit invocation without that flag is scoped to staged files. The **global `exclude: ^openwiki/` removes generated wiki paths from every hook**. Separately, only `trailing-whitespace` and `end-of-file-fixer` exclude `^\.github/workflows/openwiki-update\.yml$`, preserving the harness-owned workflow's formatting. That workflow is **still checked by actionlint and check-yaml**. `--all-files` overrides neither these exclusions nor any hook's filename/type filters. [Hook configuration](../../.pre-commit-config.yaml)
+
+The configured filters remain important:
 
 | Check | Scope and behavior | What it does not prove |
 |---|---|---|
@@ -74,10 +100,10 @@ With tools already installed, individual parser/linter invocations can inspect s
 | Python | `check-ast` parses Python files, including Python operational helpers when eligible. | No imports, type checking, unit-test execution, subprocess execution, or remote behavior verification. |
 | Workflow lint | `actionlint` on `^\.github/workflows/.*\.ya?ml$`. | No actual GitHub runner, action download, authentication, or deployment exercise. |
 | Renovate | Hook from `renovatebot/pre-commit-hooks` at `42.70.2`, with `--strict`. | Configuration validation is not proof that every regex will extract the desired dependency or that an upgrade boots. |
-| Markdown | `rumdl check` only on `README.md`, `clusters/README.md`, `machine-classes/README.md`, and `scripts/README.md`. | Not a repository-wide documentation gate. The separate `mise run markdown-lint` uses `rumdl check .`. |
+| Markdown | `rumdl check` only on `README.md`, `clusters/README.md`, `machine-classes/README.md`, and `scripts/README.md`. | Not a repository-wide documentation gate. The separate `mise run markdown-lint` uses `rumdl check .`, but still obeys `.rumdl.toml` inclusion settings. |
 | General hygiene | Whitespace/EOF fixes, large added files, executable/shebang consistency, private keys, AWS credentials (`--allow-missing-credentials`), JSON, merge conflicts, and symlinks. | Not a comprehensive security audit or runtime test. |
 
-The hook configuration is the authoritative filter list; the mise tool versions and hook revisions are independently pinned. [Hooks](../../.pre-commit-config.yaml), [mise](../../mise.toml)
+The hook configuration is the authoritative hook filter list; the mise tool versions and hook revisions are independently pinned. Separately, [`.rumdl.toml`](../../.rumdl.toml) enables `respect_gitignore` and includes only the same four README paths. Both `mise run markdown-lint` (`rumdl check .`) and `mise run markdown-fix` (`rumdl fmt .`) remain subject to that configuration: the `.` argument does **not** guarantee repository-wide Markdown coverage. [Hooks](../../.pre-commit-config.yaml), [mise](../../mise.toml)
 
 ## Choose the right verification level
 
@@ -128,6 +154,24 @@ For scripts, run the applicable AST, ShellCheck and shfmt checks, then separatel
 `proxmox-vm-optimize.sh` requires `qm` on a Proxmox node, defaults to dry-run, and skips running VMs unless `--include-running` is selected. Review explicit VM selection and generated commands before considering `--apply`; a dry-run is not evidence that `qm set` succeeded or that guest boot works. [Optimization script](../../scripts/proxmox-vm-optimize.sh)
 
 `disaster-recovery.sh` has an interactive `yes` confirmation, but is a **destructive operation**, not a test harness. It deletes the target cluster, syncs its template, waits for the expected machines and Ready nodes, modifies local kubeconfig/context, and applies an external GitOps bootstrap. It requires authenticated Omni/Tailscale access and a manually supplied Infisical secret if absent; its application-health check excludes `argocd-ha`. Static linting cannot establish that any of those dependencies are ready or that workloads/data are recoverable. Use the [recovery workflow](../workflows/disaster-recovery.md), not this page, to plan an authorized rebuild. [Recovery script](../../scripts/disaster-recovery.sh)
+
+## Generated-wiki maintenance
+
+Edit authoritative source code/docs first, then refresh the generated evidence index through the documented maintenance process. [AGENTS.md](../../AGENTS.md) says not to hand-edit generated pages unless explicitly asked, to check configuration and completed runs before trusting automatic updates, and to preserve complete failure output. Do not manually normalize the harness-owned OpenWiki workflow's formatting to satisfy whitespace hooks; those two fixers deliberately exclude it, while YAML/workflow validation remains active.
+
+[OpenWiki Update](../../.github/workflows/openwiki-update.yml) runs manually via `workflow_dispatch` or on Sundays at 09:00 UTC (`0 9 * * 0`), not on every source push. It checks out full history so the updater can diff against its last documented commit, connects to the tailnet, sets up Node.js 22, installs OpenWiki `0.9.0` with Mermaid/jsdom, and runs `openwiki code --update --print`.
+
+```mermaid
+flowchart TD
+  A["Scheduled or manual update"] --> B["Run OpenWiki with continue-on-error"]
+  B --> C["If not cancelled: remove transient state and attempt update PR"]
+  C --> D{"OpenWiki outcome failed?"}
+  D -->|Yes| E["Propagate failure with exit 1"]
+  D -->|No| F["No OpenWiki failure to propagate"]
+```
+The updater can preserve completed pages in a PR without hiding a failed generation run.
+
+On non-cancelled runs, follow-up steps remove `openwiki/.run.json` and attempt a PR on `openwiki/update`, staging `openwiki`, `AGENTS.md`, the OpenWiki workflow, and `CLAUDE.md` only if present. The PR records the OpenWiki outcome; on failure it intentionally retains only completed pages so merging that partial progress establishes the next run's baseline. `continue-on-error: true` allows this preservation attempt; the final failure-propagation step still exits 1 when OpenWiki failed. A partial-progress PR is not evidence that the whole refresh succeeded.
 
 ## Before merging or operating
 

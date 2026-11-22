@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5b6b5406c9229d03be99be2c0803ecd7245f463d8c8a9459255aec2f1693fbc5",
+  "pageVersion": "sha256:bd4241b2cba299529d3732555c28aa6e2ed879bae5eef4f2c4cc12055efc6e03",
   "claims": [
     {
       "id": "claim_f68d4516f6e74dc38471ee64e9711df0",
@@ -8,7 +8,7 @@
       "evidence": [
         {
           "resource": "repo://.github/workflows/ci.yml",
-          "version": "repo-file-v1:sha256:3aba5e4e00acc847d7726a9dd5acbb8cc1279ee842b8a510d3656f9404a07899"
+          "version": "repo-file-v1:sha256:137a4134f04106b303716500a472a6ee27b58758c95be0e7bf995e6261deaca9"
         },
         {
           "resource": "repo://mise.toml",
@@ -22,7 +22,7 @@
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
         },
         {
           "resource": "repo://mise.toml",
@@ -35,7 +35,7 @@
       "statement": "The Omni hook triggers for cluster YAML, passes no filenames and runs an explicit task validating production and test templates offline; it neither automatically validates additional templates nor triggers on machine-class-only edits.",
       "evidence": [
         {
-          "resource": "repo://.pre-commit-config.yaml#L49-L54",
+          "resource": "repo://.pre-commit-config.yaml#L54-L59",
           "version": "repo-lines-v1:sha256:09e404f85280beb3d02b3da54b9f2fbba697cdfaac8d9c5d00ce21b75ef5209c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDNkNGM1Y2Y3ODI5MDk4YjllZDVmYTU0MDkxOTBmYjNhNGQ0NzMzN2UxYTdhOGY2N2ZhOTc5N2IwOTcwYzM2MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE3ODZiZDNkNDliYTkzYjI2YzQ0NjgzNTJkNWViMDc5YjVmY2U0ZmRmZDYzNjgzODY0MjFkZWZjMjY3MDRlMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjQ5ZTNlMzkwMjJlZjA1MWNjMWU5ZTBhOGE2M2VkZDhkYWJkOWYyOTI5OWEzZDJiZjIwMjk0MzllYWExNmRkNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDkxY2Y1OWQ4NmRjMTVlYjc4YzFmZTlhMWFjMzE2ZTE1ZDgyMzkxMDUxYmY5YzA4YTJlY2NhZTUxMTA0MzJhZSJ9"
         },
         {
@@ -50,7 +50,7 @@
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
         },
         {
           "resource": "repo://machine-classes/test/test-matrix-worker-hotel.yaml",
@@ -72,17 +72,21 @@
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
         }
       ]
     },
     {
       "id": "claim_26101c5f13aa49db81aac883ceb70921",
-      "statement": "The configured gate includes general hygiene and credential-pattern checks, strictly validates Renovate through hook revision 42.70.2, and limits rumdl to four named README files; the separate markdown-lint task checks the broader tree.",
+      "statement": "The gate includes general hygiene and credential-pattern checks, validates Renovate strictly at hook revision 42.70.2, and filters rumdl to four README files; the separate markdown-lint and markdown-fix tasks also remain subject to .rumdl.toml, which respects gitignore and includes only those same four README paths, so their dot argument does not guarantee repository-wide Markdown coverage.",
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
+        },
+        {
+          "resource": "repo://.rumdl.toml",
+          "version": "repo-file-v1:sha256:c6697eb13db3ba3b99c9008d991020927665e53912b335f7eba9319b0570a354"
         },
         {
           "resource": "repo://mise.toml",
@@ -130,7 +134,7 @@
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
         },
         {
           "resource": "repo://renovate.json",
@@ -171,10 +175,102 @@
           "version": "repo-file-v1:sha256:bc5c32662df4cc3fca60a0c8990e3b0da1e9692e62524525f777449a9935a0e6"
         }
       ]
+    },
+    {
+      "id": "claim_8f06071d91ed4d3a9deff952219c64de",
+      "statement": "CI explicitly installs uv, python, pre-commit, shellcheck, shfmt, pipx:rumdl, actionlint and omnictl through mise-action in that order, with uv 0.11.29, Python 3.14.6, pre-commit 4.6.0, ShellCheck 0.11.0, shfmt 3.13.1, rumdl 0.2.37, actionlint 1.7.12 and omnictl 1.9.3 pinned in mise.toml; this is quality-gate installation setup rather than a new substrate runtime requirement.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml",
+          "version": "repo-file-v1:sha256:137a4134f04106b303716500a472a6ee27b58758c95be0e7bf995e6261deaca9"
+        },
+        {
+          "resource": "repo://mise.toml",
+          "version": "repo-file-v1:sha256:e1f40a18cea2f9da59205b7c38b29392e3426931055365c91ec7f93f7e9a523b"
+        }
+      ]
+    },
+    {
+      "id": "claim_2fabd325f342483bac315a263a60e355",
+      "statement": "CI enables mise-action caching but saves the cache only when the event is not a pull request.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L25-L29",
+          "version": "repo-lines-v1:sha256:379657bb2594c2c619fdf7d96fd1435e04d497c5f8173aaacdc7677e96c1df42:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjljNGYzNmZhMzQ4ZDllYTBhMGJhYWIxOGZlYzIyNzVhYmYxNmQyMjVhMjY1NjE2YTdkNTViMmU4ZTQ5NGM3ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTExMzczN2FkMTBhYTlkYjkyYWI2OGNmYTUzYjBkMzZmYWRhMTcwNDk5ZTBhMzY0NzE2YWJjOTY0NWQ3NzdhZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODU5ODc3NGI4MzRjODJkOTA2M2Q4ZDliYTVhYWJmODBjM2JkMzdlODZiMDYxNGVkY2JiZWI4ZTVmMmI2OTdlZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjBlNGViOGM3MTMyODRlMTU5ZTgwYWMzMGY3MzBjYzk3ODgzMmY4ZTdlZDM5NmQwY2JlOTQ5MWQ0OTE3ZjI4YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_17b86df07d0846fc9a43903cadf26b0b",
+      "statement": "The pre-commit configuration globally excludes ^openwiki/ from every hook; --all-files does not override exclusions or hook filename/type filters.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
+        },
+        {
+          "resource": "repo://mise.toml#L109-L111",
+          "version": "repo-lines-v1:sha256:316c7d5b8f177c2a32cfcf1f05026170ffacad806febd78ef7f2127389b328c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTFjYWE5MTQ4NTAzNWUwMTBjNmNmNzk4NTBiZDEwYTA5ZTAwZjc1YjM5YjcxNjY1YzgxNWY0ZDIxYTIwOGY0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjE4MTVlNTk5NTFiZmY3ZmNmMTk0ODBiMTZkYTQ1NmM2ODdmM2EzNjEyYTExOTM3NjlmYmFlNDM3ZTgwNDEwYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDc0OThkZWQ5Y2QyNDc2YjFkNTdkNjFlMTZjZmMzNTZjNDUwOWZkOGYwZDFlNWU4ZmM1ZDczOWY0OTFhNWYyYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ceb9ae26a56849c19ae35d46570c461e",
+      "statement": "Only trailing-whitespace and end-of-file-fixer exclude the harness-owned .github/workflows/openwiki-update.yml; actionlint and check-yaml still validate that workflow, so preserving its formatting does not exempt it from static workflow and YAML checks.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
+        }
+      ]
+    },
+    {
+      "id": "claim_fbd32fd8efd442268d192ab186f7649d",
+      "statement": "AGENTS.md directs maintainers to prefer authoritative source edits and documented regeneration over hand-editing generated OpenWiki pages unless explicitly asked, to check configuration and completed runs before trusting automatic updates, and to preserve complete validation failure output.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L82-L96",
+          "version": "repo-lines-v1:sha256:4fd1d18b982c8c8947ca69efb7f10c62845fbd4f4b3bb4b30e01c727e7f467bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZmY4MDhlYmQ5YTBhZGYxN2Y3M2IxMzM1ODk4MzZiOTE1Y2FlM2I5ZWM4OTIwMTNhYzI3Mzc0NDlmMzA3MDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwN2U3Yjk5OTcxNTVmMjA2OTUwYjQ1MGY0OGE3N2IyMjZkOTllYzA2ZDJiNzRhYjJkZjBjM2U3ZDk2ZTIwMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwODlkZjkzZjhiYTU3YTRkZGJmZDhmMDEzOTYyYzM5NzhjZTRkYjY4MTk5YzRkYTY2NjY0OWIwOTk2Y2VkYTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b4b1ab04dc184b46b6e0141550ca6bdb",
+      "statement": "OpenWiki Update is manually dispatched or scheduled Sundays at 09:00 UTC rather than triggered by source pushes; it checks out full history for baseline diffs, connects to the tailnet, configures Node.js 22, installs OpenWiki 0.9.0 with Mermaid/jsdom and runs openwiki code --update --print.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L44",
+          "version": "repo-lines-v1:sha256:a0eb6a67582daf70dba3d6083ab27c02aeb28573691e55d2b4a7d3561bc859ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MDI3ODdhZjZkY2MwODM0ZGUxMjFjYmIxY2I5NWY5NDU5YjcyMWVhYjAzNDlmMTA1MDFiOTk2YzFjNzdmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNTUwYzliMzNjZjM4YWYyYzNiYzFhOTRkNGZhYTYxNjdlMTE2OTk2MTY4YmEyYjM3MGEwZjY0MTdkYmIzZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2MGY2NjQyMDc2NjRkNDA2NWMyN2ZjOGFmMWE0NjZmMjQ0OTk3ZTM3OWJmOTMyZWExNjBjOGM1ZWRhZDk2MzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_741c25077aa04aa7bc3220e7d6528d5a",
+      "statement": "After the OpenWiki step, non-cancelled workflow runs remove openwiki/.run.json and attempt an openwiki/update PR containing openwiki, AGENTS.md, the updater workflow and CLAUDE.md only when present; the PR records the generator outcome and intentionally preserves completed pages after failure as the next baseline if merged.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L61-L93",
+          "version": "repo-lines-v1:sha256:c25d075ff010b739a4d84e797ef7cf0f034c708ad637270e1191b55f3ea6c5e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMzI3ZTIwM2VhYTNjZTU0MGRlYzE4ZDZiYzFkMzc1OTEyOWUxZTIwMzE1NmNmMzRjOTM5YWMxMDI3OWIxYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzNjE3ODE1YmY5YzBlZGQ4MjRhMWVmNDcwOGI4NTgyZmRjN2I3MTk5NWU5ZjlhOGJkYzg4ZmI0YmRjMTRkZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwMTQ3MWUyZDE1ZmVjMmNiMWMzNWFiYmJmMmM0ZDg1ZjM0MDE5MTU0NGRiYWRlYjQ3NGE3ZDE1N2Q2YjNiZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyN2Q5ZWE2MGMzZTBmMzUxMDdmYmE5YThhZjY1ODRiNWM3OTQ1NDEwYTRmZTgzOGM0M2ZlMzRjMWQ1MzBjYzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f23597ea1377482d8e992bf51efddd90",
+      "statement": "The OpenWiki generation step uses continue-on-error so follow-up preservation can run, but the final workflow step exits 1 when that step's outcome is failure; a partial-progress PR therefore does not imply a successful full refresh.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L41-L44",
+          "version": "repo-lines-v1:sha256:ed3341c7d3597fe61f2383b77c73483d6ea9d1bd29b14888c37f75dc9e95a8a3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGY1NTBjOWIzM2NmMzhhZjJjM2JjMWE5NGQ0ZmFhNjE2N2UxMTY5OTYxNjhiYTJiMzcwYTBmNjQxN2RiYjNmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTk2YTA5NTg4YmZkNDUwYWVhZTZlZDc4MmRiNDk5YmMwNTRjMjNjMTBlNmUyNDllNTdhY2EzYmY2YzAzYjM4YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDYwZjY2NDIwNzY2NGQ0MDY1YzI3ZmM4YWYxYTQ2NmYyNDQ5OTdlMzc5YmY5MzJlYTE2MGM4YzVlZGFkOTYzNCJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L61-L101",
+          "version": "repo-lines-v1:sha256:8c75d2748a14615908502df44c06400bfb179822611a317b0405f43615822dca:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMzI3ZTIwM2VhYTNjZTU0MGRlYzE4ZDZiYzFkMzc1OTEyOWUxZTIwMzE1NmNmMzRjOTM5YWMxMDI3OWIxYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NzE4ZjA2N2I1ZTVjMWYwOTkxYTZlNzQ3MjZmZTJhMjNkMjY0MzQ1ZTA4ZTRlYWQwNGZhZjczYzI3ZWQ0NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwMTQ3MWUyZDE1ZmVjMmNiMWMzNWFiYmJmMmM0ZDg1ZjM0MDE5MTU0NGRiYWRlYjQ3NGE3ZDE1N2Q2YjNiZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-22T17:03:02.055Z"
   }
 }

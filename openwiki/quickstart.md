@@ -5,10 +5,14 @@ description: Safe local setup and task-based routes for the Omni-managed Talos s
 tags: [quickstart, substrate, mise, validation, operations]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-22T17:03:02.055Z
 sources:
+  - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
+    resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-4d1645cb6317345817452838
     resource: repo://.pre-commit-config.yaml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-d3cba2290d494077f7f1ce41
     resource: repo://clusters/README.md
   - id: openwiki-source-b7b85158fefb9a43f4887ead
@@ -27,7 +31,7 @@ sources:
     resource: repo://scripts/disaster-recovery.sh
   - id: openwiki-source-4c56c4085c56a3ab75df5178
     resource: repo://scripts/README.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T17:03:02.055Z" }
 ---
 
 # Quickstart and engineering task map
@@ -58,7 +62,11 @@ For the broader local/CI quality gate:
 mise run check
 ```
 
-This runs `pre-commit run --all-files`: syntax, shell, selected Markdown, workflow, secret-pattern, Renovate, and template checks. Some hooks can fix local files; review the resulting diff. First-time hook installation may need network access. See [validation and CI](testing/validation.md) for scope and limitations; these checks are not a live infrastructure test.
+This runs `pre-commit run --all-files`: syntax, shell, selected Markdown, workflow, secret-pattern, Renovate, and template checks. The global exclusion skips generated `openwiki/` for every hook. Only `trailing-whitespace` and `end-of-file-fixer` additionally exclude `.github/workflows/openwiki-update.yml`; that workflow remains subject to YAML and actionlint validation. Some hooks can fix local files; review the resulting diff. First-time hook installation may need network access. See [validation and CI](testing/validation.md) for scope and limitations; these checks are not a live infrastructure test.
+
+### Keep generated documentation source-led
+
+`openwiki/` is a generated evidence index, not the source of truth. Following [AGENTS.md](../AGENTS.md), prefer source code/docs changes and the documented OpenWiki regeneration process over hand edits unless explicitly requested. The [OpenWiki update workflow](../.github/workflows/openwiki-update.yml) runs `openwiki code --update --print`; check its configuration and completed runs before relying on automatic refreshes. See [validation and maintenance guidance](testing/validation.md) for the maintenance details.
 
 ## Inspect an existing environment separately
 
@@ -86,6 +94,7 @@ These inspect local contexts or remote state rather than apply changes. Confirm 
 | Understand CNI bootstrap and the platform boundary | [cluster substrate contract](../clusters/README.md#longhorn-substrate-contract) | [CNI bootstrap and GitOps handoff](integrations/gitops-handoff.md) |
 | Review automation before running it | [scripts/README.md](../scripts/README.md), [recovery script](../scripts/disaster-recovery.sh) | [Disaster recovery and its limits](workflows/disaster-recovery.md) |
 | Intentionally deploy a new environment | [deployment guide](../docs/DEPLOYMENT.md) | [Deploy the Hub and provider](workflows/deploy-substrate.md) |
+| Change quality gates or refresh generated wiki guidance | [hook configuration](../.pre-commit-config.yaml), [OpenWiki update workflow](../.github/workflows/openwiki-update.yml), [agent guidance](../AGENTS.md) | [Validation, CI, and wiki maintenance](testing/validation.md) |
 
 ## Stop before mutations
 
