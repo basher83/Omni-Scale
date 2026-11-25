@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:28508ba289e6f7119df277e923f3d8ee6338a0e707e48eebaaa42cd5fdd32cfe",
+  "pageVersion": "sha256:36ba03023699d8d43e83ce4027d3086b1c499f414aba3c6c5a4c307444840dcc",
   "claims": [
     {
       "id": "claim_8be55e2c9549409c9f48a694e173966d",
@@ -56,11 +56,11 @@
     },
     {
       "id": "claim_b55176a0308841ba8f62dcd12ec28d3b",
-      "statement": "mise run check executes pre-commit run --all-files, whose configured checks cover syntax, shell scripts, selected Markdown files, workflows, secret patterns, Renovate configuration and Omni templates rather than live infrastructure health; fixer hooks can modify local files.",
+      "statement": "mise run check executes pre-commit run --all-files for syntax, shell, selected Markdown, workflow, secret-pattern, Renovate and Omni template checks, not live infrastructure health; fixer hooks may modify local files. The global exclusion skips generated openwiki/ for every hook; only trailing-whitespace and end-of-file-fixer additionally exclude .github/workflows/openwiki-update.yml, which remains subject to YAML and actionlint validation.",
       "evidence": [
         {
           "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "version": "repo-file-v1:sha256:b0d1619a1df89add604f62b93fb0459047adece11f81534e2e069215f1e8f04a"
         },
         {
           "resource": "repo://mise.toml#L107-L109",
@@ -159,10 +159,24 @@
           "version": "repo-lines-v1:sha256:7a2b4dbf50f4f3e825c51dae2c43bde0ac38d47f668fabfda257bac4f7a0572d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyYzQ4NThlMjJjYzJjOTY3YjQyMTUwZmE1NTA1NjJhMmM4MzljMmNlYmNhYWI5MWNhYmRmNmY0ZGEwMjAwMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmNGVmMzg0MjkzNTkxZjFkYmM2MzAyYjgzYWNhMTE4OGM0Y2I4ZGZmZDc0Y2I5MGYyYzJjNjA0MzU2ZGI0MWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmODE3ZTVlNWZkNzRjMWFmMWQ1MDBjNjFhZjhiNDM1ZTE5ZTU2MjNlMDdhYzljMTBjZjZhYTgyODgzYmE5NTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjN2QxYTg0OGJhZDYxOTU3NTU3ZjY5MmM3N2U4ZDhkNTNlOTJmYjdmY2EyZmQzOGRhMDQzMzlmNjMxNTIwMmYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_e85f60b8304a4fafa8cc009e9c8e0170",
+      "statement": "OpenWiki pages are a generated evidence index: AGENTS.md treats source code and tests as authoritative and directs maintainers to prefer source code/docs changes and regeneration over hand edits unless explicitly asked, checking maintenance configuration and completed runs before trusting automatic updates. The repository's OpenWiki update workflow runs openwiki code --update --print.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L41-L45",
+          "version": "repo-lines-v1:sha256:b6f6e5fea02fbe90f231155cb2d780a923d786547e1bdc351cbdffdd9fd7a19f:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTQxYzYwZDgzNTk3Yzc2Y2NhNjk2YWFjNzRkZmI3YWM1ZGMzMzYyZmU2NTFmOGNhYjVhMzA0OTk2MzAxN2Q0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTk2YTA5NTg4YmZkNDUwYWVhZTZlZDc4MmRiNDk5YmMwNTRjMjNjMTBlNmUyNDllNTdhY2EzYmY2YzAzYjM4YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzYxMTEyZTRiYWQwYTJhZDVhMDI0NTU2YmMzODM3MTFiYzRkOTU5MWNmOWM3Y2U4OTFkOWMwMmNmNzA0MjA1OSJ9"
+        },
+        {
+          "resource": "repo://AGENTS.md#L80-L96",
+          "version": "repo-lines-v1:sha256:3d78ec2dcf58ec1bac90ea8734efaa78d8e5fc1d9df2b41310e9c3e85314cdbf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwOGU5ZjJjNWU3MTJmYzEwMDZjMmMxNDM0NmZkYmQzYzA2Nzg4YjIxNmMxZmNjOWIyNGEzYzgyYWNkNjU4NzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZmY4MDhlYmQ5YTBhZGYxN2Y3M2IxMzM1ODk4MzZiOTE1Y2FlM2I5ZWM4OTIwMTNhYzI3Mzc0NDlmMzA3MDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4YTljYmUzYTkzMmExY2FhMDlhOTlhYzZiZDk1NGMwZmQ0NGZjOGVkNzk2MzU2MzU0NDY3NjVmZDhlYTMyZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwODlkZjkzZjhiYTU3YTRkZGJmZDhmMDEzOTYyYzM5NzhjZTRkYjY4MTk5YzRkYTY2NjY0OWIwOTk2Y2VkYTkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-22T17:03:02.055Z"
   }
 }

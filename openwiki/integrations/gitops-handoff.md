@@ -5,7 +5,7 @@ description: Defines the networking, Talos storage and secret prerequisites betw
 tags: [talos, cilium, gitops, bootstrap, storage, secrets]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-22T17:03:02.055Z
 sources:
   - id: openwiki-source-d3cba2290d494077f7f1ce41
     resource: repo://clusters/README.md
@@ -27,7 +27,7 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-41c698f171093946a252389b
     resource: repo://scripts/disaster-recovery.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T17:03:02.055Z" }
 ---
 
 # CNI bootstrap and GitOps substrate contract
@@ -60,9 +60,11 @@ sequenceDiagram
 
 **Recovery automation gap:** [disaster-recovery.sh](../../scripts/disaster-recovery.sh) recreates the cluster, fetches kubeconfig and waits for all nodes Ready before applying GitOps. It does **not** install Cilium. With the checked-in CNI-disabled template, do not expect the script alone to bridge this gap: arrange the explicit Cilium installation after API access and before its Ready gate can pass. The script is destructive recovery automation, not a non-destructive bootstrap command. See [disaster recovery](../workflows/disaster-recovery.md) for the wider workflow.
 
+The [roadmap](../../docs/ROADMAP.md) requires recovery to remain executable by **one person, end to end, through cluster recreation and GitOps bootstrap handoff**. Treat this as a design constraint for substrate and handoff changes, not evidence of a completed recovery drill or unattended recovery. The missing Cilium step and the script's operator prompts still require an explicit recovery plan.
+
 ## Cilium is currently imperative
 
-The [Cilium guide](../../docs/guides/CILIUM.md) records CLI/Helm installation and explicitly states that no ArgoCD Application manages Cilium. GitOps-managed Cilium is a roadmap direction, **not implemented behavior**. The guide points to the [roadmap](../../docs/ROADMAP.md); the current roadmap emphasizes MTU durability and a future pod-MTU regression signal rather than documenting an implemented Cilium reconciliation path.
+The [Cilium guide](../../docs/guides/CILIUM.md) records CLI/Helm installation and explicitly states that no ArgoCD Application manages Cilium. Its statement that GitOps management of Cilium is tracked in the [roadmap](../../docs/ROADMAP.md) is **stale**: the current roadmap tracks MTU durability and a future pod-MTU regression signal, not a concrete Cilium-to-GitOps migration plan.
 
 A basic Talos-compatible installation from the guide is:
 

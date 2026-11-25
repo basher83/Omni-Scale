@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:273960af3924e3f1213f52c2efeaf27cff67455dd275f782b6ffcfccb23e7c91",
+  "pageVersion": "sha256:eecb377e55d037cd81a5d56338980212bb203d6a83024cfc75a7ea6a3b7c767d",
   "claims": [
     {
       "id": "claim_02b43a253d2541649d236907e4c761f4",
@@ -252,25 +252,59 @@
     },
     {
       "id": "claim_16a5b0df27ef40dbad66d7928b935a7c",
-      "statement": "Local validation checks production and test cluster templates offline and runs pre-commit ShellCheck/shfmt quality checks; CI runs the same mise check task, not a live destructive recovery drill.",
+      "statement": "Local validate:omni validates the production and test Omni templates offline; check runs pre-commit --all-files with ShellCheck, shfmt, actionlint, and a cluster-YAML-triggered hook invoking validate:omni. CI runs the same mise run check gate, not live destructive recovery or application/data restoration, and these static checks are distinct from disaster-recovery.sh's runtime prerequisites.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/ci.yml",
-          "version": "repo-file-v1:sha256:3aba5e4e00acc847d7726a9dd5acbb8cc1279ee842b8a510d3656f9404a07899"
+          "version": "repo-file-v1:sha256:137a4134f04106b303716500a472a6ee27b58758c95be0e7bf995e6261deaca9"
         },
         {
-          "resource": "repo://.pre-commit-config.yaml",
-          "version": "repo-file-v1:sha256:87f15f9dbdd35a5c6bfb7bb0e45dee5149631d96217459395643363966719c70"
+          "resource": "repo://.pre-commit-config.yaml#L30-L59",
+          "version": "repo-lines-v1:sha256:35c1891e2731103a92efc6cb0bc0860c4a2eb57413f76146d51371868885be1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYjYwNjFmNzQ1NzEyYjZiOGYzNjM2ZGIzY2E0MWJiYmM2MTRkOTBlMzlmOGNmYTQ1ZDRiNzM3YjU3YzU0MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxNzg2YmQzZDQ5YmE5M2IyNmM0NDY4MzUyZDVlYjA3OWI1ZmNlNGZkZmQ2MzY4Mzg2NDIxZGVmYzI2NzA0ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2Njk5OWM1OGU2Mjc2OWZlMGExMzgyOGQ2ZmFiZTlmMWJjYmY2MGM2Y2JlOTc4MTJhZjQyOGZlMzI3NTY1MGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5MWNmNTlkODZkYzE1ZWI3OGMxZmU5YTFhYzMxNmUxNWQ4MjM5MTA1MWJmOWMwOGEyZWNjYWU1MTEwNDMyYWUifQ"
         },
         {
           "resource": "repo://mise.toml#L105-L115",
           "version": "repo-lines-v1:sha256:0d980b22b20b34e0e8719659db8fafc853f75b1c21228846abfeb876d3889e8e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwYTY1NzU0MzFmMmJhMjgzMTk1MTNiNmRmMTM3Yzk4ZmU5MTFmZWVjNWEzN2U4NDQwNDc4NWNmODhjYTIzYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkMDBkMGY1ZDE2ZmExYTNhODM2MGUwZTBkOTlmNjBmMDhjM2E5NGEzNDA2ZTU1MDExZWFlNDM3OTQyOTM4MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MjMxODBhMTMyOWY4ZTc0MWVhNzQyMDgwYzM3OTU0ZDM4M2FiYjllMTgxNDUwMjI5ZWRlMjg3NDU5OGY3YjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmNzgyOTYwZWMyODgzY2M0NDA3OWNiOWQ1YzliZDlmYzE1ODZmYWIwOTU5ZjkyMjJkZmY0NTVmMDdjNWU0OGMifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L91-L148",
+          "version": "repo-lines-v1:sha256:7b1569ce4adf48c969b0496a85a44ea5a2f786871994ff416b974008c534a428:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5OTU2NjlkZTk1NjI4ZGRmYTQ5NTNjM2M1MzdmMGYyMjJjYjAwMDM1OGJkZmVkNjk5YzZiYTU1ODExMzI4ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4MTBkZDNjNWI0MmU0ZDc1YmM2OGZlM2QwMjdiZTg3ZTk3NjNiNGVhNGY4MmZlNGRiNzdhOGJiOWI1MDU3ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2MTQzYjg5ZWViZjBjOTkxZWQ2NzM5MzVmNWVkMjRmZDI3YmYxNTY5ZDRmNmRhMWMwYWU3NDExNGY2ZDUxNWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0ZjQ0ZTNhOTdkNGJiYTM3NTk2MTE4Y2NiMGQyODRlNjY0M2Q5ODBkZjFiYTFmN2IwNWNlYWJhODc1ZjQ0YWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebfc999d0b8843a0988f5eae3e826dc0",
+      "statement": "The roadmap requires recovery procedures to be executable by one person end to end, explicitly through cluster recreation and GitOps bootstrap handoff; this is a requirement rather than demonstrated recoverability or unattended execution, since the current rebuild has interactive confirmation and conditional secret creation, no Cilium installation before its node-readiness gate, and CI only runs static checks.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml",
+          "version": "repo-file-v1:sha256:137a4134f04106b303716500a472a6ee27b58758c95be0e7bf995e6261deaca9"
+        },
+        {
+          "resource": "repo://clusters/talos-prod-01.yaml#L17-L25",
+          "version": "repo-lines-v1:sha256:5f6d5e158960e4d59a77bc4ffc6111c2d70c7a60cdfa6b2f8e15edd4cc966b01:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDk3ZmNmOWQzZTRlYmU0ZmJhYjFhNzUxZjA5NWUxN2RmNGMyMGNiZjIwNDVhYjIwZTExYTQyYmIyM2M3M2E1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzViZTcyZmM2ZTMzYWE0NjI5MGI1YjFkYTI0OTI5MTNiNWEwOTA5ZTBkYWI5ZWZkMjI4NzllMjExZGZiNWI1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDY4MjE5M2Q0ZjIzZGE2NDMzNDZiMjVhNTBmMWQzNThkYWJhNjA4NTk3YjA0ODk3OWVjOGIwNWNkN2I1NzJhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGI0YWZjMzcxYzc0YTA5NzM2NDNjNDFjMThhMWQ0MmUxYWJiOTNjYmVkNjJiNzM5NjJmOTA0MGJhMzM2MDZkNiJ9"
+        },
+        {
+          "resource": "repo://docs/ROADMAP.md#L28-L61",
+          "version": "repo-lines-v1:sha256:71f7577cce639702cfa9621b8f565bdc2c6db3cdd85a95d24c4a8b51c9ca171b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0Yjk3ZmYzYjY1MmQ4NjNmZmNjZGI5ZDNlMWJkZDg1OGE0OWY1NTg4ZTNlYzhjZTMwMDY5MjFlMzVmNDUzMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMjRhOWM1MmVjY2QwMGUxZWM0NGYyZDY2ZDQ4Y2MxMDgxOTQyYjkwZTk1MTExZTM1ZGU1MzI2ZmMyNjBmNWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://mise.toml#L112-L115",
+          "version": "repo-lines-v1:sha256:c86100ee057fe5e395f43c625dba3431f3ec71c12a67a9a79714cdf0f716d7b0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM2MjZlYzVmZDQ4ZTVkYTVhOGY4YTY2Yzk1ZTRkNGE5NWViMzVkMjlkZGE3ZWIzODg0YTBkNDI1YmMxNmQ2ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2QwMGQwZjVkMTZmYTFhM2E4MzYwZTBlMGQ5OWY2MGYwOGMzYTk0YTM0MDZlNTUwMTFlYWU0Mzc5NDI5MzgwNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzE2YzdkNWI4ZjE3N2MyYTMyY2ZjZjFmMDUwMjYxNzBmZmFjYWQ4MDZmZWJkNzhlZjdmMjEyNzM4OWIzMjhjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWY3ODI5NjBlYzI4ODNjYzQ0MDc5Y2I5ZDVjOWJkOWZjMTU4NmZhYjA5NTlmOTIyMmRmZjQ1NWYwN2M1ZTQ4YyJ9"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L208-L282",
+          "version": "repo-lines-v1:sha256:88d0ae3655a0e38058792f8bb99fa1f276e088bbc1609f296401caa0b8f949cc:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1YjQ1ZGQ0ODk3M2U3ODIxYWYwMDY4MzJiOTk2YTcwOTk1ZDNhZGIyYzg1Yzk3YjQ5NjY0NmRmY2Q5Zjc0MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjM1Y2ZjMjRhYjg0ZWY4OTYxZGExZWJiOTkxMTI0YzlmODFiMGI4ZTYyMTEzZTM1OThlODQ3ODQxNDkzNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjNjhhNjZjMjgxODZkMTlkYjg2ODhhZDhiYTUxODAyNTZiMWQ4NTgzMmIxNDY0NzQ2MzlmOGNjOTY1MDlmMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4NTg3ODFjMGU5ZDEzMDY4MWVkZDFjZDdjZjM5N2ZmNDIyMmMxNmZlZGU3OGIxNmM3OTdjYTc5YmVjYTQyZDIifQ"
+        },
+        {
+          "resource": "repo://scripts/disaster-recovery.sh#L312-L342",
+          "version": "repo-lines-v1:sha256:b161923b97e7ab57d856ecc7972d756346bcc5eef105b3e414b0c96ef090b0a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjM1Y2ZjMjRhYjg0ZWY4OTYxZGExZWJiOTkxMTI0YzlmODFiMGI4ZTYyMTEzZTM1OThlODQ3ODQxNDkzNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMzM4YWU1ZjAwNzVhODZjY2ViZmE5ZmI2ZTQ5ZjhkZDM4ZTQ3OGU1NTQ4YTY1NzAwMDc5MTk1N2M1NThhZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-12T07:23:30.062Z"
+    "at": "2026-11-22T17:03:02.055Z"
   }
 }

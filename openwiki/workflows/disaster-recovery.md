@@ -5,7 +5,7 @@ description: Destructive Talos cluster rebuild through Omni, with exact readines
 tags: [disaster-recovery, talos, omni, proxmox, gitops, operations]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-12T07:23:30.062Z
+    at: 2026-11-22T17:03:02.055Z
 sources:
   - id: openwiki-source-ad017f103f82227c6212df2f
     resource: repo://.agents/skills/omni-talos/scripts/provider-ctl.py
@@ -17,14 +17,22 @@ sources:
     resource: repo://clusters/talos-prod-01.yaml
   - id: openwiki-source-6da833316bb893278ea33792
     resource: repo://docs/guides/CILIUM.md
+  - id: openwiki-source-d65c6e1aa43daf2abe5bdc92
+    resource: repo://docs/ROADMAP.md
   - id: openwiki-source-72b5d686f860ea86c8592080
     resource: repo://mise.toml
   - id: openwiki-source-41c698f171093946a252389b
     resource: repo://scripts/disaster-recovery.sh
-generated: { by: "openwiki/0.9.0", at: "2026-11-12T07:23:30.062Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-22T17:03:02.055Z" }
 ---
 
 # Destructive cluster rebuild and recovery limits
+
+## Recovery requirement, not a recovery guarantee
+
+The [roadmap](../../docs/ROADMAP.md) requires recovery to be **executable by one person, end to end**, including cluster recreation and GitOps bootstrap handoff. This is an operational constraint and recovery-drill goal, **not proof of recoverability** and not a requirement for unattended execution. The current script still requires destructive confirmation, may pause for manual secret creation, and leaves a fresh-cluster Cilium ordering gap described below. A green static quality gate does not demonstrate that one operator has completed a live recovery drill.
+
+Plan for the same operator to have the infrastructure access, external bootstrap checkout, Cilium tooling, and secret credentials needed to cross those boundaries. Post-bootstrap platform/application state belongs to [mothership-gitops](https://github.com/basher83/mothership-gitops); this page stops at the infrastructure rebuild and bootstrap handoff rather than duplicating its application recovery runbooks.
 
 ## Safety and prerequisites first
 
@@ -97,6 +105,8 @@ flowchart TD
     D -.-> Z
 ```
 
+The diagram shows the sequential rebuild gates and diagnostic-only failure exits.
+
 The script's `main` runs phases sequentially; timeout diagnostics do not recover or resume the workflow. Other unhandled command failures also stop execution under `set -e`.
 
 ### Exact gates and diagnostics
@@ -158,6 +168,6 @@ mise run validate:omni
 mise run check
 ```
 
-The first validates checked-in production and test Omni templates offline. The second runs pre-commit checks, including ShellCheck and shfmt; CI invokes that same quality gate. These checks do not exercise live destruction, VM cleanup, CNI ordering, secret recreation, or application recovery. See [Validation](../testing/validation.md).
+`validate:omni` validates the checked-in production and test Omni templates offline. `check` runs `pre-commit run --all-files`, including ShellCheck, shfmt, workflow linting, and an Omni-template hook that invokes `validate:omni` for matching cluster YAML. [CI](../../.github/workflows/ci.yml) runs the same `mise run check` gate, not a live destructive recovery drill. These checks do not exercise VM cleanup, CNI ordering, secret recreation, or application/data recovery, and they are separate from the script's runtime prerequisite checks. See [Validation](../testing/validation.md) for tool installation, hook scope, and generated-file exclusions.
 
 After failure, preserve the emitted diagnostics, determine which state already changed, and inspect Omni machines, provider logs, nodes, or ArgoCD as appropriate. **Do not blindly rerun:** there is no phase-resume mechanism, and a new confirmed run starts at deletion again, potentially destroying the partially rebuilt cluster. Resolve prerequisites and the CNI gap before attempting another drill. See [Troubleshooting](../operations/troubleshooting.md) for operational diagnosis.
